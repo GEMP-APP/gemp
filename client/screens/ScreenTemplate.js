@@ -2,10 +2,11 @@ import React, { useEffect } from 'react'
 import { StyleSheet, Text, TextInput, View, Dimensions} from 'react-native'
 import { useSelector, useDispatch} from 'react-redux'
 
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const TempScreen = (props) => {
+const TempScreen = () => {
 
     const tempVar = useSelector(state => state.defaultReducer.tempVar)
 
