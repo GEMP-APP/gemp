@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, Text, TextInput, View, Dimensions} from 'react-native'
+import { useSelector, useDispatch} from 'react-redux'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const TempScreen = (props) => {
+
+    const tempVar = useSelector(state => state.defaultReducer.tempVar)
+
+    useEffect( () => {
+        console.log(tempVar)
+    }, [tempVar])
 
     return (
         <View style={styles.globalWrapper}>
@@ -12,7 +19,7 @@ const TempScreen = (props) => {
                 <Text>Ini Screen Template</Text>
             </View>
             <View style={styles.container2}>
-                <Text>cuma buat referensi</Text>
+                <Text>cuma buat referensi {tempVar}</Text>
             </View>
         </View>
     )

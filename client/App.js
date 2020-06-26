@@ -2,12 +2,17 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native"
+import {Provider} from 'react-redux'
+import store from './store'
+import DefaultScreen from './screens/ScreenTemplate'
 
 export default function App() {
   return (
-    <NavigationContainer>
-      
-    </NavigationContainer>
+    <Provider store={store}>
+        <DefaultScreen>
+
+        </DefaultScreen>
+    </Provider>
   );
 }
 

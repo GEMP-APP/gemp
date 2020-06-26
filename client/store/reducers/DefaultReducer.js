@@ -1,8 +1,8 @@
-const defaultState  = {
+const initialState  = {
     tempVar: 'OK' //temporary variable, for testing
 }
 
-const DefaultReducer = (state=DefaultReducer, action) => {
+const defaultReducer = (state=initialState, action) => {
 
     switch (action.type) {
         case 'changeTempVar':
@@ -19,4 +19,4 @@ const DefaultReducer = (state=DefaultReducer, action) => {
     }   
 }
 
-export default DefaultReducer
+export default defaultReducer
