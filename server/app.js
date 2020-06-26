@@ -1,8 +1,4 @@
-const express = require("express");
-const app = express();
+const { server, PORT } = require("./server");
+const PORT = process.env.PORT || 4000;
 
-app.get("/", (req, res) => {
-  res.status(200).send({ status: "ok"});
-});
-
-module.exports = app;
+server.listen(PORT, () => console.log("server started"));
