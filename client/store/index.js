@@ -1,9 +1,11 @@
 import { createStore, applyMiddleware, combineReducers} from 'redux'
 import thunk from 'redux-thunk'
 import defaultReducer from './reducers/defaultReducer'
-console.log(defaultReducer)
+import userReducer from './reducers/userReducer'
+
 const reducers = combineReducers({
     defaultReducer,
+    userReducer
     //add another reducer if necessary
 })
 
