@@ -1,5 +1,6 @@
 const initialState = {
-    userNick: ''
+    userNick: '',
+    roomData: []
 }
 
 const userReducer = (state=initialState, action) => {
@@ -11,6 +12,12 @@ const userReducer = (state=initialState, action) => {
         case 'resetUserNick':
             console.log('resetting user nickname..')
             return {...state, userNick: ''}
+        case 'storeRoomData':
+            console.log('storing room data..')
+            return {...state, roomData: action.payload.roomData}
+        case 'resetRoomData':
+            console.log('resetting room data..')
+            return {...state, roomData: []}
         default:
             return state
     }

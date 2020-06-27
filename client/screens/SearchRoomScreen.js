@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Text, FlatList, Dimensions, TextInput } from 'react-native'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import {useFonts} from '@use-expo/font'
 import Room from '../components/RoomComponent'
+import { fetchRoomData } from '../store/actions/userActions'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -47,19 +48,21 @@ const DATA = [ // Placeholder Data for testing
 ];
 
 const SearchRoom = () => {
+    const roomDataStore = useSelector(state => state.userReducer.roomData)
     const userNick = useSelector(state => state.userReducer.userNick)
     const [inputSearch, setInputSearch] = useState("")
     const [roomData, setRoomData] = useState([])
     let [fontsLoaded] = useFonts({
         'iHateComicSans': require('../assets/fonts/IHateComicSans.ttf')
     })
-
+    const dispatch = useDispatch()
     useEffect( () => {
-        setRoomData(DATA)
+        dispatch(fetchRoomData())
+        setRoomData(roomDataStore)
     },[])
 
     useEffect( () => {
-        let filteredData = DATA.filter(item => {
+        let filteredData = roomDataStore.filter(item => {
             return item.id.includes(inputSearch)
         })
 

@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {useDispatch} from 'react-redux'
 import { View, Text, StyleSheet, Dimensions } from 'react-native'
 import { useFonts } from '@use-expo/font'
 import { AppLoading } from 'expo'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
 import { changeUserNick }from '../store/actions/userActions'
-
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
