@@ -1,4 +1,12 @@
-const { server, PORT } = require("./server");
+const { getServer } = require("./server");
+const Server = require("./server");
 const PORT = process.env.PORT || 4000;
 
-server.listen(PORT, () => console.log("server started"));
+Server.getServer
+  .then((server) => {
+    console.log(server);
+    server.listen(PORT, () => console.log("server started"));
+  })
+  .catch((err) => {
+    console.log(err);
+  });

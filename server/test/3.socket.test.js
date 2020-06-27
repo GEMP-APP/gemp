@@ -1,18 +1,22 @@
 const io = require("socket.io-client");
-const { server, io: ioServer } = require("../server");
+const Server = require("../server");
 const PORT = process.env.PORT || 4000;
 
+let ioServer;
 let socket;
 let httpServerAddr;
+let server;
 
 /**
  * Setup WS & HTTP servers
  */
 beforeAll((done) => {
-  // httpServer = http.createServer(app);
-  httpServerAddr = server.listen(PORT).address();
-  // ioServer = ioBack(httpServer);
-  done();
+  Server.getServer.then((express) => {
+    server = express;
+    ioServer = Server.getIo();
+    httpServerAddr = server.listen(PORT).address();
+    done();
+  });
 });
 
 /**

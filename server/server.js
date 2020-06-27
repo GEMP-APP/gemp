@@ -1,45 +1,58 @@
 const express = require("express");
 const http = require("http");
-const routes = require("./routes");
-const socketIo = require("socket.io")
-
+const socketIo = require("socket.io");
+const { connect } = require("./configs/mongo");
 const app = express();
-app.use(routes);
 
-const server = http.createServer(app);
-const io = socketIo(server);
+let server;
+let io;
 
 const users = {};
 let counter = 0;
 
-io.on("connection", (socket) => {
-  counter++;
+const getServer = new Promise((resolve, reject) => {
+  connect((err) => {
+    if (!err) {
+      app.use(express.json());
+      app.use(express.urlencoded({ extended: false }));
+      app.use("/", require("./routes"));
+      server = http.createServer(app);
+      io = socketIo(server);
 
-  users[socket.id] = {
-    id: socket.id,
-    username: "",
-    counter,
-  };
+      io.on("connection", (socket) => {
+        counter++;
 
-  socket.emit("Connected", {
-    id: socket.id,
-    username: "User" + counter,
+        users[socket.id] = {
+          id: socket.id,
+          username: "",
+          counter,
+        };
+
+        socket.emit("Connected", {
+          id: socket.id,
+          username: "User" + counter,
+        });
+
+        socket.on("userLogin", (payload) => {
+          console.log(payload);
+          users[socket.id].username = payload.username;
+          socket.emit("loginSuccess", {
+            id: socket.id,
+            username: users[payload.id].username,
+          });
+        });
+
+        socket.on("disconnect", () => {
+          delete users[socket.id];
+          console.log("user disconnected");
+        });
+        // console.log("User Online: ", Object.keys(users).length);
+      });
+      resolve(server);
+    }
   });
-
-  socket.on("userLogin", (payload) => {
-    console.log(payload);
-    users[socket.id].username = payload.username;
-    socket.emit("loginSuccess", {
-      id: socket.id,
-      username: users[payload.id].username,
-    });
-  });
-
-  socket.on("disconnect", () => {
-    delete users[socket.id];
-    console.log("user disconnected");
-  });
-  // console.log("User Online: ", Object.keys(users).length);
 });
 
-module.exports = {server, io};
+const getIo = () => io;
+
+module.exports = {getServer: getServer, getIo};

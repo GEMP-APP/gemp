@@ -1,6 +1,25 @@
 "use strict";
 const request = require("supertest");
-const { server: app } = require("../server");
+const Server = require("../server");
+
+let app;
+let ioServer;
+
+beforeAll((done) => {
+  Server.getServer
+    .then((express) => {
+      app = express;
+      ioServer = Server.getIo();
+      done();
+    })
+    .catch((err) => console.log(err));
+});
+
+afterAll((done) => {
+  ioServer.close();
+  app.close();
+  done();
+});
 
 describe("Home page", () => {
   const user = {
