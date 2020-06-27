@@ -16,6 +16,7 @@ const Stack = createStackNavigator()
 export default function App() {
   return (
     <Provider store={store}>
+      <StatusBar hidden={true} />
       <NavigationContainer>
         <Stack.Navigator screenOptions={{headerShown: false, animationEnabled: false}}>
           {/* <Stack.Screen name="Test" component={DefaultScreen} /> */}

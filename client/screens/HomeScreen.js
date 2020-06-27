@@ -45,13 +45,13 @@ const styles = StyleSheet.create({
         
     },
     titleText1: {
-        fontSize: 68,
+        fontSize: (windowWidth / 100) * 20,
         color: "white",
         fontFamily: 'iHateComicSans'
         
     },
     titleText2: {
-        fontSize: 28,
+        fontSize: (windowWidth / 100) * 8,
         color: "white",
         fontFamily: 'iHateComicSans'
     },
@@ -63,14 +63,14 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: "#fcdd03",
         borderRadius: 30,
-        width: 250,
-        height: 70
+        width: (windowWidth / 100) * 70,
+        height: (windowHeight / 100) * 10
     },
     buttonText: {
         textAlign: "center",
         color: "gray",
         fontFamily: "iHateComicSans",
-        fontSize: 38,
+        fontSize: (windowWidth / 100) * 10,
     }
 
 })

@@ -87,16 +87,16 @@ const styles = StyleSheet.create({
     InputLabel: {
         color: 'white',
         fontFamily: 'iHateComicSans',
-        fontSize: 38
+        fontSize: (windowWidth / 100) * 10
     },
     inputBox: {
         fontFamily: 'iHateComicSans',
-        fontSize: 24,
+        fontSize: (windowWidth / 100) * 6,
         marginTop: 15,
         backgroundColor: "white",
         textAlign: 'center',
         borderRadius: 30,
-        width: 250,
+        width: (windowWidth / 100) * 70,
         height: 40
     },
     buttonContainer: {
@@ -108,19 +108,19 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: '#fcdd03',
-        width: 200,
+        width: (windowWidth / 100) * 40,
         height: 70,
         borderRadius: 30
     },
     buttonText: {
         fontFamily: 'iHateComicSans',
-        fontSize: 28,
+        fontSize: (windowWidth / 100) * 7,
         color: "gray"
     },
     dividerText: {
         color: "white",
         fontFamily: 'iHateComicSans',
-        fontSize: 24,
+        fontSize: (windowWidth / 100) * 5,
         margin: 20
     }
 })
