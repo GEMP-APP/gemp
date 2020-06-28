@@ -1,5 +1,6 @@
 const express = require("express");
 const http = require("http");
+const cors = require("cors");
 const socketIo = require("socket.io");
 const { connect } = require("./configs/mongo");
 const app = express();
@@ -13,6 +14,7 @@ let counter = 0;
 const getServer = new Promise((resolve, reject) => {
   connect((err) => {
     if (!err) {
+      app.use(cors())
       app.use(express.json());
       app.use(express.urlencoded({ extended: false }));
       app.use("/", require("./routes"));
@@ -32,6 +34,10 @@ const getServer = new Promise((resolve, reject) => {
           id: socket.id,
           username: "User" + counter,
         });
+
+        socket.on("sendMessage", (payload) => {
+          socket.broadcast.emit("newMessage", payload)
+        })
 
         socket.on("userLogin", (payload) => {
           console.log(payload);
