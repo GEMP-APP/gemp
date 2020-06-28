@@ -36,7 +36,7 @@ const GetNick = ({navigation}) => {
         } else {
             console.log('submitting nickname:', inputNick)
             dispatch(changeUserNick(inputNick))
-            navigation.navigate('CreateRoom')
+            navigation.navigate('Gameplay')
         }
     }
 
