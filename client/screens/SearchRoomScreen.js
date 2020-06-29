@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Text, FlatList, Dimensions, TextInput } from 'react-native'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import {useFonts} from '@use-expo/font'
 import Room from '../components/RoomComponent'
+import { fetchRoomData } from '../store/actions/userActions'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -47,19 +48,20 @@ const DATA = [ // Placeholder Data for testing
 ];
 
 const SearchRoom = () => {
+    const roomDataStore = useSelector(state => state.userReducer.roomData)
     const userNick = useSelector(state => state.userReducer.userNick)
     const [inputSearch, setInputSearch] = useState("")
     const [roomData, setRoomData] = useState([])
     let [fontsLoaded] = useFonts({
         'iHateComicSans': require('../assets/fonts/IHateComicSans.ttf')
     })
-
+    const dispatch = useDispatch()
     useEffect( () => {
         setRoomData(DATA)
     },[])
 
     useEffect( () => {
-        let filteredData = DATA.filter(item => {
+        let filteredData = roomDataStore.filter(item => {
             return item.id.includes(inputSearch)
         })
 
@@ -77,7 +79,7 @@ const SearchRoom = () => {
                 <Text style={styles.welcomeText}>Tap the rooms below to join!</Text>
             </View>
             <FlatList style={styles.roomContainer}
-                data={roomData}
+                data={DATA}
                 renderItem={ ({item}) => <Room id={item.id} title={item.title} />}
                 numColumns={3}
                 horizontal={false}
