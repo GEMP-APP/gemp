@@ -84,6 +84,7 @@ const Gameplay = () => {
         )
     }
 
+
     return (
         <View style={styles.globalContainer}>
             <ScrollView contentContainerStyle={{justifyContent: 'center' ,flexGrow: 1}} horizontal style={styles. userListContainer}>
