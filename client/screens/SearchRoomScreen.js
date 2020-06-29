@@ -57,8 +57,7 @@ const SearchRoom = () => {
     })
     const dispatch = useDispatch()
     useEffect( () => {
-        dispatch(fetchRoomData())
-        setRoomData(roomDataStore)
+        setRoomData(DATA)
     },[])
 
     useEffect( () => {
@@ -80,7 +79,7 @@ const SearchRoom = () => {
                 <Text style={styles.welcomeText}>Tap the rooms below to join!</Text>
             </View>
             <FlatList style={styles.roomContainer}
-                data={roomData}
+                data={DATA}
                 renderItem={ ({item}) => <Room id={item.id} title={item.title} />}
                 numColumns={3}
                 horizontal={false}
