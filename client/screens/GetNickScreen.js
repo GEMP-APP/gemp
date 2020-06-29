@@ -36,7 +36,7 @@ const GetNick = ({navigation}) => {
         } else {
             console.log('submitting nickname:', inputNick)
             dispatch(changeUserNick(inputNick))
-            navigation.navigate('Gameplay')
+            navigation.navigate('CreateRoom')
         }
     }
 
@@ -91,24 +91,24 @@ const styles = StyleSheet.create({
     inputBox: {
         fontFamily: 'iHateComicSans',
         fontSize: (windowWidth / 100) * 6,
-        marginTop: 15,
+        marginTop: (windowWidth / 100) * 8,
         backgroundColor: "white",
         textAlign: 'center',
         borderRadius: 30,
         width: (windowWidth / 100) * 70,
-        height: 40
+        height: (windowHeight / 100) * 8
     },
     buttonContainer: {
-        flexDirection: "row",
         flex: 0.3,
-        justifyContent: "center"
+        justifyContent: "center",
+        alignItems: 'center'
     },
     submitButton: {
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: '#fcdd03',
-        width: (windowWidth / 100) * 40,
-        height: 70,
+        width: (windowWidth / 100) * 60,
+        height: (windowHeight / 100) * 15,
         borderRadius: 30
     },
     buttonText: {
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         color: "white",
         fontFamily: 'iHateComicSans',
         fontSize: (windowWidth / 100) * 5,
-        margin: 20
+        margin: (windowWidth / 100) * 5
     }
 })
 
