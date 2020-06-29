@@ -11,6 +11,7 @@ import HomeScreen from './screens/HomeScreen'
 import GetNickScreen from './screens/GetNickScreen'
 import SearchRoomScreen from './screens/SearchRoomScreen'
 import GameplayScreen from './screens/GameplayScreen'
+import CreateRoomScreen from './screens/CreateRoomScreen'
 
 const Stack = createStackNavigator()
 
@@ -25,6 +26,7 @@ export default function App() {
           <Stack.Screen name="GetNick" component={GetNickScreen} />
           <Stack.Screen name="SearchRoom" component={SearchRoomScreen} />
           <Stack.Screen name="Gameplay" component={GameplayScreen} />
+          <Stack.Screen name="CreateRoom" component={CreateRoomScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
