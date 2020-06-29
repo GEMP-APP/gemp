@@ -48,24 +48,19 @@ const DATA = [ // Placeholder Data for testing
 ];
 
 const SearchRoom = () => {
-    const roomDataStore = useSelector(state => state.userReducer.roomData)
     const userNick = useSelector(state => state.userReducer.userNick)
     const [inputSearch, setInputSearch] = useState("")
-    const [roomData, setRoomData] = useState([])
+    const [roomData, setRoomData] = useState(DATA)
     let [fontsLoaded] = useFonts({
         'iHateComicSans': require('../assets/fonts/IHateComicSans.ttf')
     })
-    const dispatch = useDispatch()
-    useEffect( () => {
-        setRoomData(DATA)
-    },[])
 
     useEffect( () => {
-        let filteredData = roomDataStore.filter(item => {
+        let filteredData = DATA.filter(item => {
             return item.id.includes(inputSearch)
         })
 
-        // console.log(filteredData)
+        console.log(filteredData)
         setRoomData(filteredData)
 
     }, [inputSearch])
@@ -79,7 +74,7 @@ const SearchRoom = () => {
                 <Text style={styles.welcomeText}>Tap the rooms below to join!</Text>
             </View>
             <FlatList style={styles.roomContainer}
-                data={DATA}
+                data={roomData}
                 renderItem={ ({item}) => <Room id={item.id} title={item.title} />}
                 numColumns={3}
                 horizontal={false}

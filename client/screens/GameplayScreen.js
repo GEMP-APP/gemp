@@ -64,7 +64,7 @@ const randomWord = [
 ]
 
 const Gameplay = () => {
-    const [drawingMode, setDrawingMode] = useState(false)
+    const [drawingMode, setDrawingMode] = useState(true)
     const userNick = useSelector(state => state.userReducer.userNick)
     const [fontsLoaded] = useFonts({
         'iHateComicSans': require('../assets/fonts/IHateComicSans.ttf')
@@ -102,22 +102,13 @@ const Gameplay = () => {
                     )
                 })}
             </ScrollView>
-            {drawingMode ?
-                <>
-                    <View style={styles.canvasContainer}>
-                        <Text style={styles.guessWord}>GuessWord</Text>
-                        {/*   Tempat Canvas untuk yang painter    */}
+            <View style={styles.canvasContainer}>
+                <Text style={styles.guessWord}>GuessWord</Text>
+                {/*   Tempat Canvas untuk yang painter    */}
 
-                    </View>
-                </>
-            :
+            </View>
+            {!drawingMode &&
             <>
-                    <View style={styles.canvasContainer}>
-                        <Text style={styles.guessWord}>{getRandomWord()}</Text>
-
-                        {/*   Tempat Canvas untuk yang guess    */}
-
-                    </View>
                     <View style={styles.controlContainer}>
                         <TouchableOpacity style={styles.speakButton} onPress={ () => getRandomWord()}>
                             <Text style={styles.speakLabel} >Hold to</Text>
