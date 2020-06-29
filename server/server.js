@@ -109,15 +109,11 @@ const getServer = new Promise((resolve, reject) => {
 
         socket.on("disconnect", () => {
           console.log("user dc");
-          const user = Gemp.userLeave(socket.id);
+          const user = Gemp.userLeave(socket.id, io);
 
           if (user) {
             io.to(user.room).emit(
               "newMessage",
-              Gemp.formatMessage(undefined, `${user.username} has left.`, "bot")
-            );
-
-            console.log(
               Gemp.formatMessage(undefined, `${user.username} has left.`, "bot")
             );
 

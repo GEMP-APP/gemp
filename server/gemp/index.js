@@ -36,13 +36,20 @@ class Gemp {
     };
   }
 
-  static userLeave(id) {
+  static userLeave(id, io) {
     const index = users.findIndex((user) => user.id === id);
+
     if (index !== -1) {
       const indexInRoom = rooms[users[index].room].users.findIndex(
         (user) => user.id === id
       );
+
       rooms[users[index].room].users.splice(indexInRoom, 1);
+
+      if (rooms[users[index].room].users.length === 0) {
+        delete rooms[users[index].room];
+      }
+
       return users.splice(index, 1)[0];
     }
   }
@@ -76,8 +83,21 @@ class Gemp {
     rooms[room].lastUserDraw = nextUser;
     return {
       id: nextUser.id,
-      username: nextUser.username
+      username: nextUser.username,
     };
+  }
+
+  static resetGame(room) {
+    rooms[room].users.forEach((user) => (user.score = 0));
+  }
+
+  static stopGame(room, io) {
+    clearTimeout(rooms[room].timeOut);
+
+    io.to(room).emit("roomUsers", {
+      room,
+      users: Gemp.getUsersInRoom(room),
+    });
   }
 
   static getTotalUsers(room) {
@@ -108,16 +128,23 @@ class Gemp {
   }
 
   static setTimeOut({ room, io }) {
-    rooms[room].currentWord = setTimeout(() => {
-      io.to(room).emit("timeout");
+    rooms[room].timeOut = setTimeout(() => {
       const totalUsers = Gemp.getTotalUsers(room);
-      
+      const maxScore = rooms[room].maxScore;
+      const users = [...rooms[room].users];
+
+      users.sort((a, b) => a.score - b.score);
+      io.to(room).emit("timeout");
+
+      if (users[0].score >= maxScore) {
+        io.to(room).emit("gameFinish", { users });
+        Gemp.resetGame(room);
+      }
+
       if (totalUsers > 1) {
-        let start = Gemp.start(room);
-        io.to(room).emit("drawTurn", {
-          id: start.id,
-          username: user.username,
-        });
+        io.to(room).emit("drawTurn", Gemp.start(room));
+      } else {
+        Gemp.stopGame(room, io);
       }
     }, 30000);
   }
