@@ -128,7 +128,9 @@ class Gemp {
   }
 
   static setTimeOut({ room, io }) {
+    console.log("hitted")
     rooms[room].timeOut = setTimeout(() => {
+      console.log("time out hitted")
       const totalUsers = Gemp.getTotalUsers(room);
       const maxScore = rooms[room].maxScore;
       const users = [...rooms[room].users];
@@ -146,7 +148,7 @@ class Gemp {
       } else {
         Gemp.stopGame(room, io);
       }
-    }, 30000);
+    }, 1000);
   }
 
   static validate({ word, room }) {
