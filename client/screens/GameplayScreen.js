@@ -33,6 +33,11 @@ const userPlaceholder = [
         name: "player 2",
         score: 13
     },
+    {
+        id: 12326,
+        name: "player 2",
+        score: 13
+    },
 
 ]
 
