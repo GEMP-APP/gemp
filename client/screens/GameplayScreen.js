@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity, FlatList, TextInput } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity, FlatList, TextInput, RefreshControl } from 'react-native'
 import {useSelector} from 'react-redux'
 import {useFonts} from '@use-expo/font'
 import { AppLoading } from 'expo';
@@ -74,6 +74,8 @@ const Gameplay = () => {
         const currentId = chatPlaceholder[(chatPlaceholder.length - 1)].id
         const chat = `${userNick}: ${text}`
         chatPlaceholder.push({id: (currentId + 1), chat: chat})
+
+        console.log(chatPlaceholder)
     }
 
     if (!fontsLoaded) {
@@ -94,36 +96,47 @@ const Gameplay = () => {
                     )
                 })}
             </ScrollView>
-            <View style={styles.canvasContainer}>
-                {drawingMode ?
-                    <Text style={styles.guessWord} >Guess Word</Text>
-                : 
-                    <Text style={styles.guessWord}>{ getRandomWord() }</Text>
-                }
-            </View>
-            <View style={styles.controlContainer}>
-                <TouchableOpacity style={styles.speakButton} onPress={ () => getRandomWord()}>
-                    <Text style={styles.speakLabel} >Hold to</Text>
-                    <Text style={styles.speakLabel} >Voice</Text>
-                    <Text style={styles.speakLabel} >Answer</Text>
-                </TouchableOpacity>
-                <View style={styles.answerContainer}>
-                    <FlatList
-                        style={styles.chatContainer}
-                        data={chatPlaceholder}
-                        renderItem={({item}) => (
-                            <Text>{item.chat}</Text>
-                        )}
-                        keyExtractor={item => String(item.id)}
-                    />
-                    <TextInput
-                        contentContainerStyle={{justifyContent: 'end' ,flexGrow: 1}}
-                        style={styles.answerInput}
-                        placeholder="Answer Here"
-                        onSubmitEditing={(event) => {submitChat(event.nativeEvent.text)}}
-                    />
-                </View>
-            </View>
+            {drawingMode ?
+                <>
+                    <View style={styles.canvasContainer}>
+                        <Text style={styles.guessWord}>GuessWord</Text>
+                        {/*   Tempat Canvas untuk yang painter    */}
+
+                    </View>
+                </>
+            :
+            <>
+                    <View style={styles.canvasContainer}>
+                        <Text style={styles.guessWord}>{getRandomWord()}</Text>
+
+                        {/*   Tempat Canvas untuk yang guess    */}
+
+                    </View>
+                    <View style={styles.controlContainer}>
+                        <TouchableOpacity style={styles.speakButton} onPress={ () => getRandomWord()}>
+                            <Text style={styles.speakLabel} >Hold to</Text>
+                            <Text style={styles.speakLabel} >Voice</Text>
+                            <Text style={styles.speakLabel} >Answer</Text>
+                        </TouchableOpacity>
+                        <View style={styles.answerContainer}>
+                            <FlatList
+                                style={styles.chatContainer}
+                                data={chatPlaceholder}
+                                renderItem={({item}) => (
+                                    <Text>{item.chat}</Text>
+                                )}
+                                keyExtractor={item => String(item.id)}
+                            />
+                            <TextInput
+                                contentContainerStyle={{justifyContent: 'end' ,flexGrow: 1}}
+                                style={styles.answerInput}
+                                placeholder="Answer Here"
+                                onSubmitEditing={(event) => {submitChat(event.nativeEvent.text)}}
+                            />
+                        </View>
+                    </View>
+                </>
+            }
         </View>
     )
 }
