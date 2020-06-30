@@ -1,70 +1,75 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity, FlatList, TextInput, RefreshControl } from 'react-native'
-import {useSelector} from 'react-redux'
-import {useFonts} from '@use-expo/font'
+import {
+  View, Text, StyleSheet, Dimensions, ScrollView,
+  TouchableOpacity, FlatList, TextInput, RefreshControl, KeyboardAvoidingView, Platform
+} from 'react-native'
+import { useSelector } from 'react-redux'
+import { useFonts } from '@use-expo/font'
 import { AppLoading } from 'expo';
+import CanvasComponent from '../components/CanvasComponent';
+import { Header } from 'react-native/Libraries/NewAppScreen';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const userPlaceholder = [
-    {
-        id: 12321,
-        name: "player 1111111",
-        score: 12
-    },
-    {
-        id: 12322,
-        name: "player 2",
-        score: 13
-    },
-    {
-        id: 12323,
-        name: "player 3",
-        score: 14
-    },
-    {
-        id: 12324,
-        name: "player 4",
-        score: 15
-    },
-    {
-        id: 12322,
-        name: "player 2",
-        score: 13
-    },
-    {
-        id: 12326,
-        name: "player 2",
-        score: 13
-    },
+  {
+    id: 12321,
+    name: "player 1111111",
+    score: 12
+  },
+  {
+    id: 12322,
+    name: "player 2",
+    score: 13
+  },
+  {
+    id: 12323,
+    name: "player 3",
+    score: 14
+  },
+  {
+    id: 12324,
+    name: "player 4",
+    score: 15
+  },
+  {
+    id: 12322,
+    name: "player 2",
+    score: 13
+  },
+  {
+    id: 12326,
+    name: "player 2",
+    score: 13
+  },
 
 ]
 
 const chatPlaceholder = [
-    {id: 1, chat: 'player 1111111: chicken'},
-    {id: 2, chat: 'player 2: dinosaur',},
-    {id: 3, chat: 'player 3: pidgey'},
-    {id: 4, chat: 'player 1111111: chicken'},
-    {id: 5, chat: 'player 2: dinosaur'},
-    {id: 6, chat: 'player 3: pidgey'},
-    {id: 7, chat: 'player 1111111: buwong puyoh'}
+  { id: 1, chat: 'player 1111111: chicken' },
+  { id: 2, chat: 'player 2: dinosaur', },
+  { id: 3, chat: 'player 3: pidgey' },
+  { id: 4, chat: 'player 1111111: chicken' },
+  { id: 5, chat: 'player 2: dinosaur' },
+  { id: 6, chat: 'player 3: pidgey' },
+  { id: 7, chat: 'player 1111111: buwong puyoh' }
 ]
 
 const randomWord = [
-    'i wonder what does that mean..',
-    'it looks like a..',
-    'that thing looks strange..',
-    'can you guess it?',
-    'feeling smart?',
-    'mind reading the painter..',
-    'bingo!',
-    'what the..',
-    'the painter had one job..',
+  'i wonder what does that mean..',
+  'it looks like a..',
+  'that thing looks strange..',
+  'can you guess it?',
+  'feeling smart?',
+  'mind reading the painter..',
+  'bingo!',
+  'what the..',
+  'the painter had one job..',
 ]
 
 const Gameplay = () => {
-  const [drawingMode, setDrawingMode] = useState(true);
+  const [drawingMode, setDrawingMode] = useState(false);
   const { userNick, username, userId } = useSelector(
     (state) => state.userReducer
   );
@@ -95,54 +100,55 @@ const Gameplay = () => {
 
   return (
     <View style={styles.globalContainer}>
-      <ScrollView
-        contentContainerStyle={{ justifyContent: "center", flexGrow: 1 }}
-        horizontal
-        style={styles.userListContainer}
-      >
-        {roomUsers.map((user) => {
-          return (
-            <View key={user.id} style={styles.userBox}>
-              <Text style={styles.userDetail}>{user.username}</Text>
-              <Text style={styles.userDetail}>{user.score} pts</Text>
+        <ScrollView
+          contentContainerStyle={{ justifyContent: "center", flexGrow: 1 }}
+          horizontal
+          style={styles.userListContainer}
+        >
+          {roomUsers.map((user) => {
+            return (
+              <View key={user.id} style={styles.userBox}>
+                <Text style={styles.userDetail}>{user.username}</Text>
+                <Text style={styles.userDetail}>{user.score} pts</Text>
+              </View>
+            );
+          })}
+        </ScrollView>
+        <View  style={styles.canvasContainer}>
+          <Text style={styles.guessWord}>GuessWord</Text>
+          {/*   Tempat Canvas untuk yang painter    */}
+          <CanvasComponent />
+        </View>
+        {!drawingMode && (
+          <>
+            <View style={styles.controlContainer}>
+              <TouchableOpacity
+                style={styles.speakButton}
+                onPress={() => getRandomWord()}
+              >
+                <Text style={styles.speakLabel}>Hold to</Text>
+                <Text style={styles.speakLabel}>Voice</Text>
+                <Text style={styles.speakLabel}>Answer</Text>
+              </TouchableOpacity>
+              <View style={styles.answerContainer}>
+                <FlatList
+                  style={styles.chatContainer}
+                  data={chatPlaceholder}
+                  renderItem={({ item }) => <Text>{item.chat}</Text>}
+                  keyExtractor={(item) => String(item.id)}
+                />
+                <TextInput
+                  contentContainerStyle={{ justifyContent: "end", flexGrow: 1 }}
+                  style={styles.answerInput}
+                  placeholder="Answer Here"
+                  onSubmitEditing={(event) => {
+                    submitChat(event.nativeEvent.text);
+                  }}
+                />
+              </View>
             </View>
-          );
-        })}
-      </ScrollView>
-      <View style={styles.canvasContainer}>
-        <Text style={styles.guessWord}>GuessWord</Text>
-        {/*   Tempat Canvas untuk yang painter    */}
-      </View>
-      {!drawingMode && (
-        <>
-          <View style={styles.controlContainer}>
-            <TouchableOpacity
-              style={styles.speakButton}
-              onPress={() => getRandomWord()}
-            >
-              <Text style={styles.speakLabel}>Hold to</Text>
-              <Text style={styles.speakLabel}>Voice</Text>
-              <Text style={styles.speakLabel}>Answer</Text>
-            </TouchableOpacity>
-            <View style={styles.answerContainer}>
-              <FlatList
-                style={styles.chatContainer}
-                data={chatPlaceholder}
-                renderItem={({ item }) => <Text>{item.chat}</Text>}
-                keyExtractor={(item) => String(item.id)}
-              />
-              <TextInput
-                contentContainerStyle={{ justifyContent: "end", flexGrow: 1 }}
-                style={styles.answerInput}
-                placeholder="Answer Here"
-                onSubmitEditing={(event) => {
-                  submitChat(event.nativeEvent.text);
-                }}
-              />
-            </View>
-          </View>
-        </>
-      )}
+          </>
+        )}
     </View>
   );
 };
