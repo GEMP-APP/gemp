@@ -29,7 +29,7 @@ const getServer = new Promise((resolve, reject) => {
         });
 
         socket.on("joinRoom", (payload) => {
-          const { username, room, category = "" } = payload;
+          const { username, room, category } = payload;
           const user = Gemp.userJoin({
             id: socket.id,
             username,
