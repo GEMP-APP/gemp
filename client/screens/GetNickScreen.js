@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { AppLoading } from "expo";
+import { useFonts } from "@use-expo/font";
 import { useDispatch, useSelector } from "react-redux";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
-import { useFonts } from "@use-expo/font";
-import { AppLoading } from "expo";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { changeUserNick } from "../store/actions/userActions";
 import { appStart } from "../store/actions/roomActions";
@@ -21,14 +21,13 @@ const GetNick = ({ navigation }) => {
   const [searchRoomText, setSearchRoomText] = useState("Search Room");
   const [inputUsernameTapped, setInputUsernameTapped] = useState(false);
 
-
   const submitAndSearch = () => {
     if (!inputNick) {
       alert("please input nickname");
     } else {
       dispatch(appStart());
       dispatch(changeUserNick(inputNick));
-      setSearchRoomText("Loading...")
+      setSearchRoomText("Loading...");
       setTimeout(() => {
         navigation.navigate("SearchRoom");
       }, 3000);
@@ -69,10 +68,7 @@ const GetNick = ({ navigation }) => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.submitButton}
-          onPress={submitAndSearch}
-        >
+        <TouchableOpacity style={styles.submitButton} onPress={submitAndSearch}>
           <Text style={styles.buttonText}>{searchRoomText}</Text>
         </TouchableOpacity>
 
