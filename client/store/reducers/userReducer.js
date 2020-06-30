@@ -8,6 +8,8 @@ const initialState = {
   drawingMode: false,
   waitingMode: false,
   roomMaster: false,
+  isPlaying: true,
+  words: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -19,12 +21,53 @@ const userReducer = (state = initialState, action) => {
         username: payload.username,
         userId: payload.id,
       };
+    case type.SET_USER_STATE:
+      return {
+        ...state,
+        drawingMode: false,
+        waitingMode: false,
+        roomMaster: false,
+        isPlaying: true,
+        words: [],
+      };
+    case type.SET_USER_MASTER:
+      return {
+        ...state,
+        roomMaster: true,
+        isPlaying: false,
+      };
+    case type.SET_USER_GAME_START:
+      return {
+        ...state,
+        roomMaster: false,
+        isPlaying: true,
+      };
+    case type.USER_DRAW_TURN:
+      return {
+        ...state,
+        isPlaying: true,
+        drawingMode: payload,
+        waitingMode: true,
+      };
+    case type.USER_DRAW_START:
+      return {
+        ...state,
+        isPlaying: true,
+        waitingMode: false,
+      };
+    case type.USER_SET_WORDS:
+      return {
+        ...state,
+        isPlaying: true,
+        waitingMode: false,
+        words: payload,
+      };
     case "changeUserNick":
       console.log("changing user nickname..");
       return {
         ...state,
         userNick: payload.userNick,
-        username: payload.userNick
+        username: payload.userNick,
       };
     case "resetUserNick":
       console.log("resetting user nickname..");

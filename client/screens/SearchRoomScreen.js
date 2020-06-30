@@ -60,19 +60,19 @@ const SearchRoom = ({ navigation }) => {
   const { rooms } = useSelector((state) => state.roomReducer);
 
   const [inputSearch, setInputSearch] = useState("");
-  const [roomData, setRoomData] = useState(DATA);
+//   const [roomData, setRoomData] = useState(DATA);
 
   let [fontsLoaded] = useFonts({
     iHateComicSans: require("../assets/fonts/IHateComicSans.ttf"),
   });
 
-  useEffect(() => {
-    let filteredData = DATA.filter((item) => {
-      return item.id.includes(inputSearch);
-    });
+//   useEffect(() => {
+//     let filteredData = DATA.filter((item) => {
+//       return item.id.includes(inputSearch);
+//     });
 
-    setRoomData(filteredData);
-  }, [inputSearch]);
+//     setRoomData(filteredData);
+//   }, [inputSearch]);
 
   return (
     <View style={styles.globalContainer}>
@@ -89,6 +89,7 @@ const SearchRoom = ({ navigation }) => {
         renderItem={({ item }) => (
           <Room key={item._id } id={item.category} title={item.name} room={item} navigation={navigation} />
         )}
+        keyExtractor={item => String(item._id)}
         numColumns={3}
         horizontal={false}
       />

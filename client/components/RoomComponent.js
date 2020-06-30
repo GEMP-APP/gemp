@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { StyleSheet, TouchableOpacity, Dimensions, Text } from "react-native";
 import { joinRoom } from "../store/actions/socketActions";
+import { RESET_USER_STATE } from "../store/actions/actionsType";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -9,7 +10,11 @@ const Room = ({ id, title, room, navigation }) => {
   const dispatch = useDispatch();
   const { username } = useSelector((state) => state.userReducer);
 
-  const joinRoomHandle = (room) => {
+  const joinRoomHandle = () => {
+      dispatch({
+          type: RESET_USER_STATE
+      })
+    console.log(room);
     joinRoom({
       category: room.category,
       room: room._id,

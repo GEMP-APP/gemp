@@ -31,7 +31,7 @@ const roomReducer = (state = initialState, action) => {
     case type.UPDATE_ROOM_USERS:
       return {
         ...state,
-        roomUsers: payload.users,
+        roomUsers: payload.users.sort((a, b) => a.score - b.score),
         roomId: payload.room
       }
     default:

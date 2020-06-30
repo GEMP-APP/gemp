@@ -5,7 +5,7 @@ import { useFonts } from "@use-expo/font";
 import { AppLoading } from "expo";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { changeUserNick } from "../store/actions/userActions";
-import { gameStart } from "../store/actions/roomActions";
+import { appStart } from "../store/actions/roomActions";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -24,7 +24,7 @@ const GetNick = ({ navigation }) => {
     if (!inputNick) {
       alert("please input nickname");
     } else {
-      dispatch(gameStart());
+      dispatch(appStart());
       dispatch(changeUserNick(inputNick));
       setTimeout(() => {
         navigation.navigate("SearchRoom");

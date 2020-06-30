@@ -1,58 +1,79 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity, FlatList, TextInput, RefreshControl } from 'react-native'
-import {useSelector} from 'react-redux'
-import {useFonts} from '@use-expo/font'
-import { AppLoading } from 'expo';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  TouchableOpacity,
+  FlatList,
+  TextInput,
+  RefreshControl,
+} from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import { useFonts } from "@use-expo/font";
+import { AppLoading } from "expo";
+import { gameStart, setWord, checkAnswer } from "../store/actions/socketActions";
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
-const chatPlaceholder = [
-    {id: 1, chat: 'player 1111111: chicken'},
-    {id: 2, chat: 'player 2: dinosaur',},
-    {id: 3, chat: 'player 3: pidgey'},
-    {id: 4, chat: 'player 1111111: chicken'},
-    {id: 5, chat: 'player 2: dinosaur'},
-    {id: 6, chat: 'player 3: pidgey'},
-    {id: 7, chat: 'player 1111111: buwong puyoh'}
-]
+// const chatPlaceholder = [
+//   { id: 1, chat: "player 1111111: chicken" },
+//   { id: 2, chat: "player 2: dinosaur" },
+//   { id: 3, chat: "player 3: pidgey" },
+//   { id: 4, chat: "player 1111111: chicken" },
+//   { id: 5, chat: "player 2: dinosaur" },
+//   { id: 6, chat: "player 3: pidgey" },
+//   { id: 7, chat: "player 1111111: buwong puyoh" },
+// ];
 
-const randomWord = [
-    'i wonder what does that mean..',
-    'it looks like a..',
-    'that thing looks strange..',
-    'can you guess it?',
-    'feeling smart?',
-    'mind reading the painter..',
-    'bingo!',
-    'what the..',
-    'the painter had one job..',
-]
+// const randomWord = [
+//   "i wonder what does that mean..",
+//   "it looks like a..",
+//   "that thing looks strange..",
+//   "can you guess it?",
+//   "feeling smart?",
+//   "mind reading the painter..",
+//   "bingo!",
+//   "what the..",
+//   "the painter had one job..",
+// ];
 
 const Gameplay = () => {
-  const [drawingMode, setDrawingMode] = useState(true);
-  const { userNick, username, userId } = useSelector(
-    (state) => state.userReducer
-  );
-  const { roomUsers, roomId } = useSelector(
-    (state) => state.roomReducer
-  );
-
   const [fontsLoaded] = useFonts({
     iHateComicSans: require("../assets/fonts/IHateComicSans.ttf"),
   });
+  const dispatch = useDispatch();
+  const [inputAnswer, setInputAnswer] = useState("")
+  const {
+    userNick,
+    userId,
+    username,
+    roomMaster,
+    drawingMode,
+    waitingMode,
+    isPlaying,
+    words,
+  } = useSelector((state) => state.userReducer);
+  // const chatMessages = []
+  const { chatMessages } = useSelector((state) => state.chatReducer);
+  const { roomUsers, roomId } = useSelector((state) => state.roomReducer);
 
-  const getRandomWord = () => {
-    let random = randomWord[Math.floor(Math.random() * randomWord.length)];
-    return random;
+  const voiceAnswerHandle = () => {
+    // Convert voice to text here
+    console.log("Speak to send answer");
+  };
+
+  const playButtonHandle = () => {
+    // Start Play From Here
+    dispatch(gameStart());
   };
 
   const submitChat = (text) => {
-    const currentId = chatPlaceholder[chatPlaceholder.length - 1].id;
-    const chat = `${userNick}: ${text}`;
-    chatPlaceholder.push({ id: currentId + 1, chat: chat });
-
-    console.log(chatPlaceholder);
+    // const currentId = chatPlaceholder[chatPlaceholder.length - 1].id;
+    // const chat = `${userNick}: ${text}`;
+    // chatPlaceholder.push({ id: currentId + 1, chat: chat });
   };
 
   if (!fontsLoaded) {
@@ -75,34 +96,81 @@ const Gameplay = () => {
           );
         })}
       </ScrollView>
+
       <View style={styles.canvasContainer}>
         <Text style={styles.guessWord}>GuessWord</Text>
         {/*   Tempat Canvas untuk yang painter    */}
+        {drawingMode && (
+          <>
+            <TouchableOpacity
+              style={styles.speakButton}
+              onPress={() => setWord(words[0])}
+            >
+              <Text style={styles.speakLabel}>Word 1</Text>
+              <Text style={styles.speakLabel}>{words[0]}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.speakButton}
+              onPress={() => setWord(words[1])}
+            >
+              <Text style={styles.speakLabel}></Text>
+              <Text style={styles.speakLabel}>Word 2</Text>
+              <Text style={styles.speakLabel}>{words[1]}</Text>
+            </TouchableOpacity>
+          </>
+        )}
       </View>
+
       {!drawingMode && (
         <>
           <View style={styles.controlContainer}>
-            <TouchableOpacity
-              style={styles.speakButton}
-              onPress={() => getRandomWord()}
-            >
-              <Text style={styles.speakLabel}>Hold to</Text>
-              <Text style={styles.speakLabel}>Voice</Text>
-              <Text style={styles.speakLabel}>Answer</Text>
-            </TouchableOpacity>
+            {isPlaying && !drawingMode && !waitingMode && (
+              <TouchableOpacity
+                style={styles.speakButton}
+                onPress={() => voiceAnswerHandle()}
+              >
+                <Text style={styles.speakLabel}>Hold to</Text>
+                <Text style={styles.speakLabel}>Voice</Text>
+                <Text style={styles.speakLabel}>Answer</Text>
+              </TouchableOpacity>
+            )}
+
+            {!isPlaying && roomMaster && (
+              <TouchableOpacity
+                style={styles.speakButton}
+                onPress={() => playButtonHandle()}
+              >
+                <Text style={styles.speakLabel}>Press to</Text>
+                <Text style={styles.speakLabel}>Start</Text>
+                <Text style={styles.speakLabel}>Playing</Text>
+              </TouchableOpacity>
+            )}
+
             <View style={styles.answerContainer}>
               <FlatList
                 style={styles.chatContainer}
-                data={chatPlaceholder}
-                renderItem={({ item }) => <Text>{item.chat}</Text>}
-                keyExtractor={(item) => String(item.id)}
+                data={chatMessages}
+                renderItem={({ item, index }) =>
+                  item.username === "Gemp Bot" ? (
+                    <Text key={index}>{item.message}</Text>
+                  ) : (
+                    <Text key={index}>
+                      {item.username} {item.message}
+                    </Text>
+                  )
+                }
               />
               <TextInput
+                value={inputAnswer}
+                autoCapitalize="none"
+                onChangeText={text => setInputAnswer(text)}
                 contentContainerStyle={{ justifyContent: "end", flexGrow: 1 }}
                 style={styles.answerInput}
                 placeholder="Answer Here"
                 onSubmitEditing={(event) => {
-                  submitChat(event.nativeEvent.text);
+                  checkAnswer(inputAnswer);
+                  setInputAnswer("")
                 }}
               />
             </View>
