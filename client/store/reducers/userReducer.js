@@ -5,6 +5,9 @@ const initialState = {
   userId: "",
   userNick: "",
   roomData: [],
+  drawingMode: false,
+  waitingMode: false,
+  roomMaster: false,
 };
 
 const userReducer = (state = initialState, action) => {

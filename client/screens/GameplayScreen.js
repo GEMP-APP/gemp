@@ -7,40 +7,6 @@ import { AppLoading } from 'expo';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const userPlaceholder = [
-    {
-        id: 12321,
-        name: "player 1111111",
-        score: 12
-    },
-    {
-        id: 12322,
-        name: "player 2",
-        score: 13
-    },
-    {
-        id: 12323,
-        name: "player 3",
-        score: 14
-    },
-    {
-        id: 12324,
-        name: "player 4",
-        score: 15
-    },
-    {
-        id: 12322,
-        name: "player 2",
-        score: 13
-    },
-    {
-        id: 12326,
-        name: "player 2",
-        score: 13
-    },
-
-]
-
 const chatPlaceholder = [
     {id: 1, chat: 'player 1111111: chicken'},
     {id: 2, chat: 'player 2: dinosaur',},

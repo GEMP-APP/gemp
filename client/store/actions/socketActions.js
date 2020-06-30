@@ -38,6 +38,12 @@ export function connectToSocket() {
         type: type.UPDATE_ROOM_USERS,
         payload
       })
+
+      if (payload.users.length === 1) {
+        dispatch({
+          type: type.SET_USER_MASTER
+        })
+      }
     })
 
     // console.log("SMAPAI SINI LHO");
