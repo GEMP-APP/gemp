@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react'
-import { StyleSheet, Text, TextInput, View, Dimensions, PixelRatio} from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, Text, View, Dimensions, BackHandler, Modal} from 'react-native'
 import { useFonts } from '@use-expo/font'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AppLoading } from 'expo';
+
+import ExitConfirmModal from '../components/ExitConfirmModal'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -11,6 +13,25 @@ const Home = ({navigation}) => {
     let [fontsLoaded] = useFonts({
         'iHateComicSans' : require('../assets/fonts/IHateComicSans.ttf')
     })
+    const [toggleModal, setToggleModal] = useState(false)
+
+    useEffect( () => {
+        BackHandler.addEventListener(
+            'hardwareBackPress', openModal
+        )
+
+        return () => BackHandler.removeEventListener('hardwareBackPress', openModal)
+    }, [])
+
+    const openModal = () => {
+        // console.log('im being called!')
+        setToggleModal(true)
+        return true
+    }
+
+    const closeModal = () => {
+        setToggleModal(false)
+    }
     
     if(!fontsLoaded) {
         return (
@@ -29,6 +50,13 @@ const Home = ({navigation}) => {
                     <Text style={styles.buttonText}>Start</Text>
                 </TouchableOpacity>
             </View>
+            <Modal
+                animationType='fade'
+                transparent={true}
+                visible={toggleModal}
+            >
+                <ExitConfirmModal closeModal={closeModal}  />
+            </Modal>
         </View>
     )
 }
