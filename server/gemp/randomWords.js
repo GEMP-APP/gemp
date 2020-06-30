@@ -404,6 +404,31 @@ var sportList = [
   "kickboxing", "sky diving", "hang gliding", "bungee jumping",
 ]
 
+var gamesList = [
+  "Pokemon Go", "Borderlands", "Divinity: Original Sin", "Dishonored", "Final Fantasy",
+  "Assassin's Creed", "Monkey Island", "Burnout", "Fallout", "Undertale",
+  "League of Legends", "Mega Man", "Soulcalibur", "Thief", "SimCity",
+  "Inside", "Contra", "Tony Hawk's Pro Skater", "Monster Hunter: World", "Resident Evil 2",
+  "System Shock 2", "Grand Theft Auto: Vice City", "Persona 5", "Fortnite", "Fable 2",
+  "GoldenEye 007", "Super Smash Bros. Ultimate", "The Elder Scrolls V: Skyrim", "X-COM: UFO Defense", "Suikoden II",
+  "Battlefield 1942", "Dota 2", "Mario Kart 8 Deluxe", "Star Wars Jedi Knight II: Jedi Outcast", "Spelunky",
+  "Donkey Kong", "The Sims", "Rock Band", "Red Dead Redemption 2", "Splinter Cell: Chaos Theory",
+  "Super Mario World 2: Yoshi's Island", "Silent Hill 2", "Grand Theft Auto: San Andreas", "Mass Effect", "Call of Duty 4: Modern Warfare",
+  "Rise of the Tomb Raider", "Batman: Arkham City", "The Witness", "Journey", "Uncharted 2: Among Thieves",
+  "Overwatch", "Deus Ex", "Baldur's Gate II", "Ms. Pac-Man", "Counter-Strike 1.6",
+  "Left 4 Dead 2", "EarthBound", "Resident Evil", "Diablo II", "StarCraft",
+  "Star Wars: Knights of the Old Republic", "Fallout: New Vegas", "Final Fantasy VI", "Mass Effect 2", "Pokemon Yellow",
+  "Bloodborne", "Metroid Prime", "Resident Evil 4", "Shadow of the Colossus", "Metal Gear Solid",
+  "God of War", "The Witcher 3: Wild Hunt", "BioShock", "Sid Meier's Civilization IV", "The Legend of Zelda: Ocarina of Time",
+  "Minecraft", "Halo: Combat Evolved", "Half-Life", "Metal Gear Solid 3: Snake Eater", "The Last of Us",
+  "Doom", "Chrono Trigger", "Portal", "Dark Souls", "Street Fighter II",
+  "Super Mario Bros.", "Halo 2", "Castlevania: Symphony of the Night", "Grand Theft Auto V", "Super Mario 64",
+  "Red Dead Redemption", "Half-Life 2", "Tetris", "Super Mario Bros. 3", "The Legend of Zelda: Breath of the Wild",
+  "Super Metroid", "Portal 2", "The Legend of Zelda: A Link to the Past", "Super Mario World"
+]
+
+
+
 function words(options) {
 
   function word() {
