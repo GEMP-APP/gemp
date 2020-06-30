@@ -246,7 +246,6 @@ var wordList = [
   "your","yourself","youth","zero","zebra","zipper","zoo","zulu"
 ];
 
-// 1
 var animalLists = [
   "Aardvark", "Albatross", "Alligator", "Alpaca", "Ant",
   "Anteater", "Antelope", "Ape", "Armadillo", "Donkey",
@@ -295,7 +294,6 @@ var animalLists = [
   "Worm", "Wren", "Yak", "Zebra"
 ]
 
-// 2
 var fruitLists = [
   "Apple", "Apricot", "Avocado", "Banana", "Bilberry",
   "Blackberry", "Blackcurrant", "Black sapote", "Blueberry", "Boysenberry", 
@@ -322,7 +320,6 @@ var fruitLists = [
   "Zucchini"
 ]
 
-// 3
 var transportationList = [
   "aerial tramway", "aircraft", "aircraft carrier", "airplane", "ambulance",
   "amphibious vehicle", "armored car",  "auto", "automobile", "baby carriage", 
@@ -383,7 +380,6 @@ var transportationList = [
   "yawl", "Zamboni", "zeppelin"
 ]
 
-// 4
 var animeList = [
   "Death Note", "Shingeki no Kyojin", "Sword Art Online", "Fullmetal Alchemist", "One Punch Man",
   "Tokyo Ghoul", "Steins Gate", "Boku no Hero Academia", "No Game No Life", "Naruto",
@@ -396,7 +392,6 @@ var animeList = [
   "Highschool of the Dead", "Durarara", "Ansatsu Kyoushitsu", "Mob Psycho 100"
 ]
 
-// 5
 var sportList = [
   "football", "basketball", "tennis", "baseball", "golf",
   "running", "volleyball", "badminton", "swimming", "boxing",
@@ -409,7 +404,6 @@ var sportList = [
   "kickboxing", "sky diving", "hang gliding", "bungee jumping",
 ]
 
-// 6
 var gamesList = [
   "Pokemon Go", "Borderlands", "Divinity: Original Sin", "Dishonored", "Final Fantasy",
   "Assassin's Creed", "Monkey Island", "Burnout", "Fallout", "Undertale",
@@ -433,7 +427,6 @@ var gamesList = [
   "Super Metroid", "Portal 2", "The Legend of Zelda: A Link to the Past", "Super Mario World"
 ]
 
-// 7
 var foodList = [
   "asparagus", "apples", "avocado", "alfalfa", "acorn squash ",
   "almond", "arugala", "artichoke", "applesauce", "asian noodles",
@@ -463,9 +456,66 @@ var foodList = [
   "Wine", "Walnuts", "Yogurt", "Ziti", "Zucchini"
 ]
 
-// 8
+var moviesList = [
+  "Pulp Fiction", "Saving Private Ryan", "The Departed", "Heat", "The Silence of the Lambs",
+  "No Country for Old Men", "Toy Story", "The Shawshank Redemption", "Gangs of New York", "The Lord of the Rings",
+  "Se7en", "Happy Gilmore", "Unbreakable", "The Dark Knight", "Road to Perdition",
+  "The Hangover", "The Matrix", "Gladiator", "Black Hawk Down", "Sling Blade",
+  "Kingpin", "Reservoir Dogs", "Zodiac", "Mystic River", "There's Something About Mary",
+  "Jackie Brown", "Inception", "Ready to Rumble", "Munich", "Fight Club",
+  "Forrest Gump", "Ace Ventura", "Tommy Boy", "A Beautiful Mind", "The Boondock Saints",
+  "One Hour Photo", "Catch Me If You Can", "Mr. Brooks", "Shutter Island", "Toy Story",
+  "The Godfather", "The Birdcage", "Big Fish", "Monsters, Inc.", "Heavyweights",
+  "300", "Dumb and Dumber", "American History X", "L.A. Confidential", "Donnie Brasco",
+  "Step Brothers", "Ratatouille", "Watchmen", "Running Scared", "Master and Commander",
+  "A Few Good Men", "Collateral", "Being John Malkovich", "The Big Lebowski", "The Prestige",
+  "True Grit", "Goodfellas", "Good Will Hunting", "The Sixth Sense", "Red Dragon",
+  "Braveheart", "The Town", "The Shining", "The Illusionist", "Aladdin",
+  "Half Baked", "Pan's Labyrinth", "Death to Smoochy", "Casino", "Memento",
+  "Titanic", "The Da Vinci Code", " Star Trek", "Saw", "American Beauty",
+  "The 40 Year Old Virgin", "Minority Report", "Joe Dirt", "Avatar", "Man on Fire",
+  "Terminator", "Snatch", "Beverly Hills Ninja", "Platoon", "The Last Castle",
+  "Deja Vu", "The Usual Suspects", "Troy", "The Life Aquatic", "Major League",
+  "Slap Shot", "Ocean's Eleven", "Lucky Number Slevin", "Despicable Me", "The Bourne Identity",
+  "The Life of David Gale", "The Last Samurai", "The Ring", "Batman Begins", "Pearl Harbor",
+  "Million Dollar Baby", "Changeling", "Rounders", "Casino Royale", "The Whole Nine Yards",
+  "Knockaround Guys", "The Patriot", "The Goonies", "The Rock", "Bad Santa",
+  "Office Space", "Iron Man", "The Jackal", "Spider-Man", "Pirates of the Caribbean",
+  "Instinct", "Superbad", "The Lion King", "Galaxy Quest", "Elf",
+  "Scarface", "Mission: Impossible", "Meet the Parents", "Fracture", "The Avengers",
+  "avatar", "Street Kings", "Mrs. Doubtfire", "X-Men", "Little Giants",
+  "The Nutty Professor", "Inglourious Basterds", "The Kingdom", "the raid", "Insomnia",
+  "The Fugitive", "The Replacements", "Super Troopers", "Inside Man", "Along Came a Spider",
+  "The Untouchables", "Speed", "Gone in Sixty Seconds", "Angels & Demons", "Dogma",
+  "The Sandlot", "Men in Black", "Narc", "Fallen", "Grandma's Boy",
+  "State of Play", "The Bourne Supremacy", "Point Break", "Taken", "Big",
+  "The Butterfly Effect", "Saving Silverman", "Untraceable", "War of the Worlds", "V for Vendetta",
+  "Armageddon", "A Time to Kill", "Copycat", "Cast Away", "The Dark Knight Rises",
+  "Bull Durham", "We Were Soldiers", "Evolution", "Lincoln", "The Green Mile",
+]
 
-
+var objectsList = [
+  "diary", "bottle", "water", "packet", "chewing gum",
+  "tissue", "glasses", "watch", "sweet", "photo",
+  "camera", "stamp", "postcard", "dictionary", "coin",
+  "brush", "credit card", "identity card", "key", "mobile phone",
+  "phone card", "wallet", "button", "umbrella", "pen",
+  "pencil", "lighter", "cigarette", "match", "lipstick",
+  "purse", "case", "clip", "scissors", "rubber",
+  "file", "banknote", "passport", "driving licence", "comb",
+  "notebook", "laptop", "rubbish", "mirror", "painkiller",
+  "sunscreen", "toothbrush", "headphone", "player", "battery",
+  "light bulb", "bin", "newspaper", "magazine", "alarm clock",
+  "car", "key", "knive", "spoon", "table",
+  "chair", "book", "cable", "headset", "fork",
+  "stove", "lamp", "hair", "ring", "belt",
+  "television", "refrigerator", "plate", "doll", "speaker",
+  "cup", "cupboard", "mattress", "shoes", "socks",
+  "bag", "clothes", "pants", "guitar", "iron",
+  "soap", "glass", "pan", "shower", "shampoo",
+  "nail", "keyboard", "drum", "stick", "paper",
+  "jacket", "necklace", "stone", "sugar", "washing machine",
+]
 
 function words(options) {
 
