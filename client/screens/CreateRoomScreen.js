@@ -53,7 +53,7 @@ const CreateRoom = () => {
 
                 </View>
 
-                <Text style={styles.categoryLabel}>Category: <Text style={styles.valueLabel}>{category}</Text></Text>
+                <Text style={styles.categoryLabel}>Category : <Text style={styles.valueLabel}>{category}</Text></Text>
                 <TouchableOpacity style={styles.modalButton} onPress={ () => setToggleModal(true)}>
                     <Text style={styles.modalButtonLabel}>Choose Category</Text>
                 </TouchableOpacity>
@@ -98,10 +98,10 @@ const CreateRoom = () => {
                 <Text style={styles.maxScoreLabel}>Max Score :</Text>
                 <TextInput
                     style={styles.maxScoreInput}
-                    value={maxScore}
+                    value={String(maxScore)}
                     keyboardType='number-pad'
                     maxLength={3}
-                    defaultValue={String(100)}
+                    // defaultValue={String(100)}
                     clearTextOnFocus={true}
                     onChangeText={ (text) => setMaxScore(Number(text))}
                 />
