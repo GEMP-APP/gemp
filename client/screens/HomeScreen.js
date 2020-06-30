@@ -62,45 +62,42 @@ const Home = ({navigation}) => {
 }
 
 const styles = StyleSheet.create({
-    globalContainer: {
-        flex: 1,
-        backgroundColor: "#608efe"
-    },
-    titleContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
-        
-    },
-    titleText1: {
-        fontSize: (windowWidth / 100) * 20,
-        color: "white",
-        fontFamily: 'iHateComicSans'
-        
-    },
-    titleText2: {
-        fontSize: (windowWidth / 100) * 8,
-        color: "white",
-        fontFamily: 'iHateComicSans'
-    },
-    buttonContainer: {
-        flex: 1,
-        alignItems: "center"
-    },
-    startButton: {
-        justifyContent: "center",
-        backgroundColor: "#fcdd03",
-        borderRadius: 30,
-        width: (windowWidth / 100) * 70,
-        height: (windowHeight / 100) * 10
-    },
-    buttonText: {
-        textAlign: "center",
-        color: "gray",
-        fontFamily: "iHateComicSans",
-        fontSize: (windowWidth / 100) * 10,
-    }
+  globalContainer: {
+    flex: 1,
+    backgroundColor: "#608efe",
+  },
+  titleContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  titleText1: {
+    fontSize: (windowWidth / 100) * 20,
+    color: "white",
+    fontFamily: "iHateComicSans",
+  },
+  titleText2: {
+    fontSize: (windowWidth / 100) * 8,
+    color: "white",
+    fontFamily: "iHateComicSans",
+  },
+  buttonContainer: {
+    flex: 1,
+    alignItems: "center",
+  },
+  startButton: {
+    justifyContent: "center",
+    backgroundColor: "#fcdd03",
+    borderRadius: 30,
+    width: (windowWidth / 100) * 70,
+    height: (windowHeight / 100) * 10,
+  },
+  buttonText: {
+    textAlign: "center",
+    color: "gray",
+    fontFamily: "iHateComicSans",
+    fontSize: (windowWidth / 100) * 10,
+  },
+});
 
-})
-
-export default Home
+export default Home;
