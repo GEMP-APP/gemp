@@ -55,54 +55,45 @@ const DATA = [
   },
 ];
 
-const SearchRoom = ({ navigation }) => {
-  const { userNick, username } = useSelector((state) => state.userReducer);
-  const { rooms } = useSelector((state) => state.roomReducer);
-
-  const [inputSearch, setInputSearch] = useState("");
-  const [roomData, setRoomData] = useState(DATA);
-
-  let [fontsLoaded] = useFonts({
-    iHateComicSans: require("../assets/fonts/IHateComicSans.ttf"),
-  });
-
+const SearchRoom = ({navigation}) => {
+    const { userNick, username } = useSelector(state => state.userReducer)
+    const [inputSearch, setInputSearch] = useState("")
+    const { rooms } = useSelector((state) => state.roomReducer);
+    const [roomData, setRoomData] = useState(DATA)
+    let [fontsLoaded] = useFonts({
+        'iHateComicSans': require('../assets/fonts/IHateComicSans.ttf')
+    })
   useEffect(() => {
     let filteredData = DATA.filter((item) => {
       return item.id.includes(inputSearch);
     });
+  }, [])
 
-    setRoomData(filteredData);
-  }, [inputSearch]);
-
-  return (
-    <View style={styles.globalContainer}>
-      <View style={styles.welcomeTextContainer}>
-        <Text style={styles.welcomeText}>
-          Welcome,
-          <Text style={styles.userNick}> {userNick}</Text>
-        </Text>
-        <Text style={styles.welcomeText}>Tap the rooms below to join!</Text>
-      </View>
-      <FlatList
-        style={styles.roomContainer}
-        data={rooms}
-        renderItem={({ item }) => (
-          <Room key={item._id } id={item.category} title={item.name} room={item} navigation={navigation} />
-        )}
-        numColumns={3}
-        horizontal={false}
-      />
-      <View style={styles.searchContainer}>
-        <Text style={styles.searchLabel}>Search room by ID</Text>
-        <TextInput
-          style={styles.searchBox}
-          value={inputSearch}
-          onChangeText={(text) => setInputSearch(text)}
-        />
-      </View>
-    </View>
-  );
-};
+    return (
+        <View style={styles.globalContainer}>
+            <View style={styles.welcomeTextContainer}>
+                <Text style={styles.welcomeText}>Welcome,
+                    <Text style={styles.userNick}> {userNick}</Text>
+                </Text>
+                <Text style={styles.welcomeText}>Tap the rooms below to join!</Text>
+            </View>
+            <FlatList style={styles.roomContainer}
+                data={roomData}
+                renderItem={ ({item}) => <Room id={item.id} title={item.title} navigation={navigation}/>}
+                numColumns={3}
+                horizontal={false}
+            />
+            <View style={styles.searchContainer}>
+                <Text style={styles.searchLabel}>Search room by ID</Text>
+                <TextInput
+                    style={styles.searchBox}
+                    value={inputSearch}
+                    onChangeText={ (text) => setInputSearch(text)}
+                />
+            </View>
+        </View>
+    )
+}
 
 const styles = StyleSheet.create({
   globalContainer: {

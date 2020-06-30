@@ -13,7 +13,6 @@ import SearchRoomScreen from './screens/SearchRoomScreen'
 import GameplayScreen from './screens/GameplayScreen'
 import CreateRoomScreen from './screens/CreateRoomScreen'
 import ResultsScreen from './screens/ResultsScreen'
-import ExitConfirm from './components/ExitConfirmModal'
 
 const Stack = createStackNavigator()
 
