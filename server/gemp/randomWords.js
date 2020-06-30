@@ -380,7 +380,29 @@ var transportationList = [
   "yawl", "Zamboni", "zeppelin"
 ]
 
+var animeList = [
+  "Death Note", "Shingeki no Kyojin", "Sword Art Online", "Fullmetal Alchemist", "One Punch Man",
+  "Tokyo Ghoul", "Steins Gate", "Boku no Hero Academia", "No Game No Life", "Naruto",
+  "Angel Beats", "Code Geass", "Kimi no Na wa", "Mirai Nikki", "Toradora",
+  "Noragami", "Hunter x Hunter", "Boku no Hero Academia", "Sword Art Online", "Ao no Exorcist",
+  "Re:Zero", "Akame ga Kill", "Fairy Tail", "Nanatsu no Taizai", "Bleach",
+  "Kill la Kill", "Boku dake", "One Piece", "Tengen Toppa", "Elfen Lied",
+  "Soul Eater", "Psycho-Pass", "Another", "Cowboy Bebop", "Sen to Chihiro",
+  "Koe no Katachi", "Kono Subarashii Sekai", "Kiseijuu", "Tokyo Ghoul", "Death Parade",
+  "Highschool of the Dead", "Durarara", "Ansatsu Kyoushitsu", "Mob Psycho 100"
+]
 
+var sportList = [
+  "football", "basketball", "tennis", "baseball", "golf",
+  "running", "volleyball", "badminton", "swimming", "boxing",
+  "table tennis", "skiing", "ice skating", "roller skating", "cricket",
+  "rugby", "pool", "darts", "bowling", "ice hockey",
+  "surfing", "karate", "horse racing", "snowboarding", "skateboarding",
+  "cycling", "archery", "fishing", "gymnastics", "figure skating",
+  "rock climbing", "sumo wrestling", "taekwondo", "fencing", "water skiing",
+  "jet skiing", "weight lifting", "scuba diving", "judo", "wind surfing",
+  "kickboxing", "sky diving", "hang gliding", "bungee jumping",
+]
 
 function words(options) {
 
