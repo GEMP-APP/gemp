@@ -136,7 +136,7 @@ describe("basic socket.io example", () => {
     }, 500);
   });
 
-  test("Game play should start", (done) => {
+  test("Game play should start", async (done) => {
     // room master
     const dataUser1 = {
       username: "User1",
@@ -167,13 +167,13 @@ describe("basic socket.io example", () => {
       expect(payload).toHaveProperty("type");
     });
 
-    socketB.on("newMessage", (payload) => {
+    await socketB.on("newMessage", (payload) => {
       expect(payload).toHaveProperty("username");
       expect(payload).toHaveProperty("message");
       expect(payload).toHaveProperty("type");
     });
 
-    socket.emit("joinRoom", dataUser1);
+    await socket.emit("joinRoom", dataUser1);
     socketB.emit("joinRoom", dataUser2);
 
     setTimeout(() => {
@@ -182,7 +182,7 @@ describe("basic socket.io example", () => {
       socket.emit("setWord", "answer");
       socket.emit("checkAnswer", "answer");
     }, 1000);
-
+    
     setTimeout(() => {
       done();
     }, 4500);

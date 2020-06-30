@@ -173,6 +173,9 @@ class Gemp {
 
       nextWords = nextWords.map((word) => word.toLowerCase());
       console.log(nextWords);
+      // (lastWords.filter(
+      //     (word) => word === nextWords[0] || word === nextWords[1]
+      //   )[0]) && (unUsedWords = true);
       if (
         !lastWords.filter(
           (word) => word === nextWords[0] || word === nextWords[1]
