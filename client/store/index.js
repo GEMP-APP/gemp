@@ -1,13 +1,12 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
-import defaultReducer from "./reducers/defaultReducer";
+// import defaultReducer from "./reducers/defaultReducer";
 import userReducer from "./reducers/userReducer";
 import chatReducer from "./reducers/chatReducer";
 import roomReducer from "./reducers/roomReducer";
 import socketReducer from "./reducers/socketReducer";
 
 const reducers = combineReducers({
-  defaultReducer,
   userReducer,
   chatReducer,
   roomReducer,

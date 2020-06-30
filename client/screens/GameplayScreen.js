@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity, FlatL
 import {useSelector} from 'react-redux'
 import {useFonts} from '@use-expo/font'
 import { AppLoading } from 'expo';
+import CanvasComponent from '../components/CanvasComponent';
+import { Header } from 'react-native/Libraries/NewAppScreen';
 
 import ShowAnswerModal from '../components/ShowAnswerModal'
 
@@ -10,59 +12,59 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const userPlaceholder = [
-    {
-        id: 12321,
-        name: "player 1111111",
-        score: 12
-    },
-    {
-        id: 12322,
-        name: "player 2",
-        score: 13
-    },
-    {
-        id: 12323,
-        name: "player 3",
-        score: 14
-    },
-    {
-        id: 12324,
-        name: "player 4",
-        score: 15
-    },
-    {
-        id: 12322,
-        name: "player 2",
-        score: 13
-    },
-    {
-        id: 12326,
-        name: "player 2",
-        score: 13
-    },
+  {
+    id: 12321,
+    name: "player 1111111",
+    score: 12
+  },
+  {
+    id: 12322,
+    name: "player 2",
+    score: 13
+  },
+  {
+    id: 12323,
+    name: "player 3",
+    score: 14
+  },
+  {
+    id: 12324,
+    name: "player 4",
+    score: 15
+  },
+  {
+    id: 12322,
+    name: "player 2",
+    score: 13
+  },
+  {
+    id: 12326,
+    name: "player 2",
+    score: 13
+  },
 
 ]
 
 const chatPlaceholder = [
-    {id: 1, chat: 'player 1111111: chicken'},
-    {id: 2, chat: 'player 2: dinosaur',},
-    {id: 3, chat: 'player 3: pidgey'},
-    {id: 4, chat: 'player 1111111: chicken'},
-    {id: 5, chat: 'player 2: dinosaur'},
-    {id: 6, chat: 'player 3: pidgey'},
-    {id: 7, chat: 'player 1111111: buwong puyoh'}
+  { id: 1, chat: 'player 1111111: chicken' },
+  { id: 2, chat: 'player 2: dinosaur', },
+  { id: 3, chat: 'player 3: pidgey' },
+  { id: 4, chat: 'player 1111111: chicken' },
+  { id: 5, chat: 'player 2: dinosaur' },
+  { id: 6, chat: 'player 3: pidgey' },
+  { id: 7, chat: 'player 1111111: buwong puyoh' }
 ]
 
 const randomWord = [
-    'i wonder what does that mean..',
-    'it looks like a..',
-    'that thing looks strange..',
-    'can you guess it?',
-    'feeling smart?',
-    'mind reading the painter..',
-    'bingo!',
-    'what the..',
-    'the painter had one job..',
+  'i wonder what does that mean..',
+  'it looks like a..',
+  'that thing looks strange..',
+  'can you guess it?',
+  'feeling smart?',
+  'mind reading the painter..',
+  'bingo!',
+  'what the..',
+  'the painter had one job..',
 ]
 
 const Gameplay = () => {
@@ -116,7 +118,7 @@ const Gameplay = () => {
             <View style={styles.canvasContainer}>
                 <Text style={styles.guessWord}>GuessWord</Text>
                 {/*   Tempat Canvas untuk yang painter    */}
-
+                <CanvasComponent />
             </View>
             {!drawingMode &&
             <>
