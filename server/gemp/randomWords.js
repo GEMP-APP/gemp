@@ -246,6 +246,7 @@ var wordList = [
   "your","yourself","youth","zero","zebra","zipper","zoo","zulu"
 ];
 
+// 1
 var animalLists = [
   "Aardvark", "Albatross", "Alligator", "Alpaca", "Ant",
   "Anteater", "Antelope", "Ape", "Armadillo", "Donkey",
@@ -294,6 +295,7 @@ var animalLists = [
   "Worm", "Wren", "Yak", "Zebra"
 ]
 
+// 2
 var fruitLists = [
   "Apple", "Apricot", "Avocado", "Banana", "Bilberry",
   "Blackberry", "Blackcurrant", "Black sapote", "Blueberry", "Boysenberry", 
@@ -320,6 +322,7 @@ var fruitLists = [
   "Zucchini"
 ]
 
+// 3
 var transportationList = [
   "aerial tramway", "aircraft", "aircraft carrier", "airplane", "ambulance",
   "amphibious vehicle", "armored car",  "auto", "automobile", "baby carriage", 
@@ -380,6 +383,7 @@ var transportationList = [
   "yawl", "Zamboni", "zeppelin"
 ]
 
+// 4
 var animeList = [
   "Death Note", "Shingeki no Kyojin", "Sword Art Online", "Fullmetal Alchemist", "One Punch Man",
   "Tokyo Ghoul", "Steins Gate", "Boku no Hero Academia", "No Game No Life", "Naruto",
@@ -392,6 +396,7 @@ var animeList = [
   "Highschool of the Dead", "Durarara", "Ansatsu Kyoushitsu", "Mob Psycho 100"
 ]
 
+// 5
 var sportList = [
   "football", "basketball", "tennis", "baseball", "golf",
   "running", "volleyball", "badminton", "swimming", "boxing",
@@ -404,6 +409,7 @@ var sportList = [
   "kickboxing", "sky diving", "hang gliding", "bungee jumping",
 ]
 
+// 6
 var gamesList = [
   "Pokemon Go", "Borderlands", "Divinity: Original Sin", "Dishonored", "Final Fantasy",
   "Assassin's Creed", "Monkey Island", "Burnout", "Fallout", "Undertale",
@@ -426,6 +432,38 @@ var gamesList = [
   "Red Dead Redemption", "Half-Life 2", "Tetris", "Super Mario Bros. 3", "The Legend of Zelda: Breath of the Wild",
   "Super Metroid", "Portal 2", "The Legend of Zelda: A Link to the Past", "Super Mario World"
 ]
+
+// 7
+var foodList = [
+  "asparagus", "apples", "avocado", "alfalfa", "acorn squash ",
+  "almond", "arugala", "artichoke", "applesauce", "asian noodles",
+  "antelope", "albacore tuna", "Apple juice", "Avocado roll", "Bruscetta",
+  "bacon", "black beans", "bagels", "baked beans", "BBQ",
+  "bison", "barley", "beer", "bisque", "bluefish",
+  "bread", "broccoli", "buritto", "babaganoosh", "Cabbage",
+  "cake", "carrots", "carne asada", "celery", "cheese",
+  "chicken", "catfish", "chips", "chocolate", "chowder",
+  "clams", "coffee", "cookies", "corn", "cupcakes",
+  "crab", "curry", "cereal", "chimichanga", "dates",
+  "dips", "duck", "dumplings", "donuts", "eggs",
+  "enchilada", "eggrolls", "English muffins", "edimame", "eel sushi",
+  "fajita", "falafel", "fish", "franks", "fondu",
+  "French toast", "French dip", "Garlic", "ginger", "gnocchi",
+  "goose", "granola", "grapes", "green beans", "Guancamole",
+  "gumbo", "grits", "Graham crackers", "ham", "halibut",
+  "hamburger", "honey", "huenos rancheros", "hash browns", "hot dogs",
+  "haiku roll", "hummus", "ice cream", "Irish stew", "Indian food",
+  "Italian bread", "jambalaya", "jelly", "jam", "jerky",
+  "jalapeno", "kale", "kabobs", "ketchup", "kiwi",
+  "kidney beans", "kingfish", "lobster", "Lamb", "Linguine",
+  "Lasagna", "Meatballs", "Moose", "Milk", "Milkshake",
+  "Noodles", "Ostrich", "Pizza", "Pepperoni", "Porter",
+  "Pancakes", "Quesadilla", "Quiche", "Reuben", "Spinach",
+  "Spaghetti", "Tater tots", "Toast", "Venison", "Waffles",
+  "Wine", "Walnuts", "Yogurt", "Ziti", "Zucchini"
+]
+
+// 8
 
 
 
