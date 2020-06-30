@@ -70,8 +70,11 @@ const Gameplay = () => {
     const [showAnswer, setShowAnswer] = useState(false)
     const [currentAnswer, setCurrentAnswer] = useState('')
     const userNick = useSelector(state => state.userReducer.userNick)
+    const { roomUsers, roomId } = useSelector(
+        (state) => state.roomReducer
+      );
     const [fontsLoaded] = useFonts({
-        'iHateComicSans': require('../assets/fonts/IHateComicSans.ttf')
+          'iHateComicSans': require('../assets/fonts/IHateComicSans.ttf')
     })
 
     const getRandomWord = () => {
@@ -101,10 +104,10 @@ const Gameplay = () => {
     return (
         <View style={styles.globalContainer}>
             <ScrollView contentContainerStyle={{justifyContent: 'center' ,flexGrow: 1}} horizontal style={styles. userListContainer}>
-                {userPlaceholder.map( (user, key) => {
+                {roomUsers.map((user) => {
                     return (
-                        <View key={key} style={styles.userBox}>
-                            <Text style={styles.userDetail} >{user.name}</Text>
+                        <View key={user.id} style={styles.userBox}>
+                            <Text style={styles.userDetail} >{user.username}</Text>
                             <Text style={styles.userDetail} >{user.score} pts</Text>
                         </View>
                     )
@@ -154,75 +157,73 @@ const Gameplay = () => {
 }
 
 const styles = StyleSheet.create({
-    globalContainer: {
-        flex: 1,
-        backgroundColor: '#608efe',
+  globalContainer: {
+    flex: 1,
+    backgroundColor: "#608efe",
+  },
+  userListContainer: {
+    flex: 1,
+  },
+  userBox: {
+    alignItems: "center",
+    backgroundColor: "#fcdd03",
+    marginTop: "auto",
+    marginLeft: (windowWidth / 100) * 1,
+    marginRight: (windowWidth / 100) * 1,
+    marginBottom: "auto",
+    padding: (windowWidth / 100) * 1.5,
+    borderRadius: 10,
+  },
+  userDetail: {
+    fontFamily: "iHateComicSans",
+    fontSize: (windowWidth / 100) * 4,
+  },
+  canvasContainer: {
+    flex: 7,
+    alignItems: "center",
+    backgroundColor: "white",
+    margin: (windowWidth / 100) * 2,
+    borderTopLeftRadius: (windowWidth / 100) * 5,
+    borderTopRightRadius: (windowWidth / 100) * 5,
+    borderBottomLeftRadius: (windowWidth / 100) * 5,
+    borderBottomRightRadius: (windowWidth / 100) * 5,
+  },
+  guessWord: {
+    fontSize: (windowWidth / 100) * 5,
+  },
+  controlContainer: {
+    flex: 2,
+    flexDirection: "row",
+  },
+  speakButton: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fcdd03",
+    margin: (windowWidth / 100) * 1,
+    borderRadius: 20,
+  },
+  speakLabel: {
+    fontSize: (windowWidth / 100) * 5,
+  },
+  answerContainer: {
+    flex: 3,
+    backgroundColor: "white",
+    margin: (windowWidth / 100) * 1,
+    borderRadius: 10,
+  },
+  chatContainer: {
+    margin: (windowWidth / 100) * 1,
+  },
+  answerInput: {
+    color: "black",
+    height: (windowWidth / 100) * 10,
+    marginTop: (windowWidth / 100) * 0.5,
+    marginLeft: (windowWidth / 100) * 2,
+    marginRight: (windowWidth / 100) * 2,
+    borderBottomColor: "#fcdd03",
+    borderBottomWidth: (windowWidth / 100) * 1,
+  },
+});
 
-    },
-    userListContainer: {
-        flex: 1,
-        
-    },
-    userBox: {
-        alignItems: 'center',
-        backgroundColor: '#fcdd03',
-        marginTop: 'auto',
-        marginLeft: (windowWidth / 100) * 1,
-        marginRight: (windowWidth / 100) * 1,
-        marginBottom: 'auto',
-        padding: (windowWidth / 100) * 1.5,
-        borderRadius: 10
-    },
-    userDetail: {
-        fontFamily: 'iHateComicSans',
-        fontSize: (windowWidth / 100) * 4
-    },  
-    canvasContainer: {
-        flex: 7,
-        alignItems: 'center',
-        backgroundColor: 'white',
-        margin: (windowWidth / 100) * 2,
-        borderTopLeftRadius: (windowWidth / 100) * 5,
-        borderTopRightRadius: (windowWidth / 100) * 5,
-        borderBottomLeftRadius: (windowWidth / 100) * 5,
-        borderBottomRightRadius: (windowWidth / 100) * 5,
-    },
-    guessWord: {
-        fontSize: (windowWidth / 100) * 5
-    },
-    controlContainer: {
-        flex: 2,
-        flexDirection: 'row'
-    },
-    speakButton: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#fcdd03' ,
-        margin: (windowWidth / 100) * 1,
-        borderRadius: 20
-    },
-    speakLabel: {
-        fontSize: (windowWidth / 100) * 5
-    },
-    answerContainer: {
-        flex: 3,
-        backgroundColor: 'white',
-        margin: (windowWidth / 100) * 1,
-        borderRadius: 10
-    },
-    chatContainer:{
-        margin: (windowWidth / 100) * 1
-    },
-    answerInput: {
-        color: "black",
-        height: (windowWidth / 100) * 10,
-        marginTop: (windowWidth / 100) * 0.5,
-        marginLeft: (windowWidth / 100) * 2,
-        marginRight: (windowWidth / 100) * 2,
-        borderBottomColor: '#fcdd03',
-        borderBottomWidth: (windowWidth / 100) * 1
-    }
-})
-
-export default Gameplay
+export default Gameplay;
