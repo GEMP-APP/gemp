@@ -11,14 +11,16 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const GetNick = ({ navigation }) => {
-  const dispatch = useDispatch();
-  const [inputUsernameTapped, setInputUsernameTapped] = useState(false);
-  const { username } = useSelector((state) => state.userReducer);
-  const [inputNick, setInputNick] = useState("");
-
   let [fontsLoaded] = useFonts({
     iHateComicSans: require("../assets/fonts/IHateComicSans.ttf"),
   });
+
+  const dispatch = useDispatch();
+  const [inputNick, setInputNick] = useState("");
+  const { username } = useSelector((state) => state.userReducer);
+  const [searchRoomText, setSearchRoomText] = useState("Search Room");
+  const [inputUsernameTapped, setInputUsernameTapped] = useState(false);
+
 
   const submitAndSearch = () => {
     if (!inputNick) {
@@ -26,6 +28,7 @@ const GetNick = ({ navigation }) => {
     } else {
       dispatch(appStart());
       dispatch(changeUserNick(inputNick));
+      setSearchRoomText("Loading...")
       setTimeout(() => {
         navigation.navigate("SearchRoom");
       }, 3000);
@@ -64,14 +67,17 @@ const GetNick = ({ navigation }) => {
           onPress={inputUsernameHandle}
         />
       </View>
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.submitButton}
-          onPress={() => submitAndSearch()}
+          onPress={submitAndSearch}
         >
-          <Text style={styles.buttonText}>Search Room</Text>
+          <Text style={styles.buttonText}>{searchRoomText}</Text>
         </TouchableOpacity>
+
         <Text style={styles.dividerText}>OR</Text>
+
         <TouchableOpacity
           style={styles.submitButton}
           onPress={() => submitAndCreate()}
