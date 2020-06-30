@@ -47,7 +47,7 @@ const DATA = [ // Placeholder Data for testing
     },
 ];
 
-const SearchRoom = () => {
+const SearchRoom = ({navigation}) => {
     const userNick = useSelector(state => state.userReducer.userNick)
     const [inputSearch, setInputSearch] = useState("")
     const [roomData, setRoomData] = useState(DATA)
@@ -75,7 +75,7 @@ const SearchRoom = () => {
             </View>
             <FlatList style={styles.roomContainer}
                 data={roomData}
-                renderItem={ ({item}) => <Room id={item.id} title={item.title} />}
+                renderItem={ ({item}) => <Room id={item.id} title={item.title} navigation={navigation}/>}
                 numColumns={3}
                 horizontal={false}
             />

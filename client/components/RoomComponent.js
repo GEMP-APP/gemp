@@ -3,10 +3,10 @@ import {StyleSheet ,TouchableOpacity, Dimensions, Text} from 'react-native'
 
 const windowWidth = Dimensions.get('window').width;
 
-const Room = ({id, title}) => {
+const Room = ({id, title, navigation}) => {
 
     return (
-        <TouchableOpacity style={styles.room}>
+        <TouchableOpacity style={styles.room} onPress={ () => navigation.navigate('Gameplay')}>
             <Text style={{flex: 1, color: 'white'}}>{id ? id : "no id"}</Text>
             <Text style={{flex: 1, color: 'white'}}>title: {title ? title : "no title"}</Text>
             <Text style={{flex: 1, color: 'white'}}>0 / 4</Text>

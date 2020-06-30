@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity, FlatList, TextInput, RefreshControl } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, ScrollView, TouchableOpacity, FlatList, TextInput, RefreshControl, Modal } from 'react-native'
 import {useSelector} from 'react-redux'
 import {useFonts} from '@use-expo/font'
 import { AppLoading } from 'expo';
+
+import ShowAnswerModal from '../components/ShowAnswerModal'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -64,7 +66,9 @@ const randomWord = [
 ]
 
 const Gameplay = () => {
-    const [drawingMode, setDrawingMode] = useState(true)
+    const [drawingMode, setDrawingMode] = useState(false)
+    const [showAnswer, setShowAnswer] = useState(false)
+    const [currentAnswer, setCurrentAnswer] = useState('')
     const userNick = useSelector(state => state.userReducer.userNick)
     const [fontsLoaded] = useFonts({
         'iHateComicSans': require('../assets/fonts/IHateComicSans.ttf')
@@ -81,6 +85,10 @@ const Gameplay = () => {
         chatPlaceholder.push({id: (currentId + 1), chat: chat})
 
         console.log(chatPlaceholder)
+    }
+
+    const closeShowAnswer = () => {
+        setShowAnswer(false)
     }
 
     if (!fontsLoaded) {
@@ -110,7 +118,7 @@ const Gameplay = () => {
             {!drawingMode &&
             <>
                     <View style={styles.controlContainer}>
-                        <TouchableOpacity style={styles.speakButton} onPress={ () => getRandomWord()}>
+                        <TouchableOpacity style={styles.speakButton} onPress={ () => console.log('voice button being pressed')}>
                             <Text style={styles.speakLabel} >Hold to</Text>
                             <Text style={styles.speakLabel} >Voice</Text>
                             <Text style={styles.speakLabel} >Answer</Text>
@@ -134,6 +142,13 @@ const Gameplay = () => {
                     </View>
                 </>
             }
+            <Modal
+                animationType='fade'
+                transparent={true}
+                visible={showAnswer}
+            >
+                <ShowAnswerModal answer={currentAnswer} closeShowAnswer={closeShowAnswer}/>
+            </Modal>
         </View>
     )
 }
