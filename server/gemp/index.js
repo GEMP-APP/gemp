@@ -1,6 +1,54 @@
 const randomWords = require("./randomWords");
-const users = [];
-const rooms = [];
+const animalWords = require("./animalWords");
+const fruitWords = require("./fruitWords");
+const users = [
+  {
+    id: "socket.id",
+    username: "sudo",
+    room: "animal",
+    score: 0,
+    category: "animal"
+  }, 
+  {
+    id: "socket.id2",
+    username: "sudo2",
+    room: "animal",
+    score: 0,
+    category: "animal"
+  }
+];
+const rooms = {
+  animal: {
+    wordsUsed: [],
+    category: "animal",
+    timeOut: undefined,
+    lastUserDraw: {
+      id: "socket.id",
+      username: "sudo",
+      room: "animal",
+      score: 0,
+      category: "animal"
+    },
+    users: [{
+      id: "socket.id",
+      username: "sudo",
+      room: "animal",
+      score: 0,
+      category: "animal"
+    }, 
+    {
+      id: "socket.id2",
+      username: "sudo2",
+      room: "animal",
+      score: 0,
+      category: "animal"
+    }]
+  },
+  fruit: {
+    wordsUsed: [],
+    category: "fruit"
+  },
+};
 
 class Gemp {
   static userJoin(user) {
@@ -9,7 +57,7 @@ class Gemp {
     if (!rooms[room]) {
       rooms[room] = {
         users: [],
-        category: "",
+        category: user.category,
         maxScore: 120,
         capacity: 10,
         wordsUsed: [],
@@ -17,6 +65,7 @@ class Gemp {
         lastUserDraw: {},
         timeOut: undefined,
       };
+      rooms[room].users.push(user);
     }
 
     rooms[room].users.push(user);
@@ -36,7 +85,7 @@ class Gemp {
     };
   }
 
-  static userLeave(id, io) {
+  static userLeave(id) {
     const index = users.findIndex((user) => user.id === id);
 
     if (index !== -1) {
@@ -110,7 +159,20 @@ class Gemp {
     let nextWords;
 
     while (!unUsedWords) {
-      nextWords = randomWords(2);
+      switch (rooms[room].category) {
+        case "fruit":
+          nextWords = fruitWords(2);
+          break;
+        case "animal":
+          nextWords = animalWords(2);
+          break;
+        default:
+          nextWords = randomWords(2);
+          break;
+      }
+
+      nextWords = nextWords.map((word) => word.toLowerCase());
+      console.log(nextWords);
       if (
         !lastWords.filter(
           (word) => word === nextWords[0] || word === nextWords[1]
