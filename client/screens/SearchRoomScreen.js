@@ -18,39 +18,8 @@ const windowHeight = Dimensions.get("window").height;
 //   // Placeholder Data for testing
 //   {
 //     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-//     title: "First Item",
-//   },
-//   {
-//     id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-//     title: "Second Item",
-//   },
-//   {
-//     id: "58694a0f-3da1-471f-bd96-145571e29d72",
-//     title: "Third Item",
-//   },
-//   {
-//     id: "bd7acbea-c1b1-46c2-aed5-3addwa53abb28ba",
-//     title: "First Item",
-//   },
-//   {
-//     id: "3ac68afc-c605-48d3-a4f8-fbwad91aa97f63",
-//     title: "Second Item",
-//   },
-//   {
-//     id: "58694a0f-3da1-471f-bd96-14557awd1e29d72",
-//     title: "Third Item",
-//   },
-//   {
-//     id: "bd7acbea-c1b1-46345c2-aed5-3ad53abb28ba",
-//     title: "First Item",
-//   },
-//   {
-//     id: "3ac68afc-c605-43218d3-a4f8-fbd91aa97f63",
-//     title: "Second Item",
-//   },
-//   {
-//     id: "58694a0f-3da1-471123f-bd96-145571e29d72",
-//     title: "Third Item",
+//     category: "animals",
+//     name: "Animals",
 //   },
 // ];
 

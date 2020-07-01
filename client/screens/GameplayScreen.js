@@ -183,10 +183,10 @@ const Gameplay = () => {
                   item.username === "Gemp Bot" ? (
                     <Text key={index}>{item.message}</Text>
                   ) : (
-                    <Text key={index}>
-                      {item.username} {item.message}
-                    </Text>
-                  )
+                      <Text key={index}>
+                        {item.username} {item.message}
+                      </Text>
+                    )
                 }
               />
               <TextInput

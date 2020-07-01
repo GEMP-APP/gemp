@@ -17,6 +17,7 @@ const GetNick = ({ navigation }) => {
   });
 
   const dispatch = useDispatch();
+  const [toggleModal, setToggleModal] = useState(false);
   const [inputNick, setInputNick] = useState("");
   const { username } = useSelector((state) => state.userReducer);
   const [searchRoomText, setSearchRoomText] = useState("Search Room");

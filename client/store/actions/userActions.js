@@ -11,7 +11,7 @@ export function changeUserNick (value) {
 
 export function fetchRoomData () {
     return (dispatch) => {
-        fetch('http://localhost:4000/rooms')
+        fetch('http://54.169.11.236:4000/rooms')
         .then( response => response.json)
         .then( data =>{
             dispatch({

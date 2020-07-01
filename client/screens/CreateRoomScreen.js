@@ -1,40 +1,67 @@
 import React, { useState } from 'react'
-import {StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput, Modal} from 'react-native'
-import {useFonts} from '@use-expo/font'
-
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput, Modal } from 'react-native'
+import { useFonts } from '@use-expo/font'
+import Axios from 'axios';
+import { useSelector, useDispatch } from "react-redux";
+import { joinRoom } from "../store/actions/socketActions";
+import { RESET_USER_STATE } from "../store/actions/actionsType";
+import LoadingModal from '../components/LoadingModal';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const CreateRoom = ({navigation: {navigate}}) => {
+const CreateRoom = ({ navigation: { navigate } }) => {
     const [roomName, setRoomName] = useState('My Room')
     const [maxPlayer, setMaxPlayer] = useState(2)
     const [maxScore, setMaxScore] = useState(100)
     const [category, setCategory] = useState('animals')
     const [toggleModal, setToggleModal] = useState('animals')
+    const [toggleLoading, setToggleLoading] = useState(false);
     const [fontsLoaded] = useFonts({
         'iHateComicSans': require('../assets/fonts/IHateComicSans.ttf')
     })
 
+    const dispatch = useDispatch();
+    const { username } = useSelector((state) => state.userReducer);
+
+    const joinRoomHandle = (room) => {
+        dispatch({
+            type: RESET_USER_STATE,
+        });
+        console.log(room);
+        joinRoom({
+            category: room.category,
+            room: room._id,
+            username,
+        });
+
+        setTimeout(() => {
+            setToggleLoading(false);
+            navigate("Gameplay");
+        }, 3000);
+    };
+
     const createRoom = () => {
-        // fetch('http://localhost:4000/rooms', {
-        //     method: "POST",
-        //     body: {
-        //         name: roomName,
-        //         category,
-        //         poster_path: 'https://via.placeholder.com/50',
-        //         language: "English",
-        //         capacity: maxPlayer,
-        //         maxScore,
-        //         currentScore: 0,    
-        //     }
-        // })
-        // fetch('http://192.168.80.128:4000/rooms')
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         alert('data');
-        //     })
-        //     .catch((err) => console.log(err));
+        setToggleLoading(true);
+        Axios({
+            method: 'POST',
+            url: 'http://54.169.11.236:4000/rooms',
+            data: {
+                name: roomName,
+                category,
+                poster_path: 'https://via.placeholder.com/50',
+                language: "en",
+                capacity: maxPlayer,
+                maxScore,
+                currentScore: 30,
+            }
+        })
+            .then((res) => {
+                console.log(res.data);
+                // alert(JSON.stringify(res.data));
+                joinRoomHandle(res.data);
+            })
+            .catch((err) => console.log(err));
     }
 
     return (
@@ -48,7 +75,7 @@ const CreateRoom = ({navigation: {navigate}}) => {
                 <Text style={styles.inputNameLabel} >Room Name :</Text>
                 <TextInput
                     value={roomName}
-                    onChangeText={ (text) => setRoomName(text)}
+                    onChangeText={(text) => setRoomName(text)}
                     style={styles.inputName}
                     maxLength={15}
                 />
@@ -56,26 +83,26 @@ const CreateRoom = ({navigation: {navigate}}) => {
                 <Text style={styles.maxPlayerLabel}>Max player : <Text style={styles.valueLabel}>{maxPlayer}</Text></Text>
                 <View style={styles.maxPlayerButtonsContainer}>
 
-                    <TouchableOpacity style={styles.maxPlayerButton} onPress={ () => setMaxPlayer(2)}>
+                    <TouchableOpacity style={styles.maxPlayerButton} onPress={() => setMaxPlayer(2)}>
                         <Text style={styles.maxPlayerButtonLabel}>2</Text >
                     </TouchableOpacity >
 
-                    <TouchableOpacity style={styles.maxPlayerButton}  onPress={ () => setMaxPlayer(4)}>
+                    <TouchableOpacity style={styles.maxPlayerButton} onPress={() => setMaxPlayer(4)}>
                         <Text style={styles.maxPlayerButtonLabel}>4</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.maxPlayerButton}  onPress={ () => setMaxPlayer(6)}>
+                    <TouchableOpacity style={styles.maxPlayerButton} onPress={() => setMaxPlayer(6)}>
                         <Text style={styles.maxPlayerButtonLabel}>6</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.maxPlayerButton}  onPress={ () => setMaxPlayer(8)}>
+                    <TouchableOpacity style={styles.maxPlayerButton} onPress={() => setMaxPlayer(8)}>
                         <Text style={styles.maxPlayerButtonLabel}>8</Text>
                     </TouchableOpacity>
 
                 </View>
 
                 <Text style={styles.categoryLabel}>Category : <Text style={styles.valueLabel}>{category}</Text></Text>
-                <TouchableOpacity style={styles.modalButton} onPress={ () => setToggleModal(true)}>
+                <TouchableOpacity style={styles.modalButton} onPress={() => setToggleModal(true)}>
                     <Text style={styles.modalButtonLabel}>Choose Category</Text>
                 </TouchableOpacity>
                 <Modal
@@ -87,26 +114,26 @@ const CreateRoom = ({navigation: {navigate}}) => {
                         <View style={styles.modalContainer}>
                             <View style={styles.categoryButtonsContainer}>
 
-                                <TouchableOpacity style={styles.categoryButton} onPress={ () => {setCategory('animals'), setToggleModal(false)}}>
+                                <TouchableOpacity style={styles.categoryButton} onPress={() => { setCategory('animals'), setToggleModal(false) }}>
                                     <Text style={styles.categoryButtonLabel}>animals</Text>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity style={styles.categoryButton}  onPress={ () => {setCategory('tools'), setToggleModal(false)}}>
+                                <TouchableOpacity style={styles.categoryButton} onPress={() => { setCategory('tools'), setToggleModal(false) }}>
                                     <Text style={styles.categoryButtonLabel}>tools</Text>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity style={styles.categoryButton}  onPress={ () => {setCategory('occupations'), setToggleModal(false)}}>
+                                <TouchableOpacity style={styles.categoryButton} onPress={() => { setCategory('occupations'), setToggleModal(false) }}>
                                     <Text style={styles.categoryButtonLabel}>occupations</Text>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity style={styles.categoryButton}  onPress={ () => {setCategory('vehicles'), setToggleModal(false)}}>
+                                <TouchableOpacity style={styles.categoryButton} onPress={() => { setCategory('vehicles'), setToggleModal(false) }}>
                                     <Text style={styles.categoryButtonLabel}>vehicles</Text>
                                 </TouchableOpacity>
 
                             </View>
 
                             <View style={styles.cancelModalButtonContainer}>
-                                <TouchableOpacity onPress={ () => setToggleModal(false)} style={styles.cancelModalButton}>
+                                <TouchableOpacity onPress={() => setToggleModal(false)} style={styles.cancelModalButton}>
                                     <Text style={styles.cancelModalButtonLabel}>Cancel</Text>
                                 </TouchableOpacity>
                             </View>
@@ -124,7 +151,7 @@ const CreateRoom = ({navigation: {navigate}}) => {
                     maxLength={3}
                     // defaultValue={String(100)}
                     clearTextOnFocus={true}
-                    onChangeText={ (text) => setMaxScore(Number(text))}
+                    onChangeText={(text) => setMaxScore(Number(text))}
                 />
 
             </View>
@@ -134,6 +161,9 @@ const CreateRoom = ({navigation: {navigate}}) => {
                 </TouchableOpacity>
 
             </View>
+            <Modal animationType="fade" transparent={true} visible={toggleLoading}>
+                <LoadingModal />
+            </Modal>
         </View>
     )
 }
@@ -158,7 +188,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center'
     },
-    inputNameLabel:{
+    inputNameLabel: {
         color: 'white',
         fontFamily: 'iHateComicSans',
         fontSize: (windowWidth / 100) * 7
@@ -199,7 +229,7 @@ const styles = StyleSheet.create({
         fontSize: (windowWidth / 100) * 5,
         fontFamily: 'iHateComicSans'
     },
-    categoryLabel:{
+    categoryLabel: {
         color: 'white',
         fontFamily: 'iHateComicSans',
         fontSize: (windowWidth / 100) * 7
@@ -237,7 +267,7 @@ const styles = StyleSheet.create({
     },
     categoryButton: {
         width: (windowWidth / 100) * 60,
-        height: (windowHeight/ 100) * 7,
+        height: (windowHeight / 100) * 7,
         backgroundColor: '#fcdd03',
         justifyContent: 'center',
         alignItems: 'center',
@@ -285,7 +315,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    submitButton: {        
+    submitButton: {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#fcdd03',

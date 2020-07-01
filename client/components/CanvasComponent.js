@@ -25,17 +25,9 @@ export default ({ drawingMode }) => {
     onPanResponderRelease: (e, gs) => onResponderRelease(e, gs),
   });
 
-  // useEffect(() => {
-  //   if (drawingMode) {
-  //     console.log(donePaths)
-  //     socket.emit("donePath", donePaths);
-  //   }
-  // }, [donePaths])
-
   const onTouch = (e) => {
     let [x, y] = [e.nativeEvent.pageX, e.nativeEvent.pageY];
     setCurrentPoints(currentPoints.concat({ x, y }));
-    // socket.emit('canvasDraw', {x, y});
   };
 
   const onResponderGrant = (e) => {
@@ -60,7 +52,7 @@ export default ({ drawingMode }) => {
             />
           )
         );
-        socket.emit("canvasDraw", currentPoints)
+        socket.emit("canvasDraw", { currentPoints, color });
         setGestures(gestures.concat(currentPoints));
       }
       setCurrentPoints([]);
@@ -76,6 +68,7 @@ export default ({ drawingMode }) => {
       setColor("#4d4d4d");
       setStrokeWidth(4);
       setDonePaths([]);
+      socket.emit("donePath");
     } else {
       setColor(color);
       setStrokeWidth(4);
@@ -85,21 +78,14 @@ export default ({ drawingMode }) => {
   const onLayoutContainer = (e) => {
     setOffsetX(e.nativeEvent.layout.x);
     setOffsetY(e.nativeEvent.layout.y + 100);
-  };
-
-  const drawCanvas = (data) => {
-
-    if (!drawingMode) {
-      const { x, y } = data;
-      setCurrentPoints(currentPoints.concat({ x, y }));
-    }
-  };
-
-  const donePathSocket = (currentPoints) => {
-    if (!drawingMode) {
-      if (currentPoints.length > 0) {
-        setDonePaths(
-          donePaths.concat(
+    if (!drawingMode) socket.on('receiveDonePath', () => setDonePaths([]));
+    if (!drawingMode) socket.on('canvasDraw', ({ currentPoints, color }) => {
+      console.log("canvasDraw")
+      if (!drawingMode) {
+        if (currentPoints.length > 0) {
+          console.log('donepaths length: ', donePaths.length);
+          const newPath = donePaths;
+          newPath.push(
             <Path
               key={currentMax}
               d={pointsToSvg(currentPoints)}
@@ -108,24 +94,14 @@ export default ({ drawingMode }) => {
               fill="none"
             />
           )
-        );
-        setGestures(gestures.concat(currentPoints));
+          setDonePaths(newPath);
+          setGestures(gestures.concat(currentPoints));
+        }
+        setCurrentPoints([]);
+        setCurrentMax(currentMax + 1);
       }
-      setCurrentPoints([]);
-      setCurrentMax(currentMax + 1);
-    }
+    });
   };
-
-  socket.on('canvasDraw', (currentPoints) => {
-    console.log("canvasDraw")
-    donePathSocket(currentPoints);
-    // drawCanvas(data)
-  });
-
-  socket.on("receiveDonePath", () => {
-    console.log("onReceiveDonePath");
-    donePathSocket();
-  });
 
   const pointsToSvg = (points) => {
     if (points.length > 0) {
