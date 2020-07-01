@@ -22,7 +22,8 @@ import {
 } from "../store/actions/socketActions";
 import CanvasComponent from "../components/CanvasComponent";
 import ShowAnswerModal from "../components/ShowAnswerModal";
-import ExitRoomModal from '../components/ExitRoomModal'
+import ExitRoomModal from '../components/ExitRoomModal';
+import { addNewMessage } from '../store/actions/chatActions';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -34,10 +35,11 @@ const Gameplay = () => {
 
   const dispatch = useDispatch();
   const [inputAnswer, setInputAnswer] = useState("");
+  const [choosedWord, setChoosedWord] = useState(null);
   const [currentAnswer, setCurrentAnswer] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
   const [showExit, setShowExit] = useState(false)
-	
+
   const [closeShowAnswer, setCloseShowAnswer] = useState(false);
   const {
     userNick,
@@ -61,22 +63,25 @@ const Gameplay = () => {
     // Start Play From Here
     dispatch(gameStart());
   };
-	
-	const closeExitModal = () => {
-        setShowExit(false)
-    }
 
-	const onExitRoom = () => {
-			/* kode disini akan dijalankan jika user confirm ingin meninggalkan room */
-			console.log('exit room confirmed')
-			setShowExit(false)
+  const closeExitModal = () => {
+    setShowExit(false)
+  }
 
-	}
+  const onExitRoom = () => {
+    /* kode disini akan dijalankan jika user confirm ingin meninggalkan room */
+    console.log('exit room confirmed')
+    setShowExit(false)
+
+  }
 
   const submitChat = (text) => {
-    // const currentId = chatPlaceholder[chatPlaceholder.length - 1].id;
-    // const chat = `${userNick}: ${text}`;
-    // chatPlaceholder.push({ id: currentId + 1, chat: chat });
+    if(choosedWord === null || choosedWord !== text) {
+      addNewMessage({username, message: text});
+    } else {
+      checkAnswer(text);
+    }
+    setInputAnswer("");
   };
 
   if (!fontsLoaded) {
@@ -126,9 +131,9 @@ const Gameplay = () => {
                 padding: 8,
                 backgroundColor: "yellow",
                 borderRadius: 8,
-                
+
               }}
-              onPress={() => setWord(words[0])}
+              onPress={() => {setChoosedWord(words[0]); setWord(words[0])}}
             >
               <Text style={styles.speakLabelB}>Word 1</Text>
               <Text style={styles.speakLabelB}>{words[0]}</Text>
@@ -141,7 +146,7 @@ const Gameplay = () => {
                 backgroundColor: "yellow",
                 borderRadius: 8,
               }}
-              onPress={() => setWord(words[1])}
+              onPress={() => {setChoosedWord(words[1]); setWord(words[1])}}
             >
               <Text style={styles.speakLabelB}>Word 2</Text>
               <Text style={styles.speakLabelB}>{words[1]}</Text>
@@ -197,8 +202,7 @@ const Gameplay = () => {
                 style={styles.answerInput}
                 placeholder="Answer Here"
                 onSubmitEditing={(event) => {
-                  checkAnswer(inputAnswer);
-                  setInputAnswer("");
+                  submitChat(inputAnswer);
                 }}
               />
             </View>
@@ -211,13 +215,13 @@ const Gameplay = () => {
           closeShowAnswer={closeShowAnswer}
         />
       </Modal>
-			<Modal
-					animationType='fade'
-					transparent={true}
-					visible={showExit}
-			>
-					<ExitRoomModal onExitRoom={onExitRoom} closeExitModal={closeExitModal}/>
-			</Modal>
+      <Modal
+        animationType='fade'
+        transparent={true}
+        visible={showExit}
+      >
+        <ExitRoomModal onExitRoom={onExitRoom} closeExitModal={closeExitModal} />
+      </Modal>
     </View>
   );
 };
