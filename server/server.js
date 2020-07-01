@@ -22,7 +22,6 @@ const getServer = new Promise((resolve, reject) => {
 
       io.on("connection", (socket) => {
         counter++;
-
         socket.emit("Connected", {
           id: socket.id,
           username: "User" + counter,

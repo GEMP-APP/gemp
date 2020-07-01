@@ -1,7 +1,7 @@
 const { MongoClient } = require("mongodb");
 
-const localMongoURL = "mongodb://localhost:27017";
-const databaseName = "gemp";
+const localMongoURL = "mongodb+srv://gemp:MONGODBgemp@cluster0.ybqqr.mongodb.net/GEMP-DB?retryWrites=true&w=majority";
+const databaseName = "GEMP-DB";
 
 var db;
 

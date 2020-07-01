@@ -3,13 +3,16 @@ import ioClient from "socket.io-client";
 
 let socket;
 
-const gempAPI = "http://192.168.1.2:4000";
+const gempAPI = "http://192.168.100.10:4000";
 
 export function connectToSocket() {
   return (dispatch) => {
     // if (socket.connect) socket.disconnect()
-    socket = ioClient(gempAPI);
+    socket = ioClient(gempAPI, {
+      transports: ['websocket'],
+    });
     socket.on("Connected", (payload) => {
+      console.log('successssssss');
       dispatch({
         type: type.SET_USER_STATE,
         payload,
