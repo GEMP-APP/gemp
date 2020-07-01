@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { AppLoading } from "expo";
 import { useFonts } from "@use-expo/font";
 import { useDispatch, useSelector } from "react-redux";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Modal } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { changeUserNick } from "../store/actions/userActions";
 import { appStart } from "../store/actions/roomActions";
+import LoadingModal from "../components/LoadingModal";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -20,6 +21,8 @@ const GetNick = ({ navigation }) => {
   const { username } = useSelector((state) => state.userReducer);
   const [searchRoomText, setSearchRoomText] = useState("Search Room");
   const [inputUsernameTapped, setInputUsernameTapped] = useState(false);
+  const [toggleLoading, setToggleLoading] = useState(false)
+  
 
   const submitAndSearch = () => {
     if (!inputNick) {
@@ -27,9 +30,10 @@ const GetNick = ({ navigation }) => {
     } else {
       dispatch(appStart());
       dispatch(changeUserNick(inputNick));
-      setSearchRoomText("Loading...");
+      setToggleLoading(true)
       setTimeout(() => {
         navigation.navigate("SearchRoom");
+        setToggleLoading(false)
       }, 3000);
     }
   };
@@ -83,6 +87,13 @@ const GetNick = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View style={{ flex: 0.7 }}></View>
+      <Modal
+        animationType='fade'
+        transparent={true}
+        visible={toggleLoading}
+      >
+        <LoadingModal />
+      </Modal>
     </View>
   );
 };

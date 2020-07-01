@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
     inputName: {
         textAlign: 'center',
         color: 'white',
+        fontFamily: 'iHateComicSans',
         fontSize: (windowWidth / 100) * 5,
         width: (windowWidth / 100) * 50,
         height: (windowHeight / 100) * 6,
@@ -243,6 +244,7 @@ const styles = StyleSheet.create({
         borderRadius: 15
     },
     categoryButtonLabel: {
+        fontFamily: 'iHateComicSans',
         fontSize: (windowWidth / 100) * 5,
     },
     cancelModalButtonContainer: {
@@ -259,6 +261,7 @@ const styles = StyleSheet.create({
         borderRadius: 20
     },
     cancelModalButtonLabel: {
+        fontFamily: 'iHateComicSans',
         fontSize: (windowWidth / 100) * 5
     },
     maxScoreLabel: {
@@ -269,6 +272,7 @@ const styles = StyleSheet.create({
     },
     maxScoreInput: {
         color: 'white',
+        fontFamily: 'iHateComicSans',
         fontSize: (windowWidth / 100) * 5,
         textAlign: 'center',
         width: (windowWidth / 100) * 20,

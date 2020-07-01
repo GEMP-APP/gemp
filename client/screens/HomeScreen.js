@@ -14,6 +14,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { AppLoading } from "expo";
 
 import ExitConfirmModal from "../components/ExitConfirmModal";
+import LoadingModal from "../components/LoadingModal";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -24,13 +25,15 @@ const Home = ({ navigation }) => {
   });
 
   const [toggleModal, setToggleModal] = useState(false);
+  const [toggleLoading, setToggleLoading] = useState(false);
   const dispatch = useDispatch();
   const [startButtonText, setStartButtonText] = useState("Start");
   const startButtonHandle = () => {
     dispatch(connectToSocket());
-    setStartButtonText("Loading ....");
+    setToggleLoading(true)
     setTimeout(() => {
       navigation.navigate("GetNick");
+      setToggleLoading(false)
     }, 2000);
   };
 
@@ -71,6 +74,9 @@ const Home = ({ navigation }) => {
       </View>
       <Modal animationType="fade" transparent={true} visible={toggleModal}>
         <ExitConfirmModal closeModal={closeModal} />
+      </Modal>
+      <Modal animationType="fade" transparent={true} visible={toggleLoading}>
+        <LoadingModal />
       </Modal>
     </View>
   );
