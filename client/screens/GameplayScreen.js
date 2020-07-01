@@ -5,6 +5,7 @@ import {useFonts} from '@use-expo/font'
 import { AppLoading } from 'expo';
 
 import ShowAnswerModal from '../components/ShowAnswerModal'
+import ExitRoomModal from '../components/ExitRoomModal'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -68,6 +69,7 @@ const randomWord = [
 const Gameplay = () => {
     const [drawingMode, setDrawingMode] = useState(false)
     const [showAnswer, setShowAnswer] = useState(false)
+    const [showExit, setShowExit] = useState(false)
     const [currentAnswer, setCurrentAnswer] = useState('')
     const userNick = useSelector(state => state.userReducer.userNick)
     const { roomUsers, roomId } = useSelector(
@@ -92,6 +94,16 @@ const Gameplay = () => {
 
     const closeShowAnswer = () => {
         setShowAnswer(false)
+    }
+    const closeExitModal = () => {
+        setShowExit(false)
+    }
+
+    const onExitRoom = () => {
+        /* kode disini akan dijalankan jika user confirm ingin meninggalkan room */
+        console.log('exit room confirmed')
+        setShowExit(false)
+
     }
 
     if (!fontsLoaded) {
@@ -151,6 +163,14 @@ const Gameplay = () => {
                 visible={showAnswer}
             >
                 <ShowAnswerModal answer={currentAnswer} closeShowAnswer={closeShowAnswer}/>
+            </Modal>
+
+            <Modal
+                animationType='fade'
+                transparent={true}
+                visible={showExit}
+            >
+                <ExitRoomModal onExitRoom={onExitRoom} closeExitModal={closeExitModal}/>
             </Modal>
         </View>
     )
