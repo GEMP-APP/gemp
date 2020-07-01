@@ -21,7 +21,7 @@ const userReducer = (state = initialState, action) => {
         username: payload.username,
         userId: payload.id,
       };
-    case type.SET_USER_STATE:
+    case type.RESET_USER_STATE:
       return {
         ...state,
         drawingMode: false,
@@ -59,7 +59,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isPlaying: true,
-        waitingMode: false,
+        waitingMode: true,
         words: payload,
       };
     case "changeUserNick":

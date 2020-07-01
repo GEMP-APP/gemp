@@ -41,6 +41,7 @@ const GetNick = ({ navigation }) => {
       dispatch(changeUserNick(inputNick));
       navigation.navigate("CreateRoom");
     }
+    // navigation.navigate("Gameplay");
   };
 
   const inputUsernameHandle = () => {

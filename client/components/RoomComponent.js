@@ -11,9 +11,9 @@ const Room = ({ id, title, room, navigation }) => {
   const { username } = useSelector((state) => state.userReducer);
 
   const joinRoomHandle = () => {
-      dispatch({
-          type: RESET_USER_STATE
-      })
+    dispatch({
+      type: RESET_USER_STATE,
+    });
     console.log(room);
     joinRoom({
       category: room.category,

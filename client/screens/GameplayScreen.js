@@ -9,43 +9,33 @@ import {
   FlatList,
   TextInput,
   RefreshControl,
+  Modal,
 } from "react-native";
+import { Header } from "react-native/Libraries/NewAppScreen";
 import { useSelector, useDispatch } from "react-redux";
 import { useFonts } from "@use-expo/font";
 import { AppLoading } from "expo";
-import { gameStart, setWord, checkAnswer } from "../store/actions/socketActions";
+import {
+  gameStart,
+  setWord,
+  checkAnswer,
+} from "../store/actions/socketActions";
+import CanvasComponent from "../components/CanvasComponent";
+import ShowAnswerModal from "../components/ShowAnswerModal";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
-
-// const chatPlaceholder = [
-//   { id: 1, chat: "player 1111111: chicken" },
-//   { id: 2, chat: "player 2: dinosaur" },
-//   { id: 3, chat: "player 3: pidgey" },
-//   { id: 4, chat: "player 1111111: chicken" },
-//   { id: 5, chat: "player 2: dinosaur" },
-//   { id: 6, chat: "player 3: pidgey" },
-//   { id: 7, chat: "player 1111111: buwong puyoh" },
-// ];
-
-// const randomWord = [
-//   "i wonder what does that mean..",
-//   "it looks like a..",
-//   "that thing looks strange..",
-//   "can you guess it?",
-//   "feeling smart?",
-//   "mind reading the painter..",
-//   "bingo!",
-//   "what the..",
-//   "the painter had one job..",
-// ];
 
 const Gameplay = () => {
   const [fontsLoaded] = useFonts({
     iHateComicSans: require("../assets/fonts/IHateComicSans.ttf"),
   });
+
   const dispatch = useDispatch();
-  const [inputAnswer, setInputAnswer] = useState("")
+  const [inputAnswer, setInputAnswer] = useState("");
+  const [currentAnswer, setCurrentAnswer] = useState(false)
+  const [showAnswer, setShowAnswer] = useState(false)
+  const [closeShowAnswer, setCloseShowAnswer] = useState(false)
   const {
     userNick,
     userId,
@@ -56,7 +46,6 @@ const Gameplay = () => {
     isPlaying,
     words,
   } = useSelector((state) => state.userReducer);
-  // const chatMessages = []
   const { chatMessages } = useSelector((state) => state.chatReducer);
   const { roomUsers, roomId } = useSelector((state) => state.roomReducer);
 
@@ -98,9 +87,13 @@ const Gameplay = () => {
       </ScrollView>
 
       <View style={styles.canvasContainer}>
-        <Text style={styles.guessWord}>GuessWord</Text>
+        <Text style={styles.guessWord}>{drawingMode ? "Your Draw Turn" : "Your Guess Turn"}</Text>
         {/*   Tempat Canvas untuk yang painter    */}
-        {drawingMode && (
+
+        {!waitingMode && <CanvasComponent/>}
+
+        {/*   Tempat Canvas untuk yang painter    */}
+        {drawingMode && waitingMode && (
           <>
             <TouchableOpacity
               style={styles.speakButton}
@@ -164,19 +157,25 @@ const Gameplay = () => {
               <TextInput
                 value={inputAnswer}
                 autoCapitalize="none"
-                onChangeText={text => setInputAnswer(text)}
+                onChangeText={(text) => setInputAnswer(text)}
                 contentContainerStyle={{ justifyContent: "end", flexGrow: 1 }}
                 style={styles.answerInput}
                 placeholder="Answer Here"
                 onSubmitEditing={(event) => {
                   checkAnswer(inputAnswer);
-                  setInputAnswer("")
+                  setInputAnswer("");
                 }}
               />
             </View>
           </View>
         </>
       )}
+      <Modal animationType="fade" transparent={true} visible={showAnswer}>
+        <ShowAnswerModal
+          answer={currentAnswer}
+          closeShowAnswer={closeShowAnswer}
+        />
+      </Modal>
     </View>
   );
 };
