@@ -35,7 +35,6 @@ const CreateRoom = ({navigation: {navigate}}) => {
         //         alert('data');
         //     })
         //     .catch((err) => console.log(err));
-        navigate("Gameplay");
     }
 
     return (

@@ -118,7 +118,7 @@ const Gameplay = () => {
             <View style={styles.canvasContainer}>
                 <Text style={styles.guessWord}>GuessWord</Text>
                 {/*   Tempat Canvas untuk yang painter    */}
-                <CanvasComponent />
+                <CanvasComponent drawingMode={drawingMode}/>
             </View>
             {!drawingMode &&
             <>
