@@ -22,6 +22,7 @@ import {
 } from "../store/actions/socketActions";
 import CanvasComponent from "../components/CanvasComponent";
 import ShowAnswerModal from "../components/ShowAnswerModal";
+import ExitRoomModal from '../components/ExitRoomModal'
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -35,6 +36,8 @@ const Gameplay = () => {
   const [inputAnswer, setInputAnswer] = useState("");
   const [currentAnswer, setCurrentAnswer] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [showExit, setShowExit] = useState(false)
+	
   const [closeShowAnswer, setCloseShowAnswer] = useState(false);
   const {
     userNick,
@@ -58,6 +61,17 @@ const Gameplay = () => {
     // Start Play From Here
     dispatch(gameStart());
   };
+	
+	const closeExitModal = () => {
+        setShowExit(false)
+    }
+
+	const onExitRoom = () => {
+			/* kode disini akan dijalankan jika user confirm ingin meninggalkan room */
+			console.log('exit room confirmed')
+			setShowExit(false)
+
+	}
 
   const submitChat = (text) => {
     // const currentId = chatPlaceholder[chatPlaceholder.length - 1].id;
@@ -197,6 +211,13 @@ const Gameplay = () => {
           closeShowAnswer={closeShowAnswer}
         />
       </Modal>
+			<Modal
+					animationType='fade'
+					transparent={true}
+					visible={showExit}
+			>
+					<ExitRoomModal onExitRoom={onExitRoom} closeExitModal={closeExitModal}/>
+			</Modal>
     </View>
   );
 };

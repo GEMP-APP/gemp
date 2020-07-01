@@ -100,6 +100,7 @@ const getServer = new Promise((resolve, reject) => {
 
         socket.on("checkAnswer", (word) => {
           const user = Gemp.getCurrentUser(socket.id);
+          if (!user) return;
           const valid = Gemp.validate({ word, room: user.room });
           console.log({ word, valid });
 
@@ -127,15 +128,15 @@ const getServer = new Promise((resolve, reject) => {
         });
 
         socket.on("canvasDraw", (payload) => {
-          console.log("canvasDraw: ", payload);
+          console.log("canvasDraw");
           const user = Gemp.getCurrentUser(socket.id);
           socket.broadcast.to(user.room).emit("canvasDraw", payload);
         });
 
-        socket.on("donePath", (payload) => {
-          console.log("donePath: ", JSON.stringify(payload));
+        socket.on("donePath", () => {
+          console.log("donePath");
           const user = Gemp.getCurrentUser(socket.id);
-          socket.broadcast.to(user.room).emit("receiveDonePath", payload);
+          socket.broadcast.to(user.room).emit("receiveDonePath");
         });
 
         socket.on("disconnect", () => {
