@@ -1,31 +1,33 @@
 import React, { useState, useEffect } from "react";
+import { AppLoading } from "expo";
+import { useFonts } from "@use-expo/font";
 import { useDispatch, useSelector } from "react-redux";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
-import { useFonts } from "@use-expo/font";
-import { AppLoading } from "expo";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { changeUserNick } from "../store/actions/userActions";
-import { gameStart } from "../store/actions/roomActions";
+import { appStart } from "../store/actions/roomActions";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const GetNick = ({ navigation }) => {
-  const dispatch = useDispatch();
-  const [inputUsernameTapped, setInputUsernameTapped] = useState(false);
-  const { username } = useSelector((state) => state.userReducer);
-  const [inputNick, setInputNick] = useState("");
-
   let [fontsLoaded] = useFonts({
     iHateComicSans: require("../assets/fonts/IHateComicSans.ttf"),
   });
+
+  const dispatch = useDispatch();
+  const [inputNick, setInputNick] = useState("");
+  const { username } = useSelector((state) => state.userReducer);
+  const [searchRoomText, setSearchRoomText] = useState("Search Room");
+  const [inputUsernameTapped, setInputUsernameTapped] = useState(false);
 
   const submitAndSearch = () => {
     if (!inputNick) {
       alert("please input nickname");
     } else {
-      dispatch(gameStart());
+      dispatch(appStart());
       dispatch(changeUserNick(inputNick));
+      setSearchRoomText("Loading...");
       setTimeout(() => {
         navigation.navigate("SearchRoom");
       }, 3000);
@@ -39,6 +41,7 @@ const GetNick = ({ navigation }) => {
       dispatch(changeUserNick(inputNick));
       navigation.navigate("CreateRoom");
     }
+    // navigation.navigate("Gameplay");
   };
 
   const inputUsernameHandle = () => {
@@ -64,14 +67,14 @@ const GetNick = ({ navigation }) => {
           onPress={inputUsernameHandle}
         />
       </View>
+
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.submitButton}
-          onPress={() => submitAndSearch()}
-        >
-          <Text style={styles.buttonText}>Search Room</Text>
+        <TouchableOpacity style={styles.submitButton} onPress={submitAndSearch}>
+          <Text style={styles.buttonText}>{searchRoomText}</Text>
         </TouchableOpacity>
+
         <Text style={styles.dividerText}>OR</Text>
+
         <TouchableOpacity
           style={styles.submitButton}
           onPress={() => submitAndCreate()}

@@ -6,7 +6,7 @@ import {useFonts} from '@use-expo/font'
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const CreateRoom = () => {
+const CreateRoom = ({navigation: {navigate}}) => {
     const [roomName, setRoomName] = useState('My Room')
     const [maxPlayer, setMaxPlayer] = useState(2)
     const [maxScore, setMaxScore] = useState(100)
@@ -15,6 +15,27 @@ const CreateRoom = () => {
     const [fontsLoaded] = useFonts({
         'iHateComicSans': require('../assets/fonts/IHateComicSans.ttf')
     })
+
+    const createRoom = () => {
+        // fetch('http://localhost:4000/rooms', {
+        //     method: "POST",
+        //     body: {
+        //         name: roomName,
+        //         category,
+        //         poster_path: 'https://via.placeholder.com/50',
+        //         language: "English",
+        //         capacity: maxPlayer,
+        //         maxScore,
+        //         currentScore: 0,    
+        //     }
+        // })
+        // fetch('http://192.168.80.128:4000/rooms')
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         alert('data');
+        //     })
+        //     .catch((err) => console.log(err));
+    }
 
     return (
         <View style={styles.globalContainer}>
@@ -108,7 +129,7 @@ const CreateRoom = () => {
 
             </View>
             <View style={styles.submitContainer}>
-                <TouchableOpacity style={styles.submitButton}>
+                <TouchableOpacity style={styles.submitButton} onPress={createRoom}>
                     <Text style={styles.submitButtonText}>Create</Text>
                 </TouchableOpacity>
 

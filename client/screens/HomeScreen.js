@@ -1,65 +1,80 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, Dimensions, BackHandler, Modal} from 'react-native'
-import { useFonts } from '@use-expo/font'
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { AppLoading } from 'expo';
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  BackHandler,
+  Modal,
+} from "react-native";
+import { useDispatch } from "react-redux";
+import { connectToSocket } from "../store/actions/socketActions";
+import { useFonts } from "@use-expo/font";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { AppLoading } from "expo";
 
-import ExitConfirmModal from '../components/ExitConfirmModal'
+import ExitConfirmModal from "../components/ExitConfirmModal";
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
-const Home = ({navigation}) => {
-    let [fontsLoaded] = useFonts({
-        'iHateComicSans' : require('../assets/fonts/IHateComicSans.ttf')
-    })
-    const [toggleModal, setToggleModal] = useState(false)
+const Home = ({ navigation }) => {
+  let [fontsLoaded] = useFonts({
+    iHateComicSans: require("../assets/fonts/IHateComicSans.ttf"),
+  });
 
-    useEffect( () => {
-        BackHandler.addEventListener(
-            'hardwareBackPress', openModal
-        )
+  const [toggleModal, setToggleModal] = useState(false);
+  const dispatch = useDispatch();
+  const [startButtonText, setStartButtonText] = useState("Start");
+  const startButtonHandle = () => {
+    dispatch(connectToSocket());
+    setStartButtonText("Loading ....");
+    setTimeout(() => {
+      navigation.navigate("GetNick");
+    }, 2000);
+  };
 
-        return () => BackHandler.removeEventListener('hardwareBackPress', openModal)
-    }, [])
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", openModal);
 
-    const openModal = () => {
-        // console.log('im being called!')
-        setToggleModal(true)
-        return true
-    }
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", openModal);
+  }, []);
 
-    const closeModal = () => {
-        setToggleModal(false)
-    }
-    
-    if(!fontsLoaded) {
-        return (
-            <AppLoading />
-        )
-    }
+  const openModal = () => {
+    // console.log('im being called!')
+    setToggleModal(true);
+    return true;
+  };
 
-    return (
-        <View style={styles.globalContainer}>
-            <View style={styles.titleContainer}>
-                <Text style={styles.titleText1}>G E M P</Text>
-                <Text style={styles.titleText2}>"Guess My Painting"</Text>
-            </View>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity onPress={ () => navigation.navigate('GetNick')} style={styles.startButton}>
-                    <Text style={styles.buttonText}>Start</Text>
-                </TouchableOpacity>
-            </View>
-            <Modal
-                animationType='fade'
-                transparent={true}
-                visible={toggleModal}
-            >
-                <ExitConfirmModal closeModal={closeModal}  />
-            </Modal>
-        </View>
-    )
-}
+  const closeModal = () => {
+    setToggleModal(false);
+  };
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
+  return (
+    <View style={styles.globalContainer}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.titleText1}>G E M P</Text>
+        <Text style={styles.titleText2}>"Guess My Painting"</Text>
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          onPress={startButtonHandle}
+          style={styles.startButton}
+        >
+          <Text style={styles.buttonText}>{startButtonText}</Text>
+        </TouchableOpacity>
+      </View>
+      <Modal animationType="fade" transparent={true} visible={toggleModal}>
+        <ExitConfirmModal closeModal={closeModal} />
+      </Modal>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   globalContainer: {
