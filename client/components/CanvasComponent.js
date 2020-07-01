@@ -6,9 +6,12 @@ import {
 import Colors from '../constants/Colors';
 import ColorSelector from './ColorSelector';
 import Svg, { G, Path } from 'react-native-svg';
+import { useSelector } from 'react-redux';
 
-export default () => {
-
+export default ({ drawingMode }) => {
+  
+  const socket = useSelector(state => state.socketReducer.socket);
+  
   const [color, setColor] = useState(Colors.color1);
   const [strokeWidth, setStrokeWidth] = useState(4);
   const [donePaths, setDonePaths] = useState([]);
@@ -29,32 +32,37 @@ export default () => {
 
   const onTouch = (e) => {
     let [x, y] = [e.nativeEvent.pageX, e.nativeEvent.pageY];
+    socket.emit('canvasDraw', {x, y});
     setCurrentPoints(currentPoints.concat({ x, y }));
   }
 
   const onResponderGrant = (e) => {
-    onTouch(e);
+    if (drawingMode) onTouch(e);
   }
 
   const onResponderMove = (e) => {
-    onTouch(e);
+    if (drawingMode) onTouch(e);
   }
 
   const onResponderRelease = () => {
-    if (currentPoints.length > 0) {
-      setDonePaths(donePaths.concat(
-        <Path
-          key={currentMax}
-          d={pointsToSvg(currentPoints)}
-          stroke={color}
-          strokeWidth={strokeWidth}
-          fill='none'
-        />
-      ));
-      setGestures(gestures.concat(currentPoints));
+    const path = <Path key={currentMax} d={pointsToSvg(currentPoints)} stroke={color} strokeWidth={strokeWidth} fill='none'/>
+    if (drawingMode) {
+      if (currentPoints.length > 0) {
+        setDonePaths(donePaths.concat(
+          <Path
+            key={currentMax}
+            d={pointsToSvg(currentPoints)}
+            stroke={color}
+            strokeWidth={strokeWidth}
+            fill='none'
+          />
+        ));
+        setGestures(gestures.concat(currentPoints));
+        socket.emit('donePath', path)
+      }
+      setCurrentPoints([]);
+      setCurrentMax(currentMax + 1);
     }
-    setCurrentPoints([]);
-    setCurrentMax(currentMax + 1);
   }
 
   const changeColor = (color) => {
@@ -76,6 +84,26 @@ export default () => {
   const onLayoutContainer = (e) => {
     setOffsetX(e.nativeEvent.layout.x);
     setOffsetY(e.nativeEvent.layout.y + 100);
+    socket.on('drawCanvas', drawCanvas);
+    socket.on('receiveDonePath', donePathSocket);
+  }
+
+  const drawCanvas = (data) => {
+    if(!drawingMode) {
+      const {x, y} = data;
+      setCurrentPoints(currentPoints.concat({ x, y }));
+    }
+  }
+
+  const donePathSocket = (path) => {
+    if(!drawingMode) {
+      if(currentPoints.length > 0) {
+        setDonePaths(donePaths.concat(path));
+        setGestures(gestures.concat(currentPoints));
+      }
+      setCurrentPoints([]);
+      setCurrentMax(currentMax + 1);
+    }
   }
 
   const pointsToSvg = (points) => {
@@ -96,7 +124,7 @@ export default () => {
       <View style={{ alignItems: 'center' }}>
         <View
           onLayout={onLayoutContainer}
-          style={ styles.drawContainer }
+          style={styles.drawContainer}
         >
           <View {...panResponder.panHandlers}>
             <Svg
@@ -120,7 +148,8 @@ export default () => {
           </View>
         </View>
       </View>
-      <ColorSelector onPress={changeColor} />
+
+      {drawingMode && <ColorSelector onPress={changeColor} />}
     </View>
   )
 
@@ -142,7 +171,7 @@ let styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 1,
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').width, 
+    height: Dimensions.get('window').width,
     backgroundColor: '#FFF',
     marginTop: 10,
   },

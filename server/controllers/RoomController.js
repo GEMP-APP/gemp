@@ -11,6 +11,7 @@ class RoomController {
   }
 
   static async findAll(req, res) {
+    console.log('sampai di controller');
     try {
       const movies = await RoomModel.findAll();
       return res.status(200).json(movies);

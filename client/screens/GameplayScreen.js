@@ -90,7 +90,7 @@ const Gameplay = () => {
         <Text style={styles.guessWord}>{drawingMode ? "Your Draw Turn" : "Your Guess Turn"}</Text>
         {/*   Tempat Canvas untuk yang painter    */}
 
-        {!waitingMode && <CanvasComponent/>}
+        {!waitingMode && <CanvasComponent drawingMode={drawingMode}/>}
 
         {/*   Tempat Canvas untuk yang painter    */}
         {drawingMode && waitingMode && (
