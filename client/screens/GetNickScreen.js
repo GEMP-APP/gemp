@@ -1,127 +1,154 @@
-import React, { useState, useEffect } from 'react'
-import {useDispatch} from 'react-redux'
-import { View, Text, StyleSheet, Dimensions } from 'react-native'
-import { useFonts } from '@use-expo/font'
-import { AppLoading } from 'expo'
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
-import { changeUserNick }from '../store/actions/userActions'
+import React, { useState, useEffect } from "react";
+import { AppLoading } from "expo";
+import { useFonts } from "@use-expo/font";
+import { useDispatch, useSelector } from "react-redux";
+import { View, Text, StyleSheet, Dimensions, Modal } from "react-native";
+import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import { changeUserNick } from "../store/actions/userActions";
+import { appStart } from "../store/actions/roomActions";
+import LoadingModal from "../components/LoadingModal";
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
-const GetNick = ({navigation}) => {
-    const dispatch = useDispatch()
-    let [fontsLoaded] = useFonts({
-        'iHateComicSans': require('../assets/fonts/IHateComicSans.ttf')
-    })
+const GetNick = ({ navigation }) => {
+  let [fontsLoaded] = useFonts({
+    iHateComicSans: require("../assets/fonts/IHateComicSans.ttf"),
+  });
 
-    const [inputNick, setInputNick] = useState("")
+  const dispatch = useDispatch();
+  const [inputNick, setInputNick] = useState("");
+  const { username } = useSelector((state) => state.userReducer);
+  const [searchRoomText, setSearchRoomText] = useState("Search Room");
+  const [inputUsernameTapped, setInputUsernameTapped] = useState(false);
+  const [toggleLoading, setToggleLoading] = useState(false)
+  
 
-    const updateNick = (text) => {
-        setInputNick(text)
-        console.log(inputNick)
+  const submitAndSearch = () => {
+    if (!inputNick) {
+      alert("please input nickname");
+    } else {
+      dispatch(appStart());
+      dispatch(changeUserNick(inputNick));
+      setToggleLoading(true)
+      setTimeout(() => {
+        navigation.navigate("SearchRoom");
+        setToggleLoading(false)
+      }, 3000);
     }
-    const submitAndSearch = () => {
-        if(!inputNick){
-            alert('please input nickname')
-        } else {
-            console.log('submitting nickname:', inputNick)
-            dispatch(changeUserNick(inputNick))
-            navigation.navigate('SearchRoom')
-        }
-    }
-    const submitAndCreate = () => {
-        if(!inputNick){
-            alert('please input nickname')
-        } else {
-            console.log('submitting nickname:', inputNick)
-            dispatch(changeUserNick(inputNick))
-            navigation.navigate('Gameplay')
-        }
-    }
+  };
 
-    if(!fontsLoaded){
-        <AppLoading />
+  const submitAndCreate = () => {
+    if (!inputNick) {
+      alert("please input nickname");
+    } else {
+      dispatch(changeUserNick(inputNick));
+      navigation.navigate("CreateRoom");
     }
+    // navigation.navigate("Gameplay");
+  };
 
-    return (
-        <View style={styles.globalContainer}>
-            <View style={styles.inputContainer}>
-                <Text style={styles.InputLabel}>Input Nickname</Text>
-                <TextInput 
-                    value={inputNick}
-                    onChangeText={(text) =>  updateNick(text)}
-                    style={styles.inputBox} 
-                    maxLength={12}
-                />
-            </View>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.submitButton} onPress={() => submitAndSearch()}>
-                    <Text style={styles.buttonText}>Search Room</Text>
-                </TouchableOpacity>
-                <Text style={styles.dividerText}>OR</Text>
-                <TouchableOpacity style={styles.submitButton} onPress={() => submitAndCreate()}>
-                    <Text style={styles.buttonText}>Create Room</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={{flex: 0.7}}>
+  const inputUsernameHandle = () => {
+    if (!inputUsernameTapped) {
+      setInputNick(username);
+    }
+  };
 
-            </View>
-        </View>
-    )
-}
+  if (!fontsLoaded) {
+    <AppLoading />;
+  }
+
+  return (
+    <View style={styles.globalContainer}>
+      <View style={styles.inputContainer}>
+        <Text style={styles.InputLabel}>Input Nickname</Text>
+        <TextInput
+          placeholder={username}
+          value={inputNick}
+          onChangeText={(text) => setInputNick(text)}
+          style={styles.inputBox}
+          maxLength={12}
+          onPress={inputUsernameHandle}
+        />
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.submitButton} onPress={submitAndSearch}>
+          <Text style={styles.buttonText}>{searchRoomText}</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.dividerText}>OR</Text>
+
+        <TouchableOpacity
+          style={styles.submitButton}
+          onPress={() => submitAndCreate()}
+        >
+          <Text style={styles.buttonText}>Create Room</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={{ flex: 0.7 }}></View>
+      <Modal
+        animationType='fade'
+        transparent={true}
+        visible={toggleLoading}
+      >
+        <LoadingModal />
+      </Modal>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    globalContainer: {
-        flex: 1,
-        backgroundColor: "#608efe",
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    inputContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    InputLabel: {
-        color: 'white',
-        fontFamily: 'iHateComicSans',
-        fontSize: (windowWidth / 100) * 10
-    },
-    inputBox: {
-        fontFamily: 'iHateComicSans',
-        fontSize: (windowWidth / 100) * 6,
-        marginTop: 15,
-        backgroundColor: "white",
-        textAlign: 'center',
-        borderRadius: 30,
-        width: (windowWidth / 100) * 70,
-        height: 40
-    },
-    buttonContainer: {
-        flexDirection: "row",
-        flex: 0.3,
-        justifyContent: "center"
-    },
-    submitButton: {
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: '#fcdd03',
-        width: (windowWidth / 100) * 40,
-        height: 70,
-        borderRadius: 30
-    },
-    buttonText: {
-        fontFamily: 'iHateComicSans',
-        fontSize: (windowWidth / 100) * 7,
-        color: "gray"
-    },
-    dividerText: {
-        color: "white",
-        fontFamily: 'iHateComicSans',
-        fontSize: (windowWidth / 100) * 5,
-        margin: 20
-    }
-})
+  globalContainer: {
+    flex: 1,
+    backgroundColor: "#608efe",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  inputContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  InputLabel: {
+    color: "white",
+    fontFamily: "iHateComicSans",
+    fontSize: (windowWidth / 100) * 10,
+  },
+  inputBox: {
+    fontFamily: "iHateComicSans",
+    fontSize: (windowWidth / 100) * 6,
+    marginTop: (windowWidth / 100) * 8,
+    backgroundColor: "white",
+    textAlign: "center",
+    borderRadius: 30,
+    width: (windowWidth / 100) * 70,
+    height: (windowHeight / 100) * 8,
+  },
+  buttonContainer: {
+    flex: 0.3,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  submitButton: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fcdd03",
+    width: (windowWidth / 100) * 60,
+    height: (windowHeight / 100) * 15,
+    borderRadius: 30,
+  },
+  buttonText: {
+    fontFamily: "iHateComicSans",
+    fontSize: (windowWidth / 100) * 7,
+    color: "gray",
+  },
+  dividerText: {
+    color: "white",
+    fontFamily: "iHateComicSans",
+    fontSize: (windowWidth / 100) * 5,
+    margin: (windowWidth / 100) * 5,
+  },
+});
 
-export default GetNick
+export default GetNick;
