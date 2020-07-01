@@ -33,9 +33,9 @@ const Gameplay = () => {
 
   const dispatch = useDispatch();
   const [inputAnswer, setInputAnswer] = useState("");
-  const [currentAnswer, setCurrentAnswer] = useState(false)
-  const [showAnswer, setShowAnswer] = useState(false)
-  const [closeShowAnswer, setCloseShowAnswer] = useState(false)
+  const [currentAnswer, setCurrentAnswer] = useState(false);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [closeShowAnswer, setCloseShowAnswer] = useState(false);
   const {
     userNick,
     userId,
@@ -87,31 +87,52 @@ const Gameplay = () => {
       </ScrollView>
 
       <View style={styles.canvasContainer}>
-        <Text style={styles.guessWord}>{drawingMode ? "Your Draw Turn" : "Your Guess Turn"}</Text>
+        <Text style={styles.guessWord}>
+          {drawingMode ? "Your Draw Turn" : "Your Guess Turn"}
+        </Text>
         {/*   Tempat Canvas untuk yang painter    */}
 
         {!waitingMode && <CanvasComponent drawingMode={drawingMode} />}
 
         {/*   Tempat Canvas untuk yang painter    */}
         {drawingMode && waitingMode && (
-          <>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around",
+              width: 200,
+              alignItems: "stretch",
+              alignContent: "stretch",
+              padding: 32,
+            }}
+          >
             <TouchableOpacity
-              style={styles.speakButton}
+              style={{
+                marginRight: 16,
+                padding: 8,
+                backgroundColor: "yellow",
+                borderRadius: 8,
+                
+              }}
               onPress={() => setWord(words[0])}
             >
-              <Text style={styles.speakLabel}>Word 1</Text>
-              <Text style={styles.speakLabel}>{words[0]}</Text>
+              <Text style={styles.speakLabelB}>Word 1</Text>
+              <Text style={styles.speakLabelB}>{words[0]}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.speakButton}
+              style={{
+                marginLeft: 16,
+                padding: 8,
+                backgroundColor: "yellow",
+                borderRadius: 8,
+              }}
               onPress={() => setWord(words[1])}
             >
-              <Text style={styles.speakLabel}></Text>
-              <Text style={styles.speakLabel}>Word 2</Text>
-              <Text style={styles.speakLabel}>{words[1]}</Text>
+              <Text style={styles.speakLabelB}>Word 2</Text>
+              <Text style={styles.speakLabelB}>{words[1]}</Text>
             </TouchableOpacity>
-          </>
+          </View>
         )}
       </View>
 

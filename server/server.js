@@ -105,23 +105,37 @@ const getServer = new Promise((resolve, reject) => {
 
           if (valid && !user.hitAnswer) {
             Gemp.addScore(user);
-            console.log(user)
+            console.log(user);
 
             socket.emit(
               "youHit",
-              Gemp.formatMessage("You", `hit! The answer is ${word}.` , "hit")
+              Gemp.formatMessage("You", `hit! The answer is ${word}.`, "hit")
             );
 
-            socket.broadcast.to(user.room).emit(
-              "userHit",
-              Gemp.formatMessage(user.username, "hit!", "hit")
-            );
+            socket.broadcast
+              .to(user.room)
+              .emit(
+                "userHit",
+                Gemp.formatMessage(user.username, "hit!", "hit")
+              );
 
             io.to(user.room).emit("roomUsers", {
               room: user.room,
               users: Gemp.getUsersInRoom(user.room),
             });
           }
+        });
+
+        socket.on("canvasDraw", (payload) => {
+          console.log("canvasDraw: ", payload);
+          const user = Gemp.getCurrentUser(socket.id);
+          socket.broadcast.to(user.room).emit("canvasDraw", payload);
+        });
+
+        socket.on("donePath", (payload) => {
+          console.log("donePath: ", JSON.stringify(payload));
+          const user = Gemp.getCurrentUser(socket.id);
+          socket.broadcast.to(user.room).emit("receiveDonePath", payload);
         });
 
         socket.on("disconnect", () => {

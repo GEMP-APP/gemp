@@ -13,7 +13,7 @@ import { useFonts } from "@use-expo/font";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AppLoading } from "expo";
 
-import ExitConfirmModal from "../components/ExitConfirmModal";
+// import ExitConfirmModal from "../components/ExitConfirmModal";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -23,7 +23,7 @@ const Home = ({ navigation }) => {
     iHateComicSans: require("../assets/fonts/IHateComicSans.ttf"),
   });
 
-  const [toggleModal, setToggleModal] = useState(false);
+  // const [toggleModal, setToggleModal] = useState(false);
   const dispatch = useDispatch();
   const [startButtonText, setStartButtonText] = useState("Start");
   const startButtonHandle = () => {
@@ -34,22 +34,22 @@ const Home = ({ navigation }) => {
     }, 2000);
   };
 
-  useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", openModal);
+  // useEffect(() => {
+  //   BackHandler.addEventListener("hardwareBackPress", openModal);
 
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", openModal);
-  }, []);
+  //   return () =>
+  //     BackHandler.removeEventListener("hardwareBackPress", openModal);
+  // }, []);
 
-  const openModal = () => {
-    // console.log('im being called!')
-    setToggleModal(true);
-    return true;
-  };
+  // const openModal = () => {
+  //   // console.log('im being called!')
+  //   setToggleModal(true);
+  //   return true;
+  // };
 
-  const closeModal = () => {
-    setToggleModal(false);
-  };
+  // const closeModal = () => {
+  //   setToggleModal(false);
+  // };
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -69,9 +69,9 @@ const Home = ({ navigation }) => {
           <Text style={styles.buttonText}>{startButtonText}</Text>
         </TouchableOpacity>
       </View>
-      <Modal animationType="fade" transparent={true} visible={toggleModal}>
+      {/* <Modal animationType="fade" transparent={true} visible={toggleModal}>
         <ExitConfirmModal closeModal={closeModal} />
-      </Modal>
+      </Modal> */}
     </View>
   );
 };

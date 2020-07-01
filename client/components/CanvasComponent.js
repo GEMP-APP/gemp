@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Dimensions, View,
   StyleSheet, PanResponder
@@ -20,7 +20,6 @@ export default ({ drawingMode }) => {
   const [currentMax, setCurrentMax] = useState(0);
   const [currentPoints, setCurrentPoints] = useState([]);
   const [gestures, setGestures] = useState(gestures || []);
-
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
@@ -84,8 +83,14 @@ export default ({ drawingMode }) => {
   const onLayoutContainer = (e) => {
     setOffsetX(e.nativeEvent.layout.x);
     setOffsetY(e.nativeEvent.layout.y + 100);
-    socket.on('drawCanvas', (data) => drawCanvas(data));
-    socket.on('receiveDonePath', (path) => donePathSocket(path));
+    // socket.on('drawCanvas', (data) => {
+    //   console.log("drawCanvas client: ", data);
+    //   drawCanvas(data)
+    // });
+    // socket.on('receiveDonePath', (path) => {
+    //   console.log("receiveDonePath client: ", path);
+    //   donePathSocket(path)
+    // });
   }
 
   const drawCanvas = (data) => {

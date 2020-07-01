@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {StyleSheet, Text, View, TouchableOpacity, Dimensions, TextInput, Modal} from 'react-native'
 import {useFonts} from '@use-expo/font'
-
+import Axios from 'axios';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -17,24 +17,24 @@ const CreateRoom = ({navigation: {navigate}}) => {
     })
 
     const createRoom = () => {
-        // fetch('http://localhost:4000/rooms', {
-        //     method: "POST",
-        //     body: {
-        //         name: roomName,
-        //         category,
-        //         poster_path: 'https://via.placeholder.com/50',
-        //         language: "English",
-        //         capacity: maxPlayer,
-        //         maxScore,
-        //         currentScore: 0,    
-        //     }
-        // })
-        // fetch('http://192.168.80.128:4000/rooms')
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         alert('data');
-        //     })
-        //     .catch((err) => console.log(err));
+        Axios({
+            method: 'POST',
+            url: 'http://54.169.11.236:4000/rooms',
+            data: {
+                name: roomName,
+                category,
+                poster_path: 'https://via.placeholder.com/50',
+                language: "en",
+                capacity: maxPlayer,
+                maxScore,
+                currentScore: 30,    
+            }
+        })
+            .then((res) => {
+                console.log(res.data);
+                alert(JSON.stringify(res.data));
+            })
+            .catch((err) => console.log(err));
     }
 
     return (
