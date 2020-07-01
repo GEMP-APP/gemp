@@ -84,8 +84,14 @@ export default ({ drawingMode }) => {
   const onLayoutContainer = (e) => {
     setOffsetX(e.nativeEvent.layout.x);
     setOffsetY(e.nativeEvent.layout.y + 100);
-    socket.on('drawCanvas', drawCanvas);
-    socket.on('receiveDonePath', donePathSocket);
+    socket.on('drawCanvas', (data) => {
+      console.log("drawCanvas")
+      drawCanvas(data)
+    });
+    socket.on('receiveDonePath', (path) => {
+      console.log("receiveDonePath")
+      donePathSocket(path)
+    });
   }
 
   const drawCanvas = (data) => {
