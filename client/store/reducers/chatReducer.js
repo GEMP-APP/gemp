@@ -1,7 +1,7 @@
 import * as type from "../actions/actionsType";
 
 const initialState = {
-  messages: [],
+  chatMessages: [],
 };
 
 const chatReducer = (state = initialState, action) => {
@@ -9,11 +9,11 @@ const chatReducer = (state = initialState, action) => {
 
   switch (action.type) {
     case type.ADD_NEW_MESSAGE:
-      const newMessages =
-        state.messages.length > 9 ? state.messages.slice(1, 10) : state.messages;
+      const newChatMessages =
+        state.chatMessages.length > 9 ? state.chatMessages.slice(1, 10) : state.chatMessages;
       return {
         ...state,
-        messages: [...newMessages, payload],
+        chatMessages: [...newChatMessages, payload],
       };
     default:
       return state;

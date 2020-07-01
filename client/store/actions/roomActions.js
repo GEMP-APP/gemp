@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as type from "./actionsType";
 
-export const gameStart = () => {
+export const appStart = () => {
   return (dispatch) => {
     dispatch(fetchRooms());
   };
