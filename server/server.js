@@ -29,13 +29,13 @@ const getServer = new Promise((resolve, reject) => {
         });
 
         socket.on("joinRoom", (payload) => {
-          const { username, room, category = "" } = payload;
+          const { username, room, category } = payload;
           const user = Gemp.userJoin({
             id: socket.id,
             username,
             room,
             score: 0,
-            category
+            category,
           });
 
           socket.join(user.room);
@@ -85,10 +85,13 @@ const getServer = new Promise((resolve, reject) => {
 
         socket.on("getWords", () => {
           const user = Gemp.getCurrentUser(socket.id);
-          socket.emit("getWords", Gemp.getWords(user.room));
+          const words = Gemp.getWords(user.room);
+          console.log(words);
+          socket.emit("getWords", words);
         });
 
         socket.on("setWord", (word) => {
+          console.log(word);
           const user = Gemp.getCurrentUser(socket.id);
           Gemp.setWord({ word, room: user.room });
           io.to(user.room).emit("startDraw");
@@ -97,15 +100,43 @@ const getServer = new Promise((resolve, reject) => {
 
         socket.on("checkAnswer", (word) => {
           const user = Gemp.getCurrentUser(socket.id);
+          if (!user) return;
           const valid = Gemp.validate({ word, room: user.room });
+          console.log({ word, valid });
 
-          if (valid) {
+          if (valid && !user.hitAnswer) {
             Gemp.addScore(user);
-            io.to(user.room).emit(
-              "userHit",
-              Gemp.formatMessage(user.username, "hit!", "hit")
+            console.log(user);
+
+            socket.emit(
+              "youHit",
+              Gemp.formatMessage("You", `hit! The answer is ${word}.`, "hit")
             );
+
+            socket.broadcast
+              .to(user.room)
+              .emit(
+                "userHit",
+                Gemp.formatMessage(user.username, "hit!", "hit")
+              );
+
+            io.to(user.room).emit("roomUsers", {
+              room: user.room,
+              users: Gemp.getUsersInRoom(user.room),
+            });
           }
+        });
+
+        socket.on("canvasDraw", (payload) => {
+          console.log("canvasDraw");
+          const user = Gemp.getCurrentUser(socket.id);
+          socket.broadcast.to(user.room).emit("canvasDraw", payload);
+        });
+
+        socket.on("donePath", () => {
+          console.log("donePath");
+          const user = Gemp.getCurrentUser(socket.id);
+          socket.broadcast.to(user.room).emit("receiveDonePath");
         });
 
         socket.on("disconnect", () => {

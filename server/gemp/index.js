@@ -7,15 +7,15 @@ const users = [
     username: "sudo",
     room: "animal",
     score: 0,
-    category: "animal"
-  }, 
+    category: "animal",
+  },
   {
     id: "socket.id2",
     username: "sudo2",
     room: "animal",
     score: 0,
-    category: "animal"
-  }
+    category: "animal",
+  },
 ];
 const rooms = {
   animal: {
@@ -27,26 +27,28 @@ const rooms = {
       username: "sudo",
       room: "animal",
       score: 0,
-      category: "animal"
+      category: "animal",
     },
-    users: [{
-      id: "socket.id",
-      username: "sudo",
-      room: "animal",
-      score: 0,
-      category: "animal"
-    }, 
-    {
-      id: "socket.id2",
-      username: "sudo2",
-      room: "animal",
-      score: 0,
-      category: "animal"
-    }]
+    users: [
+      {
+        id: "socket.id",
+        username: "sudo",
+        room: "animal",
+        score: 0,
+        category: "animal",
+      },
+      {
+        id: "socket.id2",
+        username: "sudo2",
+        room: "animal",
+        score: 0,
+        category: "animal",
+      },
+    ],
   },
   fruit: {
     wordsUsed: [],
-    category: "fruit"
+    category: "fruit",
   },
 };
 
@@ -58,14 +60,13 @@ class Gemp {
       rooms[room] = {
         users: [],
         category: user.category,
-        maxScore: 120,
+        maxScore: 30,
         capacity: 10,
         wordsUsed: [],
         currentWord: "",
         lastUserDraw: {},
         timeOut: undefined,
       };
-      rooms[room].users.push(user);
     }
 
     rooms[room].users.push(user);
@@ -113,6 +114,7 @@ class Gemp {
     let index;
     let nextUser;
 
+    console.log(lastUserDraw.id);
     if (!lastUserDraw.id) {
       rooms[room].lastUserDraw = rooms[room].users[0];
       return {
@@ -124,8 +126,10 @@ class Gemp {
     index = rooms[room].users.findIndex((user) => user.id === lastUserDraw.id);
 
     if (index >= totalUsers) {
+      console.log("reset giiran");
       nextUser = rooms[room].users[0];
     } else {
+      console.log("lanjut giliran");
       nextUser = rooms[room].users[index + 1];
     }
 
@@ -137,7 +141,11 @@ class Gemp {
   }
 
   static resetGame(room) {
-    rooms[room].users.forEach((user) => (user.score = 0));
+    rooms[room].users.forEach((user) => {
+      user.score = 0;
+      user.hitAnswer = false;
+    });
+    return true;
   }
 
   static stopGame(room, io) {
@@ -157,6 +165,7 @@ class Gemp {
     let lastWords = rooms[room].wordsUsed;
     let unUsedWords = false;
     let nextWords;
+    let isUnique;
 
     while (!unUsedWords) {
       switch (rooms[room].category) {
@@ -170,19 +179,9 @@ class Gemp {
           nextWords = randomWords(2);
           break;
       }
-
       nextWords = nextWords.map((word) => word.toLowerCase());
-      console.log(nextWords);
-      // (lastWords.filter(
-      //     (word) => word === nextWords[0] || word === nextWords[1]
-      //   )[0]) && (unUsedWords = true);
-      if (
-        !lastWords.filter(
-          (word) => word === nextWords[0] || word === nextWords[1]
-        )[0]
-      ) {
-        unUsedWords = true;
-      }
+      isUnique = lastWords.filter((word) => word === nextWords[0] || word === nextWords[1])[0];
+      !isUnique && (unUsedWords = true);
     }
     return nextWords;
   }
@@ -190,28 +189,13 @@ class Gemp {
   static setWord({ word, room }) {
     rooms[room].wordsUsed.push(word);
     rooms[room].currentWord = word;
+    rooms[room].users.forEach((user) => {
+      user.hitAnswer = false;
+    })
   }
 
   static setTimeOut({ room, io }) {
-    rooms[room].timeOut = setTimeout(() => {
-      const totalUsers = Gemp.getTotalUsers(room);
-      const maxScore = rooms[room].maxScore;
-      const users = [...rooms[room].users];
-
-      users.sort((a, b) => a.score - b.score);
-      io.to(room).emit("timeout");
-
-      if (users[0].score >= maxScore) {
-        io.to(room).emit("gameFinish", { users });
-        Gemp.resetGame(room);
-      }
-
-      if (totalUsers > 1) {
-        io.to(room).emit("drawTurn", Gemp.start(room));
-      } else {
-        Gemp.stopGame(room, io);
-      }
-    }, 30000);
+    rooms[room].timeOut = setTimeout(() => { const totalUsers = Gemp.getTotalUsers(room), maxScore = rooms[room].maxScore, users = [...rooms[room].users]; users.sort((a, b) => b.score - a.score); io.to(room).emit("timeout"); (users[0].score >= maxScore && io.to(room).emit("gameFinish", { users }) && Gemp.resetGame(room)); totalUsers > 1 ? io.to(room).emit("drawTurn", Gemp.start(room)) : Gemp.stopGame(room, io); }, 40000);
   }
 
   static validate({ word, room }) {
@@ -219,7 +203,7 @@ class Gemp {
   }
 
   static addScore(user) {
-    user.score += 10;
+    !user.hitAnswer && (user.score += 10) && (user.hitAnswer = true);
   }
 }
 
