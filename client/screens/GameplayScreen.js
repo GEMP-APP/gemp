@@ -22,6 +22,7 @@ import {
 } from "../store/actions/socketActions";
 import CanvasComponent from "../components/CanvasComponent";
 import ShowAnswerModal from "../components/ShowAnswerModal";
+import SpeechToText from "../components/SpeechToText";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -49,9 +50,10 @@ const Gameplay = () => {
   const { chatMessages } = useSelector((state) => state.chatReducer);
   const { roomUsers, roomId } = useSelector((state) => state.roomReducer);
 
-  const voiceAnswerHandle = () => {
+  const voiceAnswerHandle = (event) => {
     // Convert voice to text here
-    console.log("Speak to send answer");
+    console.log("get and send answer");
+    console.log(event.value);
   };
 
   const playButtonHandle = () => {
@@ -140,14 +142,16 @@ const Gameplay = () => {
         <>
           <View style={styles.controlContainer}>
             {isPlaying && !drawingMode && !waitingMode && (
-              <TouchableOpacity
+              <SpeechToText
                 style={styles.speakButton}
-                onPress={() => voiceAnswerHandle()}
+                onSpeechResults={(e) => voiceAnswerHandle(e)}
               >
-                <Text style={styles.speakLabel}>Hold to</Text>
-                <Text style={styles.speakLabel}>Voice</Text>
-                <Text style={styles.speakLabel}>Answer</Text>
-              </TouchableOpacity>
+                <>
+                  <Text style={styles.speakLabel}>Tap to</Text>
+                  <Text style={styles.speakLabel}>Voice</Text>
+                  <Text style={styles.speakLabel}>Answer</Text>
+                </>
+              </SpeechToText>
             )}
 
             {!isPlaying && roomMaster && (
