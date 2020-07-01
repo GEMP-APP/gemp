@@ -77,7 +77,8 @@ export default ({ drawingMode }) => {
 
   const onLayoutContainer = (e) => {
     setOffsetX(e.nativeEvent.layout.x);
-    setOffsetY(e.nativeEvent.layout.y + 100);
+    if (drawingMode) setOffsetY(e.nativeEvent.layout.y + 100);
+    else if(!drawingMode) setOffsetY(e.nativeEvent.layout.y + 400);
     if (!drawingMode) socket.on('receiveDonePath', () => setDonePaths([]));
     if (!drawingMode) socket.on('canvasDraw', ({ currentPoints, color }) => {
       console.log("canvasDraw")

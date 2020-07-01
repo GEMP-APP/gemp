@@ -24,6 +24,7 @@ import CanvasComponent from "../components/CanvasComponent";
 import ShowAnswerModal from "../components/ShowAnswerModal";
 import ExitRoomModal from '../components/ExitRoomModal';
 import { addNewMessage } from '../store/actions/chatActions';
+import WaitPainterModal from '../components/WaitPainterModal';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -76,12 +77,12 @@ const Gameplay = () => {
   }
 
   const submitChat = (text) => {
-    if(choosedWord === null || choosedWord !== text) {
-      addNewMessage({username, message: text});
-    } else {
-      checkAnswer(text);
-    }
-    setInputAnswer("");
+    // if(choosedWord === null || choosedWord !== text) {
+    //   addNewMessage({username, message: text});
+    // } else {
+    //   checkAnswer(text);
+    // }
+    // setInputAnswer("");
   };
 
   if (!fontsLoaded) {
@@ -111,47 +112,65 @@ const Gameplay = () => {
         </Text>
         {/*   Tempat Canvas untuk yang painter    */}
 
+        {!drawingMode && waitingMode && (
+          <WaitPainterModal/>
+        )}
+
         {!waitingMode && <CanvasComponent drawingMode={drawingMode} />}
 
         {/*   Tempat Canvas untuk yang painter    */}
         {drawingMode && waitingMode && (
+          <>
+          <Text style={{
+            fontFamily:"monospace", 
+            marginTop: 50,
+            fontSize: 27
+            }}>CHOOSE WORD</Text>
           <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              width: 200,
-              alignItems: "stretch",
-              alignContent: "stretch",
-              padding: 32,
-            }}
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+            width: 200,
+            alignItems: "stretch",
+            alignContent: "stretch",
+            padding: 32,
+          }}
           >
             <TouchableOpacity
               style={{
-                marginRight: 16,
+                marginRight: 40,
                 padding: 8,
                 backgroundColor: "yellow",
                 borderRadius: 8,
-
+                borderWidth: 3,
               }}
               onPress={() => {setChoosedWord(words[0]); setWord(words[0])}}
             >
-              <Text style={styles.speakLabelB}>Word 1</Text>
-              <Text style={styles.speakLabelB}>{words[0]}</Text>
+              {/* <Text style={styles.speakLabelB}>Word 1</Text> */}
+              <Text style={{
+                fontSize: 20,
+                fontFamily: 'monospace'
+              }}>{words[0]}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={{
-                marginLeft: 16,
+                marginLeft: 40,
                 padding: 8,
                 backgroundColor: "yellow",
                 borderRadius: 8,
+                borderWidth:3,
               }}
               onPress={() => {setChoosedWord(words[1]); setWord(words[1])}}
             >
-              <Text style={styles.speakLabelB}>Word 2</Text>
-              <Text style={styles.speakLabelB}>{words[1]}</Text>
+              {/* <Text style={styles.speakLabelB}>Word 2</Text> */}
+              <Text style={{
+                fontSize: 20,
+                fontFamily: 'monospace'
+              }}>{words[1]}</Text>
             </TouchableOpacity>
           </View>
+        </>
         )}
       </View>
 
@@ -202,7 +221,8 @@ const Gameplay = () => {
                 style={styles.answerInput}
                 placeholder="Answer Here"
                 onSubmitEditing={(event) => {
-                  submitChat(inputAnswer);
+                  checkAnswer(inputAnswer);
+                  setInputAnswer("");
                 }}
               />
             </View>
