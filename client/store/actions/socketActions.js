@@ -3,7 +3,7 @@ import ioClient from "socket.io-client";
 
 let socket;
 
-const gempAPI = "http://192.168.1.2:4000";
+const gempAPI = "http://54.169.11.236:4000";
 
 export function connectToSocket() {
   return (dispatch) => {
