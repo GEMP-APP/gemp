@@ -108,17 +108,36 @@ export function connectToSocket() {
       console.log("HERE ARE THE WINNERS", users)
     })
 
+    socket.on("getRooms", (payload) => {
+      console.log("ROMS", payload)
+      dispatch({
+        type: type.FETCH_ROOMS_SUCCESS,
+        payload: {
+          rooms: payload,
+        },
+      });
+    })
+
     // console.log("SMAPAI SINI LHO");
   };
 }
 
 export function joinRoom(payload) {
   const { room, username, category } = payload;
-  socket.emit("joinRoom", {
-    room,
-    username,
-    category,
-  });
+  if (socket) {
+    socket.emit("joinRoom", {
+      room,
+      username,
+      category,
+    });
+  } else {
+    connectToSocket()
+    socket.emit("joinRoom", {
+      room,
+      username,
+      category,
+    });
+  }
 }
 
 export function gameStart() {
