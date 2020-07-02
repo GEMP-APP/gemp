@@ -10,7 +10,7 @@ export const appStart = () => {
 export const fetchRooms = () => {
   return (dispatch) => {
     dispatch(fetchRoomsRequest());
-    axios(`http://192.168.1.2:4000/rooms`)
+    axios(`http://54.169.11.236:4000/rooms`)
       .then(({ data }) => {
         console.log({dataRoom: data})
         dispatch({

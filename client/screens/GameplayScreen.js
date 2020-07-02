@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
   TextInput,
   RefreshControl,
   Modal,
+  BackHandler
 } from "react-native";
 import { Header } from "react-native/Libraries/NewAppScreen";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,22 +23,32 @@ import {
 } from "../store/actions/socketActions";
 import CanvasComponent from "../components/CanvasComponent";
 import ShowAnswerModal from "../components/ShowAnswerModal";
-import ExitRoomModal from '../components/ExitRoomModal'
+import ExitRoomModal from '../components/ExitRoomModal';
+import { addNewMessage } from '../store/actions/chatActions';
+import WaitPainterModal from '../components/WaitPainterModal';
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-const Gameplay = () => {
+const Gameplay = ({navigation}) => {
   const [fontsLoaded] = useFonts({
     iHateComicSans: require("../assets/fonts/IHateComicSans.ttf"),
   });
 
+  useEffect( () => {
+    BackHandler.addEventListener("hardwareBackPress", openExitModal);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", openExitModal);
+  },[])
+
   const dispatch = useDispatch();
   const [inputAnswer, setInputAnswer] = useState("");
+  const [choosedWord, setChoosedWord] = useState(null);
   const [currentAnswer, setCurrentAnswer] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
   const [showExit, setShowExit] = useState(false)
-	
+
   const [closeShowAnswer, setCloseShowAnswer] = useState(false);
   const {
     userNick,
@@ -61,7 +72,12 @@ const Gameplay = () => {
     // Start Play From Here
     dispatch(gameStart());
   };
-	
+  
+  const openExitModal = () => {
+        setShowExit(true)
+        // console.log('invoked')
+        return true
+  }
 	const closeExitModal = () => {
         setShowExit(false)
     }
@@ -69,14 +85,24 @@ const Gameplay = () => {
 	const onExitRoom = () => {
 			/* kode disini akan dijalankan jika user confirm ingin meninggalkan room */
 			console.log('exit room confirmed')
-			setShowExit(false)
+      setShowExit(false)
+      navigation.goBack()
+  }
 
-	}
+  const onExitRoom = () => {
+    /* kode disini akan dijalankan jika user confirm ingin meninggalkan room */
+    console.log('exit room confirmed')
+    setShowExit(false)
+
+  }
 
   const submitChat = (text) => {
-    // const currentId = chatPlaceholder[chatPlaceholder.length - 1].id;
-    // const chat = `${userNick}: ${text}`;
-    // chatPlaceholder.push({ id: currentId + 1, chat: chat });
+    // if(choosedWord === null || choosedWord !== text) {
+    //   addNewMessage({username, message: text});
+    // } else {
+    //   checkAnswer(text);
+    // }
+    // setInputAnswer("");
   };
 
   if (!fontsLoaded) {
@@ -102,51 +128,69 @@ const Gameplay = () => {
 
       <View style={styles.canvasContainer}>
         <Text style={styles.guessWord}>
-          {drawingMode ? "Your Draw Turn" : "Your Guess Turn"}
+          {drawingMode ? <Text style={styles.turnsLabel}>Your Draw Turn</Text> : <Text style={styles.turnsLabel}>Your Guess Turn</Text>}
         </Text>
         {/*   Tempat Canvas untuk yang painter    */}
+
+        {!drawingMode && waitingMode && (
+          <WaitPainterModal/>
+        )}
 
         {!waitingMode && <CanvasComponent drawingMode={drawingMode} />}
 
         {/*   Tempat Canvas untuk yang painter    */}
         {drawingMode && waitingMode && (
+          <>
+          <Text style={{
+            fontFamily:"monospace", 
+            marginTop: 50,
+            fontSize: 27
+            }}>CHOOSE WORD</Text>
           <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around",
-              width: 200,
-              alignItems: "stretch",
-              alignContent: "stretch",
-              padding: 32,
-            }}
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+            width: 200,
+            alignItems: "stretch",
+            alignContent: "stretch",
+            padding: 32,
+          }}
           >
             <TouchableOpacity
               style={{
-                marginRight: 16,
+                marginRight: 40,
                 padding: 8,
                 backgroundColor: "yellow",
                 borderRadius: 8,
-                
+                borderWidth: 3,
               }}
-              onPress={() => setWord(words[0])}
+              onPress={() => {setChoosedWord(words[0]); setWord(words[0])}}
             >
-              <Text style={styles.speakLabelB}>Word 1</Text>
-              <Text style={styles.speakLabelB}>{words[0]}</Text>
+              {/* <Text style={styles.speakLabelB}>Word 1</Text> */}
+              <Text style={{
+                fontSize: 20,
+                fontFamily: 'monospace'
+              }}>{words[0]}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={{
-                marginLeft: 16,
+                marginLeft: 40,
                 padding: 8,
                 backgroundColor: "yellow",
                 borderRadius: 8,
+                borderWidth:3,
               }}
-              onPress={() => setWord(words[1])}
+              onPress={() => {setChoosedWord(words[1]); setWord(words[1])}}
             >
-              <Text style={styles.speakLabelB}>Word 2</Text>
-              <Text style={styles.speakLabelB}>{words[1]}</Text>
+              {/* <Text style={styles.speakLabelB}>Word 2</Text> */}
+              <Text style={{
+                fontSize: 20,
+                fontFamily: 'monospace'
+              }}>{words[1]}</Text>
             </TouchableOpacity>
           </View>
+        </>
         )}
       </View>
 
@@ -183,10 +227,10 @@ const Gameplay = () => {
                   item.username === "Gemp Bot" ? (
                     <Text key={index}>{item.message}</Text>
                   ) : (
-                    <Text key={index}>
-                      {item.username} {item.message}
-                    </Text>
-                  )
+                      <Text key={index}>
+                        {item.username} {item.message}
+                      </Text>
+                    )
                 }
               />
               <TextInput
@@ -211,13 +255,13 @@ const Gameplay = () => {
           closeShowAnswer={closeShowAnswer}
         />
       </Modal>
-			<Modal
-					animationType='fade'
-					transparent={true}
-					visible={showExit}
-			>
-					<ExitRoomModal onExitRoom={onExitRoom} closeExitModal={closeExitModal}/>
-			</Modal>
+      <Modal
+        animationType='fade'
+        transparent={true}
+        visible={showExit}
+      >
+        <ExitRoomModal onExitRoom={onExitRoom} closeExitModal={closeExitModal} />
+      </Modal>
     </View>
   );
 };
@@ -249,10 +293,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "white",
     margin: (windowWidth / 100) * 2,
-    borderTopLeftRadius: (windowWidth / 100) * 5,
-    borderTopRightRadius: (windowWidth / 100) * 5,
-    borderBottomLeftRadius: (windowWidth / 100) * 5,
-    borderBottomRightRadius: (windowWidth / 100) * 5,
+    padding: (windowWidth / 100) * 1,
+    borderTopLeftRadius: (windowWidth / 100) * 3,
+    borderTopRightRadius: (windowWidth / 100) * 3,
+    borderBottomLeftRadius: (windowWidth / 100) * 3,
+    borderBottomRightRadius: (windowWidth / 100) * 3,
+  },
+  turnsLabel: {
+    fontFamily: 'iHateComicSans'
   },
   guessWord: {
     fontSize: (windowWidth / 100) * 5,
@@ -270,6 +318,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   speakLabel: {
+    fontFamily: 'iHateComicSans',
     fontSize: (windowWidth / 100) * 5,
   },
   answerContainer: {

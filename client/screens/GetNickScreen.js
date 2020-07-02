@@ -16,6 +16,7 @@ const GetNick = ({ navigation }) => {
     iHateComicSans: require("../assets/fonts/IHateComicSans.ttf"),
   });
   const dispatch = useDispatch();
+  const [toggleModal, setToggleModal] = useState(false);
   const [inputNick, setInputNick] = useState("");
   const { socket } = useSelector((state) => state.socketReducer);
   const { username } = useSelector((state) => state.userReducer);
