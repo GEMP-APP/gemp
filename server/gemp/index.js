@@ -252,7 +252,7 @@ class Gemp {
       totalUsers > 1
         ? io.to(room).emit("drawTurn", Gemp.start(room))
         : Gemp.stopGame(room, io);
-    }, 40000);
+    }, 7000);
   }
 
   static validate({ word, room }) {

@@ -26,6 +26,8 @@ import ShowAnswerModal from "../components/ShowAnswerModal";
 import ExitRoomModal from '../components/ExitRoomModal';
 import { addNewMessage } from '../store/actions/chatActions';
 import WaitPainterModal from '../components/WaitPainterModal';
+import WinnersModal from '../components/WinnersModal';
+import Results from "./ResultsScreen";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -57,8 +59,10 @@ const Gameplay = ({navigation}) => {
     roomMaster,
     drawingMode,
     waitingMode,
+    gameFinish,
     isPlaying,
     words,
+    winners
   } = useSelector((state) => state.userReducer);
   const { chatMessages } = useSelector((state) => state.chatReducer);
   const { roomUsers, roomId, rooms } = useSelector((state) => state.roomReducer);
@@ -111,6 +115,10 @@ const Gameplay = ({navigation}) => {
     // setInputAnswer("");
   };
 
+  // if ( gameFinish ) return (
+  // <>
+  // )
+
   if (!fontsLoaded) {
     return <AppLoading />;
   }
@@ -134,18 +142,23 @@ const Gameplay = ({navigation}) => {
 
       <View style={styles.canvasContainer}>
         <Text style={styles.guessWord}>
-          {drawingMode ? <Text style={styles.turnsLabel}>Your Draw Turn</Text> : <Text style={styles.turnsLabel}>Your Guess Turn</Text>}
+          {!gameFinish && drawingMode && <Text style={styles.turnsLabel}>Your Draw Turn</Text>}
+          {!gameFinish && !drawingMode && <Text style={styles.turnsLabel}>Your Guess Turn</Text>}
         </Text>
         {/*   Tempat Canvas untuk yang painter    */}
 
-        {!drawingMode && waitingMode && (
+        {!gameFinish && !drawingMode && waitingMode && (
           <WaitPainterModal/>
         )}
 
-        {!waitingMode && <CanvasComponent drawingMode={drawingMode} />}
+        {gameFinish && (
+          <WinnersModal />
+        )}
+
+        {!gameFinish && !waitingMode && <CanvasComponent drawingMode={drawingMode} />}
 
         {/*   Tempat Canvas untuk yang painter    */}
-        {drawingMode && waitingMode && (
+        {!gameFinish && drawingMode && waitingMode && (
           <>
           <Text style={{
             fontFamily:"monospace", 
@@ -200,7 +213,7 @@ const Gameplay = ({navigation}) => {
         )}
       </View>
 
-      {!drawingMode && (
+      {!gameFinish && !drawingMode && (
         <>
           <View style={styles.controlContainer}>
             {isPlaying && !drawingMode && !waitingMode && (

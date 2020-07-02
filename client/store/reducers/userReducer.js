@@ -24,10 +24,13 @@ const userReducer = (state = initialState, action) => {
         userId: payload.id,
       };
     case type.GAME_FINISH:
+      console.log(payload, "GAME FINISH")
+      const newWinners = Object.keys(payload.users).map(user => payload.users[user])
+      console.log(newWinners)
       return {
         ...state,
         gameFinish: true,
-        winners: payload.users,
+        winners: newWinners
       };
     case type.RESET_USER_STATE:
       return {

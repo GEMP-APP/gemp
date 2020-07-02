@@ -12,6 +12,7 @@ export const USER_DRAW_TURN = "USER_DRAW_TURN";
 export const USER_DRAW_START = "USER_DRAW_START";
 export const USER_SET_WORDS = "USER_SET_WORDS";
 export const GAME_FINISH = "GAME_FINISH";
+export const RESET_SCORE = "RESET_SCORE";
 
 export const ADD_NEW_MESSAGE = "ADD_NEW_MESSAGE";
 export const RESET_USER_CHAT = "RESET_USER_CHAT";

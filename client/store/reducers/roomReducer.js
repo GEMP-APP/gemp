@@ -5,7 +5,7 @@ const initialState = {
   getRoomsLoading: false,
   getRoomsError: null,
   roomId: "",
-  roomUsers: []
+  roomUsers: [],
 };
 
 const roomReducer = (state = initialState, action) => {
@@ -32,8 +32,17 @@ const roomReducer = (state = initialState, action) => {
       return {
         ...state,
         roomUsers: payload.users.sort((a, b) => a.score - b.score),
-        roomId: payload.room
-      }
+        roomId: payload.room,
+      };
+    case type.RESET_SCORE:
+      const resetScore = state.roomUsers.map((user) => {
+        user.score = 0;
+        return user;
+      });
+      return {
+        ...state,
+        roomUsers: resetScore,
+      };
     default:
       return state;
   }

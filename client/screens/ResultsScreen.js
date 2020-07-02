@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from "react-redux"
 import {StyleSheet, View, Text, Dimensions, ScrollView, TouchableOpacity} from 'react-native'
 import { useFonts } from '@use-expo/font'
 
@@ -49,6 +50,8 @@ const Results = ({navigation}) => {
         'iHateComicSans': require('../assets/fonts/IHateComicSans.ttf')
     })
 
+    const { winners } = useSelector(state => state.userReducer)
+
     const sortScore = (a, b) => {
         if(a.score < b.score) {
             return 1
@@ -69,10 +72,10 @@ const Results = ({navigation}) => {
 
             <View style={styles.leaderboard}>
                 <ScrollView>
-                    {userPlaceholder.sort(sortScore).map( (user, i) => {
+                    {winners.map( (user, i) => {
                         return (
                             <>
-                                <Text style={styles.userNick} key={i}>{i+1}. {user.name}</Text>
+                                <Text style={styles.userNick} key={i}>{i+1}. {user.username}</Text>
                                 <Text style={styles.userScore}>{user.score} Pts</Text>
                             </>
                         )
