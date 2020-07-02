@@ -55,6 +55,8 @@ const getServer = new Promise((resolve, reject) => {
             )
           );
 
+          socket.broadcast.emit("getRooms", Gemp.getRooms())
+
           io.to(user.room).emit("roomUsers", {
             room: user.room,
             users: Gemp.getUsersInRoom(user.room),
@@ -149,9 +151,30 @@ const getServer = new Promise((resolve, reject) => {
           socket.emit("getRooms", Gemp.getRooms())
         })
 
+        socket.on("leaveRoom", () => {
+          const user = Gemp.userLeave(socket.id);
+
+          user && socket.leave(user.room, () => {
+            io.to(user.room).emit("userLeave")
+          })
+          socket.broadcast.emit("getRooms", Gemp.getRooms())
+
+          if (user) {
+            io.to(user.room).emit(
+              "newMessage",
+              Gemp.formatMessage(undefined, `${user.username} has left.`, "bot")
+            );
+
+            io.to(user.room).emit("roomUsers", {
+              room: user.room,
+              users: Gemp.getUsersInRoom(user.room),
+            });
+          }
+        })
+
         socket.on("disconnect", () => {
           console.log("user dc");
-          const user = Gemp.userLeave(socket.id, io);
+          const user = Gemp.userLeave(socket.id);
 
           if (user) {
             io.to(user.room).emit(

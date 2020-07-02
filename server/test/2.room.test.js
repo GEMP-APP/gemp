@@ -60,13 +60,12 @@ describe("Room resources", () => {
 
   describe("#POST /rooms create new Room", () => {
     let newRoom = {
-      name: "Rocket Dalam Angan Eps. 5",
-      category:
-        "Yet another documentary movie about junie developer join bootcapm program",
+      name: "General #",
+      category: "general",
       poster_path: "https://via.placeholder.com/50",
       language: "en",
       capacity: 10,
-      maxScore: 120,
+      maxScore: 40,
       currentScore: 0,
     };
     it("Should response, status(201)", (done) => {
@@ -114,13 +113,12 @@ describe("Room resources", () => {
   describe("#PUT /rooms by ID", () => {
     let id = "5ef75532986ea6193a0f4522";
     let newRoom = {
-      name: "Rocket Dalam Angan Eps. 5",
-      category:
-        "Yet another documentary movie about junie developer join bootcapm program",
+      name: "General #",
+      category: "general",
       poster_path: "https://via.placeholder.com/50",
       language: "en",
       capacity: 10,
-      maxScore: 100,
+      maxScore: 40,
       currentScore: 0,
     };
     it("Should response, status(200)", (done) => {
@@ -143,13 +141,12 @@ describe("Room resources", () => {
   describe("#DELETE /rooms by ID", () => {
     let id;
     let newRoom = {
-      name: "Rocket Dalam Angan Eps. 5",
-      category:
-        "Yet another documentary movie about junie developer join bootcapm program",
+      name: "General #",
+      category: "general",
       poster_path: "https://via.placeholder.com/50",
       language: "en",
       capacity: 10,
-      maxScore: 100,
+      maxScore: 40,
       currentScore: 0,
     };
     it("Should response, status(200)", (done) => {

@@ -260,7 +260,7 @@ class Gemp {
   }
 
   static addScore(user) {
-    !user.hitAnswer && (user.score += 10) && (user.hitAnswer = true);
+    !user.hitAnswer && (user.score += 10) && (user.hitAnswer = true) && (rooms[user.room].lastUserDraw.score += 5);
   }
 }
 
