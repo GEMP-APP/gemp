@@ -2,23 +2,16 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "test": "yarn jest --coverage",
-    "dev": "nodemon app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongodb": "^3.5.9",
-    "socket.io": "^2.3.0"
-  },
-  "devDependencies": {
     "jest": "^26.1.0",
-    "socket.io-client": "^2.3.0",
     "supertest": "^4.0.2"
   }
 }
