@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
   TextInput,
   RefreshControl,
   Modal,
+  BackHandler
 } from "react-native";
 import { Header } from "react-native/Libraries/NewAppScreen";
 import { useSelector, useDispatch } from "react-redux";
@@ -29,10 +30,17 @@ import WaitPainterModal from '../components/WaitPainterModal';
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
-const Gameplay = () => {
+const Gameplay = ({navigation}) => {
   const [fontsLoaded] = useFonts({
     iHateComicSans: require("../assets/fonts/IHateComicSans.ttf"),
   });
+
+  useEffect( () => {
+    BackHandler.addEventListener("hardwareBackPress", openExitModal);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", openExitModal);
+  },[])
 
   const dispatch = useDispatch();
   const [inputAnswer, setInputAnswer] = useState("");
@@ -64,9 +72,21 @@ const Gameplay = () => {
     // Start Play From Here
     dispatch(gameStart());
   };
+  
+  const openExitModal = () => {
+        setShowExit(true)
+        // console.log('invoked')
+        return true
+  }
+	const closeExitModal = () => {
+        setShowExit(false)
+    }
 
-  const closeExitModal = () => {
-    setShowExit(false)
+	const onExitRoom = () => {
+			/* kode disini akan dijalankan jika user confirm ingin meninggalkan room */
+			console.log('exit room confirmed')
+      setShowExit(false)
+      navigation.goBack()
   }
 
   const onExitRoom = () => {
@@ -108,7 +128,7 @@ const Gameplay = () => {
 
       <View style={styles.canvasContainer}>
         <Text style={styles.guessWord}>
-          {drawingMode ? "Your Draw Turn" : "Your Guess Turn"}
+          {drawingMode ? <Text style={styles.turnsLabel}>Your Draw Turn</Text> : <Text style={styles.turnsLabel}>Your Guess Turn</Text>}
         </Text>
         {/*   Tempat Canvas untuk yang painter    */}
 
@@ -273,10 +293,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "white",
     margin: (windowWidth / 100) * 2,
-    borderTopLeftRadius: (windowWidth / 100) * 5,
-    borderTopRightRadius: (windowWidth / 100) * 5,
-    borderBottomLeftRadius: (windowWidth / 100) * 5,
-    borderBottomRightRadius: (windowWidth / 100) * 5,
+    padding: (windowWidth / 100) * 1,
+    borderTopLeftRadius: (windowWidth / 100) * 3,
+    borderTopRightRadius: (windowWidth / 100) * 3,
+    borderBottomLeftRadius: (windowWidth / 100) * 3,
+    borderBottomRightRadius: (windowWidth / 100) * 3,
+  },
+  turnsLabel: {
+    fontFamily: 'iHateComicSans'
   },
   guessWord: {
     fontSize: (windowWidth / 100) * 5,
@@ -294,6 +318,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   speakLabel: {
+    fontFamily: 'iHateComicSans',
     fontSize: (windowWidth / 100) * 5,
   },
   answerContainer: {
