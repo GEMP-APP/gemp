@@ -37,7 +37,7 @@ const SearchRoom = ({ navigation }) => {
   const filterRoomHandle = (text) => {
     setInputSearch(text);
     let filteredRoom = rooms.filter((room) => {
-      return room._id.includes(inputSearch);
+      return room.name.includes(inputSearch);
     });
 
     setRoomList(filteredRoom);
@@ -60,7 +60,7 @@ const SearchRoom = ({ navigation }) => {
         style={styles.roomContainer}
         data={inputSearch ? roomList : rooms}
         renderItem={({ item }) => (
-          <Room key={item._id } id={item.category} title={item.name} room={item} navigation={navigation} />
+          <Room key={item._id } id={item._id} title={item.name} room={item} navigation={navigation} />
         )}
         keyExtractor={item => String(item._id)}
         numColumns={3}

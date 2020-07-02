@@ -15,26 +15,26 @@ const GetNick = ({ navigation }) => {
   let [fontsLoaded] = useFonts({
     iHateComicSans: require("../assets/fonts/IHateComicSans.ttf"),
   });
-
   const dispatch = useDispatch();
   const [toggleModal, setToggleModal] = useState(false);
   const [inputNick, setInputNick] = useState("");
+  const { socket } = useSelector((state) => state.socketReducer);
   const { username } = useSelector((state) => state.userReducer);
   const [searchRoomText, setSearchRoomText] = useState("Search Room");
   const [inputUsernameTapped, setInputUsernameTapped] = useState(false);
-  const [toggleLoading, setToggleLoading] = useState(false)
-  
+  const [toggleLoading, setToggleLoading] = useState(false);
 
   const submitAndSearch = () => {
     if (!inputNick) {
       alert("please input nickname");
     } else {
-      dispatch(appStart());
+      // dispatch(appStart());
+      socket && socket.emit("getRooms");
       dispatch(changeUserNick(inputNick));
-      setToggleLoading(true)
+      setToggleLoading(true);
       setTimeout(() => {
         navigation.navigate("SearchRoom");
-        setToggleLoading(false)
+        setToggleLoading(false);
       }, 3000);
     }
   };
@@ -88,11 +88,7 @@ const GetNick = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View style={{ flex: 0.7 }}></View>
-      <Modal
-        animationType='fade'
-        transparent={true}
-        visible={toggleLoading}
-      >
+      <Modal animationType="fade" transparent={true} visible={toggleLoading}>
         <LoadingModal />
       </Modal>
     </View>

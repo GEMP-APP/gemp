@@ -28,11 +28,11 @@ const Room = ({ id, title, room, navigation }) => {
 
   return (
     <TouchableOpacity style={styles.room} onPress={joinRoomHandle}>
-      <Text style={{ flex: 1, color: "white" }}>{id ? id : "no id"}</Text>
+      <Text style={{ flex: 1, color: "white" }}>{room.name}</Text>
       <Text style={{ flex: 1, color: "white" }}>
-        title: {title ? title : "no title"}
+        Category: {room.category || "General"}
       </Text>
-      <Text style={{ flex: 1, color: "white" }}>0 / 4</Text>
+      <Text style={{ flex: 1, color: "white" }}>{room.users} / {room.capacity}</Text>
     </TouchableOpacity>
   );
 };

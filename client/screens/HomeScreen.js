@@ -37,12 +37,12 @@ const Home = ({ navigation }) => {
     }, 2000);
   };
 
-  useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", openModal);
+  // useEffect(() => {
+  //   BackHandler.addEventListener("hardwareBackPress", openModal);
 
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", openModal);
-  }, []);
+  //   return () =>
+  //     BackHandler.removeEventListener("hardwareBackPress", openModal);
+  // }, []);
 
   const openModal = () => {
     // console.log('im being called!')
