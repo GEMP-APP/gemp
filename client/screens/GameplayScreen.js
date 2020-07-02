@@ -94,7 +94,6 @@ const Gameplay = ({navigation}) => {
         navigation.goBack()
       }, 2000)
   }
-
   // const onExitRoom = () => {
   //   /* kode disini akan dijalankan jika user confirm ingin meninggalkan room */
   //   console.log('exit room confirmed')
