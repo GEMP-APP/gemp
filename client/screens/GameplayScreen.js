@@ -61,7 +61,9 @@ const Gameplay = ({navigation}) => {
     words,
   } = useSelector((state) => state.userReducer);
   const { chatMessages } = useSelector((state) => state.chatReducer);
-  const { roomUsers, roomId } = useSelector((state) => state.roomReducer);
+  const { roomUsers, roomId, rooms } = useSelector((state) => state.roomReducer);
+  const { socket } = useSelector((state) => state.socketReducer);
+  const room = rooms.find(room => room._id === roomId)
 
   const voiceAnswerHandle = () => {
     // Convert voice to text here
@@ -84,17 +86,21 @@ const Gameplay = ({navigation}) => {
 
 	const onExitRoom = () => {
 			/* kode disini akan dijalankan jika user confirm ingin meninggalkan room */
-			console.log('exit room confirmed')
-      setShowExit(false)
-      navigation.goBack()
+      console.log('exit room confirmed')
+      socket.emit("leaveRoom")
+      socket.emit("getRooms")
+      setTimeout(() => {
+        setShowExit(false)
+        navigation.goBack()
+      }, 2000)
   }
 
-  const onExitRoom = () => {
-    /* kode disini akan dijalankan jika user confirm ingin meninggalkan room */
-    console.log('exit room confirmed')
-    setShowExit(false)
+  // const onExitRoom = () => {
+  //   /* kode disini akan dijalankan jika user confirm ingin meninggalkan room */
+  //   console.log('exit room confirmed')
+  //   setShowExit(false)
 
-  }
+  // }
 
   const submitChat = (text) => {
     // if(choosedWord === null || choosedWord !== text) {
@@ -120,7 +126,7 @@ const Gameplay = ({navigation}) => {
           return (
             <View key={user.id} style={styles.userBox}>
               <Text style={styles.userDetail}>{user.username}</Text>
-              <Text style={styles.userDetail}>{user.score} pts</Text>
+              <Text style={styles.userDetail}>{user.score} / {room && room.maxScore} pts</Text>
             </View>
           );
         })}

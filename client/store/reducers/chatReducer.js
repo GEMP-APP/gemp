@@ -15,6 +15,11 @@ const chatReducer = (state = initialState, action) => {
         ...state,
         chatMessages: [...newChatMessages, payload],
       };
+    case type.RESET_USER_CHAT:
+      return {
+        ...state,
+        chatMessages: [],
+      };
     default:
       return state;
   }

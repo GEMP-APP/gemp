@@ -134,6 +134,8 @@ const styles = StyleSheet.create({
     width: (windowWidth / 100) * 60,
     height: (windowHeight / 100) * 15,
     borderRadius: 30,
+    borderBottomColor: "#841584",
+    borderBottomWidth: 3,
   },
   buttonText: {
     fontFamily: "iHateComicSans",

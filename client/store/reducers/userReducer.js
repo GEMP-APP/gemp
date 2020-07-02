@@ -10,6 +10,8 @@ const initialState = {
   roomMaster: false,
   isPlaying: true,
   words: [],
+  gameFinish: false,
+  winners: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -21,6 +23,12 @@ const userReducer = (state = initialState, action) => {
         username: payload.username,
         userId: payload.id,
       };
+    case type.GAME_FINISH:
+      return {
+        ...state,
+        gameFinish: true,
+        winners: payload.users,
+      };
     case type.RESET_USER_STATE:
       return {
         ...state,
@@ -29,6 +37,8 @@ const userReducer = (state = initialState, action) => {
         roomMaster: false,
         isPlaying: true,
         words: [],
+        gameFinish: false,
+        winners: []
       };
     case type.SET_USER_MASTER:
       return {
