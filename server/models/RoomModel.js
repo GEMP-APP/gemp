@@ -6,7 +6,7 @@ const Room = db.collection("Rooms");
 
 class RoomModel {
   static insertOne(data) {
-    const { name, capacity, poster_path, category, language, maxScore, currentScore } = data;
+    const { name, capacity, poster_path, category, language, maxScore } = data;
     if (!name || !capacity || !poster_path || !category || !maxScore) throw { errorCode: "VALIDATION_ERROR"} 
     return Room.insertOne({
       name,
@@ -15,7 +15,6 @@ class RoomModel {
       language,
       capacity,
       maxScore,
-      currentScore
     });
   }
 
@@ -30,7 +29,7 @@ class RoomModel {
   }
 
   static updateOneById(data, id) {
-    const { name, capacity, poster_path, category, language, maxScore, currentScore } = data;
+    const { name, capacity, poster_path, category, language, maxScore } = data;
     return Room.findOneAndUpdate(
       {
         _id: ObjectId(id),
@@ -43,7 +42,6 @@ class RoomModel {
           category: category,
           language: language,
           maxScore: maxScore,
-          currentScore: currentScore,
         },
       },
       {

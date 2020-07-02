@@ -11,8 +11,14 @@ let io;
 let counter = 0;
 
 const getServer = new Promise((resolve, reject) => {
-  connect((err) => {
+  connect(async (err) => {
     if (!err) {
+      const RoomModel = require("./models/RoomModel")
+      await RoomModel.findAll().then(rooms => {
+        rooms.forEach(room => {
+          Gemp.roomInit(room)
+        })
+      })
       app.use(cors());
       app.use(express.json());
       app.use(express.urlencoded({ extended: false }));
@@ -138,6 +144,10 @@ const getServer = new Promise((resolve, reject) => {
           const user = Gemp.getCurrentUser(socket.id);
           socket.broadcast.to(user.room).emit("receiveDonePath");
         });
+
+        socket.on("getRooms", () => {
+          socket.emit("getRooms", Gemp.getRooms())
+        })
 
         socket.on("disconnect", () => {
           console.log("user dc");
