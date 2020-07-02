@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import {
-  Dimensions, View,
-  StyleSheet, PanResponder
-} from 'react-native';
-import Colors from '../constants/Colors';
-import ColorSelector from './ColorSelector';
-import Svg, { G, Path } from 'react-native-svg';
-import { useSelector } from 'react-redux';
+
+import React, { useState, useEffect } from "react";
+import { Dimensions, View, StyleSheet, PanResponder, } from "react-native";
+import Colors from "../constants/Colors";
+import ColorSelector from "./ColorSelector";
+import Svg, { G, Path } from "react-native-svg";
+import { useSelector } from "react-redux";
+
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 export default ({ drawingMode }) => {
   
@@ -176,9 +177,9 @@ let styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 2,
     elevation: 1,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').width,
-    backgroundColor: '#FFF',
+    width: (windowWidth / 100) * 96,
+    height: Dimensions.get("window").width,
+    backgroundColor: "#FFF",
     marginTop: 10,
   },
 })
