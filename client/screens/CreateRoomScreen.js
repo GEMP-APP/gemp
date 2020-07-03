@@ -23,6 +23,7 @@ const CreateRoom = ({ navigation: { navigate } }) => {
 
     const dispatch = useDispatch();
     const { username } = useSelector((state) => state.userReducer);
+    const { socket } = useSelector((state) => state.socketReducer);
 
     const joinRoomHandle = (room) => {
         dispatch({
@@ -59,6 +60,7 @@ const CreateRoom = ({ navigation: { navigate } }) => {
             .then((res) => {
                 console.log(res.data);
                 // alert(JSON.stringify(res.data));
+                socket.emit("createRoom", (res.data))
                 joinRoomHandle(res.data);
             })
             .catch((err) => console.log(err));

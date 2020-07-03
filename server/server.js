@@ -148,7 +148,17 @@ const getServer = new Promise((resolve, reject) => {
         });
 
         socket.on("getRooms", () => {
-          socket.emit("getRooms", Gemp.getRooms())
+          socket.emit("getRooms", Gemp.getRooms());
+        })
+
+        // socket.on("createRoom", async (payload) => {
+        //   const newRoom = await RoomModel.insertOne(payload)
+        //   Gemp.roomInit(newRoom);
+        //   socket.broadcast.emit("getRooms", Gemp.getRooms());
+        // })
+
+        socket.on("createRoom", () => {
+          socket.broadcast.emit("getRooms", Gemp.getRooms());
         })
 
         socket.on("leaveRoom", () => {

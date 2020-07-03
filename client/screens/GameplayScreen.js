@@ -150,9 +150,9 @@ const Gameplay = ({navigation}) => {
         {!gameFinish && !drawingMode && waitingMode && (
           <WaitPainterModal/>
         )}
-
+        
         {gameFinish && (
-          <WinnersModal />
+          <WinnersModal navigation={navigation} />
         )}
 
         {!gameFinish && !waitingMode && <CanvasComponent drawingMode={drawingMode} />}

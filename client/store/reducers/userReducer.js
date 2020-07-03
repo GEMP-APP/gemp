@@ -32,6 +32,12 @@ const userReducer = (state = initialState, action) => {
         gameFinish: true,
         winners: newWinners
       };
+    case type.GAME_REMATCH:
+      return {
+        ...state,
+        gameFinish: false,
+        winners: []
+      };
     case type.RESET_USER_STATE:
       return {
         ...state,
@@ -54,6 +60,7 @@ const userReducer = (state = initialState, action) => {
         ...state,
         roomMaster: false,
         isPlaying: true,
+        gameFinish: false,
       };
     case type.USER_DRAW_TURN:
       return {

@@ -12,7 +12,7 @@ export const fetchRooms = () => {
     dispatch(fetchRoomsRequest());
     axios(`http://54.169.11.236:4000/rooms`)
       .then(({ data }) => {
-        console.log({dataRoom: data})
+        console.log({ dataRoom: data });
         dispatch({
           type: type.FETCH_ROOMS_SUCCESS,
           payload: {
@@ -21,7 +21,7 @@ export const fetchRooms = () => {
         });
       })
       .catch((err) => {
-        console.log({errorRoom: err})
+        console.log({ errorRoom: err });
         dispatch({
           type: type.FETCH_ROOMS_FAILURE,
           payload: {
@@ -35,5 +35,11 @@ export const fetchRooms = () => {
 export const fetchRoomsRequest = () => {
   return {
     type: type.FETCH_ROOMS_REQUEST,
+  };
+};
+
+export const gameRematch = () => {
+  return {
+    type: type.GAME_REMATCH,
   };
 };
