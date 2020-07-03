@@ -78,6 +78,7 @@ afterEach((done) => {
   done();
 });
 
+
 describe("basic socket.io example", () => {
   test("Get random animal", (done) => {
     const words = Gemp.getWords("animal");
@@ -174,14 +175,25 @@ describe("basic socket.io example", () => {
     });
 
     socket.emit("joinRoom", dataUser1);
+    socket.emit("joinRoom", dataUser2);
     socketB.emit("joinRoom", dataUser2);
+    socket.emit("canvasDraw", ({x: 3, y: 5}))
 
     setTimeout(() => {
       socket.emit("sendMessage", { message: "it is a chat message" });
       socket.emit("getWords");
       socket.emit("setWord", "answer");
+      socket.emit("donePath", ({x: 3, y: 5}))
+      socket.emit("getRooms", ({x: 3, y: 5}))
       socket.emit("checkAnswer", "answer");
+      socket.emit("leaveRoom", ({x: 3, y: 5}))
     }, 1000);
+
+    setTimeout(() => {
+      
+      // socket.emit("leaveRoom", ({x: 3, y: 5}))
+    }, 1000);
+
 
     setTimeout(() => {
       done();

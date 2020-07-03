@@ -241,18 +241,7 @@ class Gemp {
 
   static setTimeOut({ room, io }) {
     rooms[room].timeOut = setTimeout(() => {
-      const totalUsers = Gemp.getTotalUsers(room),
-        maxScore = rooms[room].maxScore,
-        users = [...rooms[room].users];
-      users.sort((a, b) => b.score - a.score);
-      io.to(room).emit("timeout");
-      users[0].score >= maxScore &&
-        io.to(room).emit("gameFinish", { users }) &&
-        Gemp.resetGame(room);
-      totalUsers > 1
-        ? io.to(room).emit("drawTurn", Gemp.start(room))
-        : Gemp.stopGame(room, io);
-    }, 7000);
+      const totalUsers = Gemp.getTotalUsers(room), maxScore = rooms[room].maxScore, users = [...rooms[room].users]; users.sort((a, b) => b.score - a.score); io.to(room).emit("timeout"); users[0].score >= maxScore && io.to(room).emit("gameFinish", { users }) && Gemp.resetGame(room); totalUsers > 1 ? io.to(room).emit("drawTurn", Gemp.start(room)) : Gemp.stopGame(room, io); }, 7000);
   }
 
   static validate({ word, room }) {
